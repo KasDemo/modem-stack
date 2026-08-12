@@ -4,19 +4,39 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 
 สร้างจากการวิจัย workflow ของ solo dev ที่ ship จริง (Simon Willison, Mitchell Hashimoto, compound engineering ของ Every, `/qa` ของ gstack, skills ของ Addy Osmani, design-review ของ OneRedOak) — เอาเฉพาะส่วนที่มีหลักฐานว่าเวิร์ค ตัดส่วน marketing ทิ้ง
 
-## ติดตั้ง
+## ติดตั้ง (checklist สำหรับเครื่องใหม่)
 
-ต้องมีคู่กัน (user scope): **superpowers** (กระดูกสันหลัง process), **playwright** plugin (ตา+มือในเบราว์เซอร์), แนะนำ **ui-ux-pro-max** + **frontend-design** (ฐานข้อมูล design)
+รันใน Claude Code ตามลำดับ แล้ว restart Claude Code หนึ่งครั้งตอนจบ:
 
 ```
-# จาก local path
-/plugin marketplace add d:\work\modem-stack
-/plugin install modem-stack@modem-stack
+# 1) เพื่อนร่วมทีมจาก official marketplace (ถ้าเครื่องไม่รู้จัก ให้รันบรรทัดแรกก่อน)
+/plugin marketplace add anthropics/claude-plugins-official
+/plugin install superpowers@claude-plugins-official        # กระดูกสันหลัง process (จำเป็น)
+/plugin install playwright@claude-plugins-official         # ตา+มือในเบราว์เซอร์ (จำเป็น)
+/plugin install frontend-design@claude-plugins-official    # กันหน้าตา AI-generic (แนะนำ)
 
-# หรือหลัง publish ขึ้น GitHub
-/plugin marketplace add <owner>/modem-stack
+# 2) ui-ux-pro-max (แนะนำ — ฐานข้อมูล design ที่ design-first-ui ใช้)
+/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+
+# 3) modem-stack
+/plugin marketplace add KasDemo/modem-stack
 /plugin install modem-stack@modem-stack
 ```
+
+หมายเหตุ: ครั้งแรกที่ Playwright เปิดเบราว์เซอร์อาจมีดาวน์โหลด Chromium อัตโนมัติหนึ่งรอบ — ปล่อยให้มันจัดการ
+
+(ระหว่างพัฒนา plugin ในเครื่องหลัก จะ add จาก local path แทนก็ได้: `/plugin marketplace add d:\work\modem-stack`)
+
+## อัปเดต plugin
+
+เมื่อแก้ workflow ในเครื่องหลัก:
+
+1. แก้ไฟล์ + **bump version ให้ตรงกัน 3 จุด**: `.claude-plugin/plugin.json`, `marketplace.json` → `metadata.version` และ `plugins[0].version` (เลขเวอร์ชันคือสิ่งที่บอกเครื่องอื่นว่ามีของใหม่)
+2. commit + push (GitHub Desktop: Commit to main → Push origin)
+3. เครื่องอื่น: `/plugin marketplace update modem-stack` แล้วอัปเดตผ่านเมนู `/plugin`
+
+กฎการแบ่ง: บทเรียนเฉพาะโปรเจกต์ → CLAUDE.md ของโปรเจกต์นั้น · บทเรียนที่ใช้ทุกโปรเจกต์ → แก้ที่ plugin แล้ว push
 
 ## เริ่มโปรเจกต์ใหม่
 
