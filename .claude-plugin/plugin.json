@@ -1,0 +1,18 @@
+{
+  "name": "modem-stack",
+  "description": "Modem's universal solo-dev workflow: design-first UI with selectable mockup variants, brownfield-aware feature changes, walkthrough QA with clean linked reports, build-time security, and ship gates. Built to pair with the superpowers plugin (process backbone) and Playwright MCP (browser eyes).",
+  "version": "0.1.0",
+  "author": {
+    "name": "Kasidet (Modem)"
+  },
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "solo-dev",
+    "design-first",
+    "qa",
+    "playwright",
+    "mockups",
+    "shipping"
+  ]
+}
