@@ -81,10 +81,10 @@ docs/design/mockups/2026-08-13-shift-swap/
 - [ ] FEATURE mode: use `DESIGN_SYSTEM.md` tokens verbatim (copy the `:root` custom properties into the file). Variants differ in **layout, density, navigation pattern, and component choices** — not in palette or type.
 - [ ] Mobile-first sanity: 44px minimum touch targets, readable at 375px wide.
 - [ ] **Reviewer chrome (owner-requested 2026-08-14 — always include):** every variant carries fixed overlay helpers for the reviewing owner, visually neutral (dark pill, corner-fixed) so they never read as part of the design:
-  1. a "Mockup states" panel linking to every screen/state anchor in the file (owner loved this),
+  1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,
   2. a **variant switcher** — small A/B/C buttons linking to the sibling `variant-*.html` files, current letter highlighted,
   3. a **desktop/mobile toggle** — mobile mode opens the SAME file in a ~390px-wide `<iframe>` overlay styled as a phone; an iframe is required because media queries track iframe width (a CSS class on `body` cannot re-trigger them).
-  Hide the switcher when the page detects it is itself inside an iframe (`window.self !== window.top`) so compare.html cells and the mobile overlay stay clean. Tiny vanilla JS for this chrome is allowed; product UI in the mockup stays JS-free.
+  **State labels are canonical, not per-variant:** the orchestrator's brief lists the exact state names (in the product language) and every variant uses them verbatim — same flow, same words. Never let one variant number its screens while another uses prose; the owner flagged exactly this. Hide the switcher when the page detects it is itself inside an iframe (`window.self !== window.top`) so compare.html cells and the mobile overlay stay clean. Tiny vanilla JS for this chrome is allowed; product UI in the mockup stays JS-free.
 
 ### The anti-convergence rule
 
