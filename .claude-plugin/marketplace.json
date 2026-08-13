@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Modem's universal solo-dev workflow plugin: design-first UI, brownfield feature changes, walkthrough QA reports, security, shipping.",
-    "version": "0.1.2"
+    "version": "0.1.3"
   },
   "plugins": [
     {
       "name": "modem-stack",
       "source": "./",
       "description": "Universal solo-dev workflow: project-init scaffolding, design-first-ui mockup selection with taste memory, feature-update impact analysis, qa-walkthrough with linked reports, browser verification, doubt-check, performance budgets, build-time security, and ship-check gates.",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "author": {
         "name": "Kasidet (Modem)"
       },

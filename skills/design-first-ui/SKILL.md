@@ -45,6 +45,8 @@ For SYSTEM mode, consult the **ui-ux-pro-max** skill for palette and font-pairin
 
 Dispatch one subagent per variant, in parallel. Each subagent receives: the approved concept (its letter only — not the siblings, so variants don't converge), the design system (FEATURE mode), a taste-profile summary, the flow spec, and the exact output path. Each writes exactly one self-contained HTML file.
 
+**Parallel subagents must NOT use the Playwright MCP browser.** It is one shared browser instance — concurrent agents deadlock the whole batch (observed: files written, then agents hang for hours on browser calls; no completion ever fires). Builders return after writing; browser verification happens afterward, sequentially, by the orchestrator or a single follow-up pass.
+
 Subagent brief template:
 
 ```
