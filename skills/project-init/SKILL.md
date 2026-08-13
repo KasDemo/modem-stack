@@ -14,7 +14,9 @@ Bootstrap a project so every later phase (design-first UI, feature changes, QA, 
 Ask only what you cannot infer, one question at a time:
 
 1. Project name + one-line purpose. Who is the actual end user? (Name a concrete person/role, not "everyone".)
-2. Stack (or "you choose" — then propose one and get approval). New build or existing codebase?
+2. New build or existing codebase?
+   - **New build:** stack (or "you choose" — then propose one and get approval).
+   - **Existing codebase / rebuild:** do NOT ask about or lock the stack here. Read the existing code and docs first — they are the baseline that tells you what the system really does. Requirements come before architecture: stack and architecture get proposed AFTER the PRD is approved (Step 4), as their own approval gate.
 3. UI language (Thai/English/other) — mockups and test data must use it.
 4. What is the smallest version the client would accept this month?
 
@@ -75,6 +77,8 @@ Fill in the real commands discovered in Step 5.
 ## Step 4 — Requirements phase
 
 Hand off to `superpowers:brainstorming` to interrogate the owner and produce `docs/PRD.md`. Push past polished first answers — the second answer usually reveals the truth. PRD stories need acceptance criteria a machine can check (typecheck passes, test passes, "verify in browser: <concrete behavior>"). End by having the owner approve the PRD explicitly.
+
+**Rebuild of an existing system:** the legacy system's real behavior (code, data, docs) feeds the PRD — mine it so nothing silently drops, and mark explicitly what the rebuild keeps, changes, and kills. After the PRD is approved, propose stack + architecture against it (with reasons, as options) and get owner approval — this is the gate that was deliberately deferred from Step 1.
 
 ## Step 5 — Quality gates (backpressure)
 
