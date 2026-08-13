@@ -80,6 +80,11 @@ Hand off to `superpowers:brainstorming` to interrogate the owner and produce `do
 
 **Rebuild of an existing system:** the legacy system's real behavior (code, data, docs) feeds the PRD — mine it so nothing silently drops, and mark explicitly what the rebuild keeps, changes, and kills. After the PRD is approved, propose stack + architecture against it (with reasons, as options) and get owner approval — this is the gate that was deliberately deferred from Step 1.
 
+**Any stack proposal (new build or rebuild) must be verified, not remembered:**
+1. Check current stable versions of every proposed piece via web search — model memory is stale by months and WILL name outdated versions.
+2. Verify the pieces are known to work together (e.g., the UI component library supports the chosen CSS framework major version) — cite what you checked.
+3. Name the UI component layer explicitly (shadcn/ui or equivalent) as part of the stack — production-grade design work depends on it, and the design-first-ui contract will build on it.
+
 ## Step 5 — Quality gates (backpressure)
 
 Before any feature work:
