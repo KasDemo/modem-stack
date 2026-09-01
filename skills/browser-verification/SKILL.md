@@ -39,6 +39,8 @@ Playwright MCP browser tools cover the whole loop:
 
 Prefer browser_snapshot over screenshots for finding and interacting with elements — it returns refs you can click and type into. Use screenshots for visual judgment: spacing, color, alignment, states.
 
+**Artifacts never land in the repo root** (owner rule, 2026-08-15). Screenshots/logs/snapshots go under `report/tests/` (gitignored). Configure the Playwright MCP server with `--output-dir report/tests` (relative path → per-project) and pass plain relative filenames to browser_take_screenshot so they resolve into the output dir. If artifacts ever appear in the root, fix the config in the same session — don't just delete them.
+
 ## The Verification Workflow (UI Bugs)
 
 **Screenshot BEFORE touching code.** For any UI bug, capture the broken state first — otherwise you can't prove the fix changed anything, and you may "fix" a bug you never reproduced.
