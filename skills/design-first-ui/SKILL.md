@@ -1,6 +1,6 @@
 ---
 name: design-first-ui
-description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Sizes the change first: small tweaks with existing components (e.g. swapping a button variant) skip mockups and get before/after screenshots; sections and new screens get competing HTML mockup variants, the owner's pick, and a locked visual target before any implementation code is written.
+description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Sizes the change first — small tweaks with existing components (e.g. swapping a button variant) skip mockups and get before/after screenshots; sections and new screens get competing HTML mockup variants, the owner's pick, and a locked visual target before any implementation code is written.
 ---
 
 # Design-First UI

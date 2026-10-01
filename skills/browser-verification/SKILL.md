@@ -54,7 +54,8 @@ Owner rule (2026-08-15, re-affirmed 2026-10-01). Every Playwright artifact lands
 
 How it is enforced:
 - **MCP default dir:** the official Playwright plugin's `.mcp.json` takes no flags and is overwritten on plugin update, so the output dir is set via env in `~/.claude/settings.json`: `"env": { "PLAYWRIGHT_MCP_OUTPUT_DIR": "report/tests" }` (resolved against the project dir). Without it the MCP writes `.playwright-mcp/` into the repo root.
-- **browser_take_screenshot `filename`:** a plain name → lands in `report/tests/`. For evidence that must be kept, pass the **absolute path** of the target folder above — a relative path resolves against `report/tests/`, not the repo.
+- **browser_take_screenshot `filename`:** current `@playwright/mcp` resolves a relative `filename` against the **workspace root** (the repo), NOT the output dir — a plain name like `x.png` lands in the repo root (verified 2026-10-01). So either omit `filename` (auto-named into `report/tests/`) or pass a path: `report/tests/<name>.png` for working evidence, or the **absolute path** of the keep-folder above.
+- **One Playwright MCP server per project:** if a project's `.mcp.json` also defines `playwright`, it duplicates the plugin — both use the same browser profile and the second fails with "Browser is already in use". Remove the project entry (and re-point any agent `tools:` lists to `mcp__plugin_playwright_playwright__*`).
 - **Playwright CLI:** always give an absolute output path; a relative one lands wherever the shell's cwd is.
 - `report/` and `.playwright-mcp/` belong in the project's `.gitignore`.
 

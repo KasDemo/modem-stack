@@ -33,9 +33,9 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 
 **5) ตรวจว่า Playwright ใช้ได้จริง (ทำหลัง restart)** — เปิด Claude Code ในโปรเจกต์ไหนก็ได้ แล้วสั่ง:
 
-> "Playwright smoke check: navigate ไป about:blank, screenshot ชื่อ smoke.png, แล้วบอกว่าไฟล์ไปอยู่ที่ไหน + ลอง CLI screenshot ตามข้อ (3)"
+> "Playwright smoke check: navigate ไป about:blank, screenshot แบบไม่ระบุชื่อไฟล์, แล้วบอกว่าไฟล์ไปอยู่ที่ไหน + ลอง CLI screenshot ตามข้อ (3)"
 
-ผ่านเมื่อ: (1) browser tools ตอบสนอง (2) `smoke.png` อยู่ที่ `report/tests/smoke.png` — **ถ้าไปโผล่ที่ `.playwright-mcp/` ใน root แปลว่า env ข้อ 4 ไม่ถึง MCP** (3) `npx playwright screenshot about:blank <path เต็ม>/report/tests/cli-smoke.png` ได้ไฟล์ภาพจริง (design-first-ui ใช้ CLI ตัวนี้ถ่าย mockup; แค่ `--version` ไม่พอ เพราะผ่านได้แม้ไม่มี browser) — ถ้าไม่มี browser ให้รัน `npx playwright install chromium` ไม่ผ่านข้อไหน แก้ก่อนใช้งานจริง แล้วลบไฟล์ smoke ทั้งสองทิ้ง
+ผ่านเมื่อ: (1) browser tools ตอบสนอง — ถ้าขึ้น "Browser is already in use" แปลว่ามี Playwright MCP 2 ตัว (มักเป็น `playwright` ใน `.mcp.json` ของโปรเจกต์ซ้ำกับ plugin) ให้ลบตัวในโปรเจกต์ (2) ภาพที่ไม่ระบุชื่อ (`page-<เวลา>.png`) อยู่ใน `report/tests/` — **ถ้าไปโผล่ที่ `.playwright-mcp/` ใน root แปลว่า env ข้อ 4 ไม่ถึง MCP** (หมายเหตุ: ถ้าระบุชื่อเปล่า ๆ เช่น `smoke.png` MCP จะ resolve กับ root ของ workspace ไฟล์จึงไปลง root เสมอ — เวลาตั้งชื่อให้ใส่ path `report/tests/smoke.png`) (3) `npx playwright screenshot about:blank <path เต็ม>/report/tests/cli-smoke.png` ได้ไฟล์ภาพจริง (design-first-ui ใช้ CLI ตัวนี้ถ่าย mockup; แค่ `--version` ไม่พอ เพราะผ่านได้แม้ไม่มี browser) — ถ้าไม่มี browser ให้รัน `npx playwright install chromium` ไม่ผ่านข้อไหน แก้ก่อนใช้งานจริง แล้วลบไฟล์ smoke ทั้งสองทิ้ง
 
 (ระหว่างพัฒนา plugin ในเครื่องหลัก จะ add จาก local path แทนก็ได้: `/plugin marketplace add d:\work\modem-stack`)
 
