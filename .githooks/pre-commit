@@ -1,0 +1,31 @@
+#!/bin/sh
+# Claude Code loads this plugin from a versioned cache, so a change to
+# skills/agents/hooks without a version bump never reaches any machine.
+# Enable once per clone: git config core.hooksPath .githooks
+#
+# Compared against what is already pushed (upstream), not HEAD: several local
+# commits before one push need only one bump, and --amend keeps working.
+
+plugin=.claude-plugin/plugin.json
+market=.claude-plugin/marketplace.json
+
+base=$(git rev-parse -q --verify '@{u}' 2>/dev/null || git rev-parse -q --verify HEAD 2>/dev/null)
+ver() { grep -oE '"version": *"[^"]+"' | head -1 | grep -oE '[0-9][^"]*'; }
+
+if [ -n "$base" ] && git diff --cached --name-only "$base" | grep -qE '^(skills|agents|hooks)/'; then
+  old=$(git show "$base:$plugin" 2>/dev/null | ver)
+  new=$(git show ":$plugin" | ver)
+  if [ "$old" = "$new" ]; then
+    echo "pre-commit: skills/agents/hooks changed since $base but the version is still $new." >&2
+    echo "Bump the version in $plugin and both places in $market." >&2
+    exit 1
+  fi
+fi
+
+# All three version fields must agree.
+versions=$(git show :"$plugin" :"$market" 2>/dev/null | grep -oE '"version": *"[^"]+"' | grep -oE '[0-9][^"]*' | sort -u)
+if [ "$(printf '%s\n' "$versions" | wc -l)" -ne 1 ]; then
+  echo "pre-commit: version mismatch across $plugin / $market:" >&2
+  printf '  %s\n' $versions >&2
+  exit 1
+fi

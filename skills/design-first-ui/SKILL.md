@@ -1,6 +1,6 @@
 ---
 name: design-first-ui
-description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Generates competing HTML mockup variants, gets the owner's pick, and locks it as the visual target before any implementation code is written.
+description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Generates competing HTML mockup variants, gets the owner's pick, and locks it as the visual target before any implementation code is written.
 ---
 
 # Design-First UI
@@ -16,7 +16,7 @@ Two modes:
 
 **Always 3 variants — never ask how many** (owner rule 2026-10-01). Build more or fewer only when the owner says so unprompted.
 
-If `DESIGN_SYSTEM.md` is missing when FEATURE mode is requested, run SYSTEM mode first. The design system is the contract; features interpret it, they don't renegotiate it.
+If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, run SYSTEM mode first. The design system is the contract; features interpret it, they don't renegotiate it.
 
 ## Step 1 — Read context first (never skip)
 
@@ -24,7 +24,7 @@ Read, in order:
 
 1. `docs/design/taste-profile.json` — the owner's accumulated taste. Variants start near it, they don't rediscover it.
 2. `docs/DESIGN_SYSTEM.md` — tokens and rules every FEATURE variant must obey.
-3. The feature's plan in `docs/plans/` (and `docs/PRD.md` for product context).
+3. The feature's spec/plan in `docs/plans/` (older sessions may have saved it under `docs/superpowers/specs/` or `docs/superpowers/plans/`), and `docs/PRD.md` for product context.
 4. Existing pages/components in the codebase — reuse established patterns unless a variant deliberately challenges one.
 
 Then confirm the five dimensions of context (auto-gather what you can; ask for what's missing, **max two rounds of questions**):
@@ -55,20 +55,22 @@ For SYSTEM mode, consult the **ui-ux-pro-max** skill for palette and font-pairin
 
 ## Step 3 — Build variants in parallel subagents
 
-Dispatch one subagent per variant, in parallel. Each subagent receives: the approved concept (its letter only — not the siblings, so variants don't converge), the design system (FEATURE mode), a taste-profile summary, the flow spec, and the exact output path. Each writes exactly one self-contained HTML file.
+Dispatch one subagent per variant, in parallel. Each subagent receives: the approved concept (its letter only — not the siblings, so variants don't converge), the design system (FEATURE mode), a taste-profile summary, the flow spec, and the exact output path. Each writes exactly one self-contained HTML file (plus its own screenshots in `shots/`).
+
+**Before dispatching, the orchestrator runs one real CLI screenshot itself** (`npx playwright screenshot about:blank "<abs dir>/shots/_smoke.png"`). If the browser is missing, run `npx playwright install chromium` once — never `playwright@latest`, which installs browsers for a different version than the project's `@playwright/test` — and never let three builders race a first-time install.
 
 **Model allocation (owner policy 2026-08-14):** subagents inherit the orchestrator's model unless told otherwise — and the orchestrator usually runs the most expensive tier. Don't burn it on delegated work: dispatch variant builders and reviewer/QA agents on the **opus** tier, search/mechanical agents on **sonnet**. The orchestrator itself stays on the session's top model for concept framing, reconciliation, and anything solver/architecture-grade.
 
 **Builders must SEE what they build — but never through the Playwright MCP browser.** All agents in a session share one Playwright MCP server — one browser, one "current tab" — so concurrent agents steal each other's page and the batch hangs (observed: files written, then agents hang for hours on browser calls; no completion ever fires). Instead each builder screenshots with the **Playwright CLI**, which launches its own browser process per call — safe in parallel (verified 2026-10-01):
 
 ```
-npx playwright screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=800 "file:///<abs dir>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-desktop.png"
-npx playwright screenshot --viewport-size=390,844  --full-page --wait-for-timeout=800 "file:///<abs dir>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-mobile.png"
+npx playwright screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-desktop.png"
+npx playwright screenshot --viewport-size=390,844  --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-mobile.png"
 ```
 
-Output paths are always **absolute** into the mockup folder's `shots/` — a relative path lands in the repo root (see browser-verification's artifact table).
+File URLs use **forward slashes** (`file:///D:/work/...`, never `D:\work\...`). Output paths are always **absolute** into the mockup folder's `shots/` — a relative path lands in the repo root (see browser-verification's artifact table). `#screen-id` isolates one screen only because screens are `:target`-toggled (mockup file rules) — with stacked sections `--full-page` would capture the whole file every time.
 
-(If `npx playwright` is missing: `npx -y playwright@latest install chromium` once.) Then **Read the PNGs** and critique like a senior product designer before returning — a mockup written blind is a guess:
+Then **Read the PNGs** and critique like a senior product designer before returning — a mockup written blind is a guess:
 
 - Hierarchy: is the primary action obvious in one glance? Does the eye land where the job-to-be-done starts?
 - Rhythm: consistent spacing scale, aligned edges, no orphaned elements, no accidental double borders.
@@ -90,8 +92,9 @@ State labels (use verbatim): <canonical state names in product language>
 Design system: <paste :root tokens + do/don't rules, FEATURE mode>
 Taste: prefer <approved traits>; never <rejected traits>
 Content: realistic data in <product language>; no lorem ipsum.
-Rules: inline CSS, Google Fonts <link> allowed, no other CDNs, all states,
-links between screens work, reviewer chrome per the mockup file rules.
+Mockup file rules: <paste the whole "Mockup file rules" checklist from this skill
+verbatim — builders never see this skill, so ?clean, iframe-hiding, :target
+screens, the reviewer chrome spec and the font rule must be IN the brief>.
 Self-review: screenshot every state at 1440 and 390 with the Playwright CLI
 (own process — NEVER the Playwright MCP browser tools), read the PNGs,
 critique, fix, 2-3 rounds. Return a 3-line self-assessment.
@@ -112,7 +115,7 @@ docs/design/mockups/2026-08-13-shift-swap/
 ### Mockup file rules (every variant, every mode)
 
 - [ ] One self-contained `.html` file: **all CSS inline** in a `<style>` block, no CDNs or JS frameworks. **Exception: load the real fonts via a Google Fonts `<link>`** — otherwise every variant silently falls back to the same system font and the owner picks a typeface he never saw (critical in SYSTEM mode, where font pairing is a differentiator). Always keep a system fallback in the stack.
-- [ ] **FEATURE mode: the entire flow in one file.** Every connected page/state is a full-page section; screens link to each other with working `<a href="#screen-id">` anchors (or separate `<div>` pages toggled by `:target`). Clicking through the mockup must feel like clicking through the feature.
+- [ ] **FEATURE mode: the entire flow in one file.** Every connected page/state is its own `<section id="screen-id">`, **one visible at a time via `:target`** (the first screen shows when there is no hash); screens link to each other with working `<a href="#screen-id">` anchors. Clicking through the mockup must feel like clicking through the feature.
 - [ ] Loading, empty, and error states included as real screens, not footnotes.
 - [ ] **Realistic data in the product's language.** Thai product → Thai names, Thai dates, Thai button labels. Never `Lorem ipsum`, never `User 1`. Realistic lengths: a Thai hospital ward name, a 32-character full name, a table with 12 rows not 3.
 - [ ] Thai UI text → Thai-capable font stack (e.g. `"Noto Sans Thai", "Sarabun", "IBM Plex Sans Thai", sans-serif`) and line-height ≥ 1.6 — Thai ascenders/descenders clip at tight leading.

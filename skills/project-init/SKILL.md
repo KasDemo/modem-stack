@@ -69,7 +69,9 @@ Create or extend the project CLAUDE.md. Keep it SHORT — for every line ask "wo
 
 ## Rules
 - PRD is the contract: docs/PRD.md. If reality diverges, update the PRD in the same change.
+- Specs and plans live in docs/plans/ — this overrides the superpowers default (docs/superpowers/specs|plans).
 - UI work: read docs/DESIGN_SYSTEM.md first. New/changed screens go through the design-first-ui skill (mockups -> owner picks) BEFORE implementation.
+- UI gate after brainstorming: if the approved spec adds or visibly changes screens, run design-first-ui BEFORE writing-plans. This owner rule overrides brainstorming's "only writing-plans next" terminal state.
 - UI task is not done until verified in a real browser (browser-verification skill). Console must be clean.
 - Feature changes after client meetings go through the feature-update skill (impact analysis first).
 - QA reports live in docs/qa/runs/ and MUST be linked from docs/qa/index.md.
@@ -98,8 +100,11 @@ Before any feature work:
 
 1. Ensure typecheck, lint, and test commands exist and run green (create minimal configs if missing).
 2. Scaffold the smallest honest test harness for the stack: one real unit test + Playwright E2E setup with one smoke test that boots the app and loads the main page. If the backend has isolated logic (solvers, calculators), a unit-test file for it too.
-3. Record all commands in CLAUDE.md.
-4. Windows note: prefer npm scripts / cross-platform runners over bash-only scripts.
+3. **Playwright smoke check** (both halves the workflow depends on):
+   - MCP: `browser_navigate` to `about:blank`, `browser_take_screenshot` with filename `smoke.png`. It must land at `report/tests/smoke.png`. If it lands in `.playwright-mcp/` at the repo root, `PLAYWRIGHT_MCP_OUTPUT_DIR` is not reaching the MCP — tell the owner (README install step 4) before going further. Delete the smoke file afterward.
+   - CLI: `npx playwright screenshot about:blank "<abs repo path>/report/tests/cli-smoke.png"` produces the file (design-first-ui builders screenshot with it). `--version` alone is not enough — it succeeds with no browser installed. If the browser is missing: `npx playwright install chromium` (no `@latest` — it must match the project's `@playwright/test`).
+4. Record all commands in CLAUDE.md.
+5. Windows note: prefer npm scripts / cross-platform runners over bash-only scripts.
 
 Loops without these gates compound broken code — this step is not skippable.
 

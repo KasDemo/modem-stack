@@ -64,6 +64,7 @@ For **each flow** in the scope, repeat this cycle:
    - below the fold or inside a scroll container with no cue that more exists
    - hidden in a kebab/overflow menu when it is the flow's primary action
    - tiny target (< 44px on mobile) or covered by a sticky header/toast
+
    Severity: primary action of a core flow undiscoverable → **High**; secondary action → **Medium**.
 4. Interact with **every control** in the flow: `browser_click` buttons and links, `browser_type` into inputs, `browser_fill_form` for whole forms, `browser_select_option` for dropdowns. Test forms three ways: empty submit, invalid data, realistic happy path.
 5. After **each step**, check `browser_console_messages`. A new error or warning is a finding — file it now with the step that caused it.

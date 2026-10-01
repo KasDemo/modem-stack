@@ -60,7 +60,7 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 
 ## Step 5 — Verify scoped to the blast radius
 
-Run `qa-walkthrough` in diff-aware mode: walk the changed flows AND the adjacent flows identified in Step 2.3 (side-effect candidates). Regression on neighbors is the #1 brownfield failure.
+If the change touched UI, dispatch the `design-reviewer` agent first (build vs. the chosen mockup). Then run `qa-walkthrough` in diff-aware mode — one after the other, never concurrently (they share one browser): walk the changed flows AND the adjacent flows identified in Step 2.3 (side-effect candidates). Regression on neighbors is the #1 brownfield failure.
 
 ## Step 6 — Close the loop
 

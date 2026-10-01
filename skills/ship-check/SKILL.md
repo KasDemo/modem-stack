@@ -13,6 +13,7 @@ The pre-release gate. Its one rule: **evidence before assertions**. "Tests pass"
 2. **Static gates** — typecheck + lint, full output shown. Zero errors.
 3. **Full test suite** — unit + E2E, not diff-scoped. Skipped tests count as failures (grep for skip/todo markers and justify each or unskip).
 4. **Full QA walkthrough** — run `qa-walkthrough` in FULL mode (not diff-aware): every primary user flow, all target viewports. Blockers = no ship. Highs = owner decides explicitly.
+   - **Design reviews (run these BEFORE the walkthrough, same order as feature-update)** — scope: every feature whose `docs/design/mockups/<feature>/chosen.md` was added or changed since the last `ship:` row in `docs/qa/index.md`. Each needs a `design-review:<scope>` row; the **newest** row per scope is the one that counts, and it must have 0 Blockers. Missing or blocked → dispatch the `design-reviewer` agent in the foreground (it shares the one browser with the walkthrough). UI without a `chosen.md` is out of scope here.
 5. **Security pass** — run the built-in `/security-review` on the pending changes AND the `security-hardening` checklist against release-relevant items (secrets in bundle? debug endpoints? permissive CORS? auth on new routes?).
 6. **Performance spot-check** — `performance-budget` quick pass on the 2-3 heaviest pages (initial load + the known-heavy interaction). Regressions beyond budget = flag to owner.
 7. **Production build** — actually build the production artifact; boot it once; smoke-test the main page against the prod build (dev-mode-only bugs are real).
@@ -31,15 +32,22 @@ Write `docs/qa/runs/YYYY-MM-DD-ship-<version>/report.md`:
 | Typecheck/Lint | pass | <output snippet> |
 | Tests | 142/142 pass | <output snippet> |
 | QA walkthrough | health 92 — 0 blockers | [report](../<qa-run>/report.md) |
+| Design reviews | 3/3 approved | [a](../../design-reviews/<scope-a>.md) · [b](../../design-reviews/<scope-b>.md) · … |
 | Security | pass / N findings | <link or summary> |
-| Performance | within budget | <numbers> |
+| Performance | within budget | <numbers> — Lighthouse JSON copied into this run folder |
 | Prod build | boots, smoke ok | <screenshot> |
 
 ## Known issues shipped (owner-approved)
 - <High/Medium items the owner explicitly accepted, with links>
 ```
 
-Add the row to `docs/qa/index.md`. Then, and only then, tag/merge/deploy per the project's CLAUDE.md instructions.
+Add the row to `docs/qa/index.md` (same five columns as every other run):
+
+```markdown
+| YYYY-MM-DD | ship:v<version> | <SHIP/NO-SHIP> — health NN | <n blockers> | [report](runs/YYYY-MM-DD-ship-<version>/report.md) |
+```
+
+Then, and only then, tag/merge/deploy per the project's CLAUDE.md instructions.
 
 ## Failure handling
 

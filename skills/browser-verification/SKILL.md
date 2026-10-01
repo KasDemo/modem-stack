@@ -39,6 +39,8 @@ Playwright MCP browser tools cover the whole loop:
 
 Use browser_snapshot for the refs you click and type into, and screenshots for visual judgment: spacing, color, alignment, states — and whether a human could even find the control (the snapshot lists hidden buttons too).
 
+**One browser per session.** Every agent in a session drives the same Playwright MCP browser and the same current tab. Never call `browser_*` while a browser-driving subagent (qa-clicker, design-reviewer) is running — dispatch those in the foreground and wait. Parallel agents that only need screenshots use the Playwright CLI instead (own process each).
+
 ### Where Playwright output goes — never the repo root
 
 Owner rule (2026-08-15, re-affirmed 2026-10-01). Every Playwright artifact lands in exactly one of these:

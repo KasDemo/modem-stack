@@ -26,17 +26,31 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 
 หมายเหตุ: ครั้งแรกที่ Playwright เปิดเบราว์เซอร์อาจมีดาวน์โหลด Chromium อัตโนมัติหนึ่งรอบ — ปล่อยให้มันจัดการ
 
+```jsonc
+// 4) ~/.claude/settings.json — ให้ไฟล์ของ Playwright MCP ไปลง report/tests/ แทนการกองใน root ของ repo
+"env": { "PLAYWRIGHT_MCP_OUTPUT_DIR": "report/tests" }
+```
+
+**5) ตรวจว่า Playwright ใช้ได้จริง (ทำหลัง restart)** — เปิด Claude Code ในโปรเจกต์ไหนก็ได้ แล้วสั่ง:
+
+> "Playwright smoke check: navigate ไป about:blank, screenshot ชื่อ smoke.png, แล้วบอกว่าไฟล์ไปอยู่ที่ไหน + ลอง CLI screenshot ตามข้อ (3)"
+
+ผ่านเมื่อ: (1) browser tools ตอบสนอง (2) `smoke.png` อยู่ที่ `report/tests/smoke.png` — **ถ้าไปโผล่ที่ `.playwright-mcp/` ใน root แปลว่า env ข้อ 4 ไม่ถึง MCP** (3) `npx playwright screenshot about:blank <path เต็ม>/report/tests/cli-smoke.png` ได้ไฟล์ภาพจริง (design-first-ui ใช้ CLI ตัวนี้ถ่าย mockup; แค่ `--version` ไม่พอ เพราะผ่านได้แม้ไม่มี browser) — ถ้าไม่มี browser ให้รัน `npx playwright install chromium` ไม่ผ่านข้อไหน แก้ก่อนใช้งานจริง แล้วลบไฟล์ smoke ทั้งสองทิ้ง
+
 (ระหว่างพัฒนา plugin ในเครื่องหลัก จะ add จาก local path แทนก็ได้: `/plugin marketplace add d:\work\modem-stack`)
 
 ## อัปเดต plugin
 
 เมื่อแก้ workflow ในเครื่องหลัก:
 
+0. ครั้งแรกบนเครื่องที่แก้ plugin: `git config core.hooksPath .githooks` — pre-commit hook จะไม่ยอมให้ commit ถ้าแก้ `skills/` `agents/` `hooks/` แต่ลืม bump version
 1. แก้ไฟล์ + **bump version ให้ตรงกัน 3 จุด**: `.claude-plugin/plugin.json`, `marketplace.json` → `metadata.version` และ `plugins[0].version` (เลขเวอร์ชันคือสิ่งที่บอกเครื่องอื่นว่ามีของใหม่)
 2. commit + push (GitHub Desktop: Commit to main → Push origin)
-3. เครื่องอื่น: `/plugin marketplace update modem-stack` แล้วอัปเดตผ่านเมนู `/plugin`
+3. **ทุกเครื่องรวมเครื่องหลัก**: `/plugin marketplace update modem-stack` แล้วอัปเดตผ่านเมนู `/plugin` แล้ว restart — Claude Code โหลด plugin จาก cache (`~/.claude/plugins/cache/modem-stack/modem-stack/<version>/`) ไม่ใช่จาก repo ตรงๆ แก้ใน repo อย่างเดียวจึงยังไม่มีผล
 
 กฎการแบ่ง: บทเรียนเฉพาะโปรเจกต์ → CLAUDE.md ของโปรเจกต์นั้น · บทเรียนที่ใช้ทุกโปรเจกต์ → แก้ที่ plugin แล้ว push
+
+**SessionStart hook ที่มากับ plugin** (`hooks/session-check.js`): ทุกครั้งที่เปิด session ในโปรเจกต์ modem-stack (มี `docs/PRD.md`, `docs/DESIGN_SYSTEM.md` หรือ `docs/qa/index.md`) จะย้ำกฎ routing (plan อยู่ `docs/plans/`, spec ที่มีหน้าจอต้องผ่าน design-first-ui ก่อน writing-plans) และเตือนถ้า DESIGN_SYSTEM ยังเป็น stub หรือมีไฟล์ Playwright ค้างใน root — โปรเจกต์อื่นจะไม่มีผลอะไร
 
 ## เริ่มโปรเจกต์ใหม่
 

@@ -72,7 +72,7 @@ Strip your reasoning. The unit must be small enough that a reviewer can hold it 
 
 ### Step 3: DOUBT — Spawn the fresh-context doubter
 
-Dispatch a **fresh subagent** via the Task tool (general-purpose agent). Subagents start with empty context — that is the entire point. Never run the doubt step inside your own context: you carry your reasoning with you, and reasoning biases agreement.
+Dispatch a **fresh subagent** via the Agent tool (general-purpose agent). Subagents start with empty context — that is the entire point. Never run the doubt step inside your own context: you carry your reasoning with you, and reasoning biases agreement.
 
 The subagent prompt **must be adversarial**. Framing decides the answer. Use this verbatim:
 

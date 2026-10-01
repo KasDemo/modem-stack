@@ -48,8 +48,9 @@ Use both synthetic tooling (reproducible, good for regression detection) and liv
 ### Synthetic: Lighthouse + bundle analysis
 
 ```bash
-# Lighthouse against the dev/preview server (requires Chrome installed)
-npx lighthouse http://localhost:3000 --output=json --output-path=docs/qa/runs/lh-baseline.json --chrome-flags="--headless"
+# Lighthouse against the dev/preview server (requires Chrome installed).
+# Lighthouse does not create folders — make the run folder first.
+npx lighthouse http://localhost:3000 --output=json --output-path=docs/qa/runs/YYYY-MM-DD-perf-<scope>/lh-baseline.json --chrome-flags="--headless"
 
 # Bundle analysis — pick the one matching the project:
 # Next.js: install @next/bundle-analyzer, then
@@ -262,14 +263,14 @@ Make the budget enforceable without you remembering:
 ```jsonc
 // package.json — cross-platform npm scripts
 "scripts": {
-  "perf:lh": "lighthouse http://localhost:3000 --output=json --output-path=docs/qa/runs/lh-latest.json --chrome-flags=\"--headless\"",
+  "perf:lh": "node -e \"require('fs').mkdirSync('report/tests',{recursive:true})\" && lighthouse http://localhost:3000 --output=json --output-path=report/tests/lh-latest.json --chrome-flags=\"--headless\"",
   "perf:bundle": "bundlesize"
 }
 ```
 
 - `npx bundlesize` (with `bundlesize.config.json`) fails the build when a chunk exceeds budget.
 - `npx lhci autorun` in CI compares Lighthouse scores against thresholds.
-- At minimum: `ship-check` runs `perf:lh` and compares against the budget table before any release.
+- At minimum: `ship-check` runs `perf:lh` and compares against the budget table before any release. `perf:lh` writes scratch output to `report/tests/` (gitignored); evidence worth keeping goes in a run folder `docs/qa/runs/YYYY-MM-DD-perf-<scope>/` with a row in `docs/qa/index.md` — never loose files in `docs/qa/runs/`.
 
 ## Common Rationalizations
 
@@ -295,7 +296,7 @@ Make the budget enforceable without you remembering:
 
 ## Verification Checklist
 
-- [ ] Before and after measurements exist (specific numbers, saved probe output or Lighthouse JSON in `docs/qa/runs/`)
+- [ ] Before and after measurements exist (specific numbers, saved probe output or Lighthouse JSON in `docs/qa/runs/YYYY-MM-DD-perf-<scope>/`)
 - [ ] Result was re-measured the same way as the baseline
 - [ ] Improvement exceeds run-to-run variance
 - [ ] Neutral or worse changes were reverted, not kept
