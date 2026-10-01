@@ -65,7 +65,7 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | จังหวะ | ใช้อะไร | ได้อะไร |
 |---|---|---|
 | ลูกค้าขอเพิ่ม/แก้ feature | `feature-update` | impact analysis กับระบบเดิมก่อนเสมอ → change brief ให้อนุมัติ → PRD ถูกอัปเดตให้ตรงความจริง |
-| ก่อนทำ UI ทุกหน้า | `design-first-ui` | mockup ทั้ง flow 3 แบบ (HTML คลิกดูได้) → คุณเลือก/สั่งผสม → แบบที่เลือกเป็น "เป้า" ที่โค้ดต้อง screenshot เทียบให้ตรง + ระบบจำรสนิยมคุณสะสมใน taste-profile |
+| ก่อนทำ UI ทุกหน้า | `design-first-ui` | ประเมินขนาดก่อน: เล็ก (เช่นเปลี่ยนประเภทปุ่ม) = ส่ง screenshot ก่อน/หลังให้ดู ไม่ทำ mockup · กลาง (section ใหม่) = 3 แบบเฉพาะส่วนนั้น · ใหญ่ (หน้าใหม่/flow ใหม่) = mockup ทั้ง flow 3 แบบ (HTML คลิกดูได้) → คุณเลือก/สั่งผสม → แบบที่เลือกเป็น "เป้า" ที่โค้ดต้อง screenshot เทียบให้ตรง + ระบบจำรสนิยมคุณสะสมใน taste-profile |
 | ระหว่าง implement | `browser-verification` (+ superpowers TDD) | ทุก UI task ถูกเปิดดูในเบราว์เซอร์จริง console สะอาด ก่อนถือว่าเสร็จ |
 | ตัดสินใจเสี่ยงสูง (schema, สูตร solver, auth) | `doubt-check` | ผู้ตรวจ context สดพยายามหักล้างก่อน commit |
 | จบ feature | `qa-clicker` agent (ใช้ `qa-walkthrough`) | เดินเทสตามบท user จริง → report ใน `docs/qa/runs/` พร้อม screenshot ทุก step + แถวใหม่ใน `docs/qa/index.md` |

@@ -1,6 +1,6 @@
 ---
 name: design-first-ui
-description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Generates competing HTML mockup variants, gets the owner's pick, and locks it as the visual target before any implementation code is written.
+description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Sizes the change first: small tweaks with existing components (e.g. swapping a button variant) skip mockups and get before/after screenshots; sections and new screens get competing HTML mockup variants, the owner's pick, and a locked visual target before any implementation code is written.
 ---
 
 # Design-First UI
@@ -14,9 +14,21 @@ Two modes:
 | **SYSTEM** | Once per project: `docs/DESIGN_SYSTEM.md` missing or stub | 3 radically different full-style variants of one representative page → extract `docs/DESIGN_SYSTEM.md` |
 | **FEATURE** | Default, per feature | 3 variants of the feature's **entire screen flow**, all obeying `DESIGN_SYSTEM.md` |
 
-**Always 3 variants — never ask how many** (owner rule 2026-10-01). Build more or fewer only when the owner says so unprompted.
+**Always 3 variants for Medium and Large changes — never ask how many** (owner rule 2026-10-01; Small changes get none, see Step 0). Build more or fewer only when the owner says so unprompted.
 
 If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, run SYSTEM mode first. The design system is the contract; features interpret it, they don't renegotiate it.
+
+## Step 0 — Size the change (FEATURE mode)
+
+Not every visible change deserves three mockups (owner rule 2026-10-01). Size it first:
+
+| Size | Test | Examples | What to do |
+|---|---|---|---|
+| **Small** | Uses only components and tokens that already exist, and makes **no new layout decision** | swap a button variant (primary → secondary), change copy/labels, apply an existing color token, add a field to an existing form following its pattern, reorder two items | **No mockups.** Implement per `DESIGN_SYSTEM.md`, then show the owner before/after screenshots (desktop + 390px, via browser-verification) as clickable links. Approved → done. Rejected or "hmm" → re-size as Medium. |
+| **Medium** | A new section/component inside an existing screen, or a layout change to part of a screen | add a filter bar, a summary card row, a new table column group with actions | **3 variants of that section only** — each mocked inside a faithful copy of its surrounding page (header + neighbors), not the whole flow. Steps 1–6 apply, scoped to the section. |
+| **Large** | A new screen, or a change to how a flow works | new page, new multi-step flow, navigation change | **The full process below** — 3 variants of the entire flow. |
+
+When the size is unclear, ask **one** AskUserQuestion with your recommended size first. Never size down to dodge the process: if a "small" change needs a layout decision, it is Medium. Owner comments on a Small change still go into `taste-profile.json`.
 
 ## Step 1 — Read context first (never skip)
 
@@ -235,6 +247,8 @@ Implementation tasks must verify with Playwright MCP browser tools:
 | "I'll just implement it and we can adjust" | The exact revamp loop this skill exists to kill. Mockups first. |
 | Variants generated without concept confirmation | Wasted work; the owner steers cheapest at the concept stage |
 | "How many variants do you want?" | Always 3. Don't ask. |
+| Three full-flow mockups for a button swap | Size it first (Step 0). Small = before/after screenshots |
+| "It's small" — but it needs a new layout decision | That's Medium. Don't size down to skip the owner's pick |
 | A builder returned without screenshotting its own work | Designed blind. Send it back for the self-review rounds |
 | A builder calls `browser_*` MCP tools | Shared-browser deadlock. Builders use the Playwright CLI only |
 | Presenting variants the orchestrator never looked at | Step 3b exists so the owner never debugs a broken mockup |
