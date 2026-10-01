@@ -37,9 +37,26 @@ Playwright MCP browser tools cover the whole loop:
 | Test responsive breakpoints | browser_resize |
 | Read runtime state (read-only) | browser_evaluate |
 
-Prefer browser_snapshot over screenshots for finding and interacting with elements — it returns refs you can click and type into. Use screenshots for visual judgment: spacing, color, alignment, states.
+Use browser_snapshot for the refs you click and type into, and screenshots for visual judgment: spacing, color, alignment, states — and whether a human could even find the control (the snapshot lists hidden buttons too).
 
-**Artifacts never land in the repo root** (owner rule, 2026-08-15). Screenshots/logs/snapshots go under `report/tests/` (gitignored). Configure the Playwright MCP server with `--output-dir report/tests` (relative path → per-project) and pass plain relative filenames to browser_take_screenshot so they resolve into the output dir. If artifacts ever appear in the root, fix the config in the same session — don't just delete them.
+### Where Playwright output goes — never the repo root
+
+Owner rule (2026-08-15, re-affirmed 2026-10-01). Every Playwright artifact lands in exactly one of these:
+
+| What | Where | Committed? |
+|---|---|---|
+| Working evidence (per-task verify, scratch shots, MCP logs/snapshots) | `report/tests/` | no — gitignored |
+| QA walkthrough run | `docs/qa/runs/YYYY-MM-DD-<scope>/screenshots/` | yes |
+| Design review | `docs/qa/design-reviews/YYYY-MM-DD-<scope>/` | yes |
+| Mockup shots (Playwright CLI, design-first-ui) | `docs/design/mockups/YYYY-MM-DD-<feature>/shots/` | yes |
+
+How it is enforced:
+- **MCP default dir:** the official Playwright plugin's `.mcp.json` takes no flags and is overwritten on plugin update, so the output dir is set via env in `~/.claude/settings.json`: `"env": { "PLAYWRIGHT_MCP_OUTPUT_DIR": "report/tests" }` (resolved against the project dir). Without it the MCP writes `.playwright-mcp/` into the repo root.
+- **browser_take_screenshot `filename`:** a plain name → lands in `report/tests/`. For evidence that must be kept, pass the **absolute path** of the target folder above — a relative path resolves against `report/tests/`, not the repo.
+- **Playwright CLI:** always give an absolute output path; a relative one lands wherever the shell's cwd is.
+- `report/` and `.playwright-mcp/` belong in the project's `.gitignore`.
+
+If artifacts ever appear in the root, fix the cause (env missing, relative path passed) in the same session — then move or delete the strays.
 
 ## The Verification Workflow (UI Bugs)
 

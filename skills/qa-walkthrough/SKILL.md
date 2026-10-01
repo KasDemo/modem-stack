@@ -56,13 +56,21 @@ docs/qa/runs/YYYY-MM-DD-<scope-slug>/
 For **each flow** in the scope, repeat this cycle:
 
 1. `browser_navigate` to the flow's entry point.
-2. `browser_snapshot` — the accessibility snapshot with element refs is your map. Read it; don't guess selectors.
-3. Interact with **every control** in the flow: `browser_click` buttons and links, `browser_type` into inputs, `browser_fill_form` for whole forms, `browser_select_option` for dropdowns. Test forms three ways: empty submit, invalid data, realistic happy path.
-4. After **each step**, check `browser_console_messages`. A new error or warning is a finding — file it now with the step that caused it.
-5. `browser_take_screenshot` at every meaningful state (landing, filled form, result, error). Copy each capture into the run's `screenshots/` folder immediately, named `NN-flow-step.png`, and reference it by **relative path** (`screenshots/01-login-landing.png`) so the report renders standalone.
-6. Check `browser_network_requests` after any submit or data load — failed or 4xx/5xx requests are findings even when the UI hides them.
-7. `browser_resize` to 375×812 once per flow and re-snapshot — broken mobile layout is a finding.
-8. Use `browser_wait_for` instead of assuming; a race you papered over is a race the user will hit. `browser_evaluate` only when the snapshot can't answer the question.
+2. **Look before you snapshot.** `browser_take_screenshot` first and decide *from the picture alone* what the persona would click next, and where it is. Only then `browser_snapshot` to get that element's ref — the snapshot is how you click, never how you *find*. The accessibility tree lists every button whether or not a human can see it; an agent that navigates by snapshot passes UIs that real users get lost in (owner rule 2026-10-01: AI-built UIs keep hiding actions).
+3. **Discoverability check** on every step — if you could not locate the next action in the screenshot within one look, that is a **UX finding even if the click works**. Typical causes to name in the issue:
+   - action only appears on hover (Playwright hovers before clicking, so the click "works" — a touch user never sees it)
+   - opacity 0 / same color as background / contrast too low to read as a control
+   - icon-only button with no label or tooltip whose meaning isn't obvious to the persona
+   - below the fold or inside a scroll container with no cue that more exists
+   - hidden in a kebab/overflow menu when it is the flow's primary action
+   - tiny target (< 44px on mobile) or covered by a sticky header/toast
+   Severity: primary action of a core flow undiscoverable → **High**; secondary action → **Medium**.
+4. Interact with **every control** in the flow: `browser_click` buttons and links, `browser_type` into inputs, `browser_fill_form` for whole forms, `browser_select_option` for dropdowns. Test forms three ways: empty submit, invalid data, realistic happy path.
+5. After **each step**, check `browser_console_messages`. A new error or warning is a finding — file it now with the step that caused it.
+6. `browser_take_screenshot` at every meaningful state (landing, filled form, result, error). Save each capture straight into the run's `screenshots/` folder by passing its **absolute path** as `filename` (a relative name lands in `report/tests/`), named `NN-flow-step.png`, and reference it by **relative path** (`screenshots/01-login-landing.png`) so the report renders standalone.
+7. Check `browser_network_requests` after any submit or data load — failed or 4xx/5xx requests are findings even when the UI hides them.
+8. `browser_resize` to 375×812 once per flow, screenshot, and repeat the discoverability check — hover-only actions and tiny targets surface here. Broken mobile layout is a finding.
+9. Use `browser_wait_for` instead of assuming; a race you papered over is a race the user will hit. `browser_evaluate` only when the snapshot can't answer the question.
 
 **Document issues as you find them — never batch.** Each issue gets an ID (`ISSUE-001`, sequential within the run), a severity, a category, repro steps, and at least one screenshot. **Screenshots are evidence: an issue without one does not exist.** Depth beats breadth — 5–10 well-evidenced issues are worth more than 20 vague descriptions.
 
@@ -74,7 +82,7 @@ Eight categories. Each starts at 100; deduct per finding: **Blocker −25, High 
 |----------|--------|------------------|
 | Console | 15% | Errors/warnings in `browser_console_messages` |
 | Functional | 20% | Features do what the PRD says they do |
-| UX | 15% | Flow friction, confusing states, dead ends, missing feedback |
+| UX | 15% | Flow friction, confusing states, dead ends, missing feedback, **undiscoverable actions** |
 | Accessibility | 15% | Snapshot semantics: labels, roles, focus, contrast |
 | Links | 10% | Broken links, 404s, dead nav targets |
 | Visual | 10% | Layout breakage, overflow, responsive failures |
@@ -191,6 +199,9 @@ Test type: console error / JS exception → unit or integration; form or API fai
 ## Hard rules
 
 - [ ] Browser always — never substitute source reading for clicking
+- [ ] Find every control by eye in a screenshot first; the snapshot only supplies the ref to click
+- [ ] All agents in a session share one Playwright MCP server (one browser, one current tab) — never run two MCP-driving agents (qa-clicker, design-reviewer, browser verification) at the same time
+- [ ] No Playwright output in the repo root — see browser-verification's artifact table
 - [ ] Test as the PRD's persona, with realistic data, in their language
 - [ ] Every issue has an ID, repro steps, and at least one screenshot
 - [ ] Screenshots live in the run folder, linked by relative path

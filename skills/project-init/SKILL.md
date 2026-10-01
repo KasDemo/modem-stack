@@ -42,6 +42,13 @@ docs/
     └── design-reviews/     # design-reviewer agent reports
 ```
 
+Append to `.gitignore` (create if missing) so Playwright scratch output never pollutes the repo — see browser-verification's artifact table:
+
+```
+report/
+.playwright-mcp/
+```
+
 Seed `docs/qa/index.md`:
 
 ```markdown
@@ -98,7 +105,7 @@ Loops without these gates compound broken code — this step is not skippable.
 
 ## Step 6 — Design direction
 
-Run the `design-first-ui` skill in **system mode**: 3-5 radically different full-page style variants → owner picks → extract `docs/DESIGN_SYSTEM.md` (tokens, palette, typography incl. Thai font handling if applicable, spacing, ~8 do/don't rules). This contract is why the UI stays coherent across months of sessions.
+Run the `design-first-ui` skill in **system mode**: 3 radically different full-page style variants → owner picks → extract `docs/DESIGN_SYSTEM.md` (tokens, palette, typography incl. Thai font handling if applicable, spacing, ~8 do/don't rules). This contract is why the UI stays coherent across months of sessions.
 
 ## Done
 

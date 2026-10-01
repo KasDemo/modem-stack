@@ -81,7 +81,7 @@ Work through all seven phases in order. Use the Playwright MCP browser tools thr
 
 ## Report Output
 
-Write the report to `docs/qa/design-reviews/YYYY-MM-DD-<scope>.md` (kebab-case scope, e.g. `2026-08-13-shift-editor.md`). Save every evidence screenshot into the sibling folder `docs/qa/design-reviews/YYYY-MM-DD-<scope>/` with numbered kebab-case names (`01-desktop-baseline.png`, `03-mobile-375-overlap.png`) — copy them there from wherever `browser_take_screenshot` saved them — and reference them by relative path.
+Write the report to `docs/qa/design-reviews/YYYY-MM-DD-<scope>.md` (kebab-case scope, e.g. `2026-08-13-shift-editor.md`). Save every evidence screenshot into the sibling folder `docs/qa/design-reviews/YYYY-MM-DD-<scope>/` with numbered kebab-case names (`01-desktop-baseline.png`, `03-mobile-375-overlap.png`) — pass that folder's absolute path as `browser_take_screenshot`'s `filename` (a relative name lands in `report/tests/`); never leave screenshots in the repo root — and reference them by relative path.
 
 Report template:
 
