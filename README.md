@@ -65,6 +65,7 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | จังหวะ | ใช้อะไร | ได้อะไร |
 |---|---|---|
 | ลูกค้าขอเพิ่ม/แก้ feature | `feature-update` | impact analysis กับระบบเดิมก่อนเสมอ → change brief ให้อนุมัติ → PRD ถูกอัปเดตให้ตรงความจริง |
+| ก่อนออกแบบ / เมื่อ object, ปุ่ม, งาน หรือหน้าจอเปลี่ยน | `ux-model` | แผนที่ทั้งระบบใน `docs/design/`: OBJECTS (object · ความสัมพันธ์ · ปุ่มของแต่ละ role), WORKFLOWS (key jobs J1… · วงจรสถานะ · กดอะไร → เกิดอะไร → ไปไหน), SCREENS (ทุกหน้า → route · state · เป้า mockup), sample-data — ทุก design ถูกเช็กกับแผนที่นี้ ปุ่มจึงอยู่กับ object ของมัน |
 | ก่อนทำ UI ทุกหน้า | `design-first-ui` | ประเมินขนาดก่อน: เล็ก (เช่นเปลี่ยนประเภทปุ่ม) = ส่ง screenshot ก่อน/หลังให้ดู ไม่ทำ mockup · กลาง (section ใหม่) = 3 แบบเฉพาะส่วนนั้น · ใหญ่ (หน้าใหม่/flow ใหม่) = mockup ทั้ง flow 3 แบบ (HTML คลิกดูได้) → คุณเลือก/สั่งผสม → แบบที่เลือกเป็น "เป้า" ที่โค้ดต้อง screenshot เทียบให้ตรง + ระบบจำรสนิยมคุณสะสมใน taste-profile |
 | ระหว่าง implement | `browser-verification` (+ superpowers TDD) | ทุก UI task ถูกเปิดดูในเบราว์เซอร์จริง console สะอาด ก่อนถือว่าเสร็จ |
 | ตัดสินใจเสี่ยงสูง (schema, สูตร solver, auth) | `doubt-check` | ผู้ตรวจ context สดพยายามหักล้างก่อน commit |
@@ -85,7 +86,8 @@ docs/
 ├── plans/                  # แผนรายฟีเจอร์ + change briefs (CR-*.md)
 ├── solutions/              # บทเรียนแบบยาว
 ├── design/
-│   ├── mockups/<feature>/  # variant-a/b/c.html + compare.html + chosen.md
+│   ├── OBJECTS.md · WORKFLOWS.md · SCREENS.md · sample-data.md   # UX model (ux-model)
+│   ├── mockups/<feature>/  # BRIEF.md + variant-a/b/c.html + compare.html + ux-score.md + chosen.md
 │   └── taste-profile.json  # รสนิยมของเจ้าของ (สะสม + จางตามเวลา)
 └── qa/
     ├── index.md            # ตารางหลัก คลิกเข้า report ทุกอันได้

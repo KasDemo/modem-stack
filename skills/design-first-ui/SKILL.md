@@ -24,7 +24,7 @@ Not every visible change deserves three mockups (owner rule 2026-10-01). Size it
 
 | Size | Test | Examples | What to do |
 |---|---|---|---|
-| **Small** | Uses only components and tokens that already exist, and makes **no new layout decision** | swap a button variant (primary → secondary), change copy/labels, apply an existing color token, add a field to an existing form following its pattern, reorder two items | **No mockups.** Implement per `DESIGN_SYSTEM.md`, then show the owner before/after screenshots (desktop + 390px, via browser-verification) as clickable links. Approved → done. Rejected or "hmm" → re-size as Medium. |
+| **Small** | Uses only components and tokens that already exist, and makes **no new layout decision** | swap a button variant (primary → secondary), change copy/labels, apply an existing color token, add a field to an existing form following its pattern, reorder two items | **No mockups.** Implement per `DESIGN_SYSTEM.md`, check the control sits on the right object (`docs/design/OBJECTS.md` CTAs), then show the owner before/after screenshots (desktop + 390px, via browser-verification) as clickable links. Approved → done. Rejected or "hmm" → re-size as Medium. |
 | **Medium** | A new section/component inside an existing screen, or a layout change to part of a screen | add a filter bar, a summary card row, a new table column group with actions | **3 variants of that section only** — each mocked inside a faithful copy of its surrounding page (header + neighbors), not the whole flow. Steps 1–6 apply, scoped to the section. |
 | **Large** | A new screen, or a change to how a flow works | new page, new multi-step flow, navigation change | **The full process below** — 3 variants of the entire flow. |
 
@@ -34,6 +34,7 @@ When the size is unclear, ask **one** AskUserQuestion with your recommended size
 
 Read, in order:
 
+0. **The UX model** — `docs/design/OBJECTS.md`, `WORKFLOWS.md`, `SCREENS.md`, `sample-data.md` (the `ux-model` skill). This is the whole-app picture: which objects this screen shows, which CTAs belong on them, which key jobs pass through it, where users arrive from. Missing or stale → run `ux-model` first — **slice first**: build or fix only the objects, jobs and screens this round touches (a whole-app model on an existing app is its own task, done when the owner wants it, not before a filter bar). Designing without it is how buttons end up on the wrong object.
 1. `docs/design/taste-profile.json` — the owner's accumulated taste. Variants start near it, they don't rediscover it.
 2. `docs/DESIGN_SYSTEM.md` — tokens and rules every FEATURE variant must obey.
 3. The feature's spec/plan in `docs/plans/` (older sessions may have saved it under `docs/superpowers/specs/` or `docs/superpowers/plans/`), and `docs/PRD.md` for product context.
@@ -42,9 +43,9 @@ Read, in order:
 Then confirm the five dimensions of context (auto-gather what you can; ask for what's missing, **max two rounds of questions**):
 
 1. **Who** — persona, expertise, familiarity with the product
-2. **Job to be done** — what the user accomplishes on this flow
-3. **What exists** — components, patterns, adjacent pages
-4. **User flow** — how they arrive, where they go next
+2. **Key jobs** — from `WORKFLOWS.md` §2 (ids `J1`…), each "who · starts where · ends when": Large 2–4, Medium the 1–2 that pass through the section. New job → add it to WORKFLOWS first.
+3. **What exists** — components, patterns, adjacent pages, and the objects/CTAs in scope from `OBJECTS.md`
+4. **User flow** — every entry point into these jobs (menu, notification, to-do, deep link) and where each must land
 5. **Edge cases** — long Thai names, zero states, errors, mobile, first-time vs. power users
 
 ## Step 2 — Concepts before mockups
@@ -58,6 +59,8 @@ Before building anything, present exactly 3 text concepts — A, B, C — (3–5
 | **A — Anchor** | the safe pick | Closest to `taste-profile.json` and the patterns already in the codebase. Choosing A is never a regret. |
 | **B — Challenger 1** | bets on one priority | Deliberately trades something away to win on one axis (e.g. speed for power users: inline actions, bulk approve, dense). |
 | **C — Challenger 2** | bets on a *different* priority | Wins on an axis B doesn't (e.g. overview/clarity: calendar view, guided steps). Two challengers betting on the same priority is convergence. |
+
+Every concept (FEATURE mode) also states **its click path for each key job** — e.g. "J1: to-do → กิจกรรมกางออก → ติ๊กบิล → ปิดยอด = 4 คลิก, 1 จุด" — and where each in-scope CTA sits. The owner sees the UX cost of each direction before any pixels exist, and a concept that puts a CTA away from its object is caught here, cheaply.
 
 Every concept states its trade in one line — **"ได้: X / เสีย: Y"** — so the owner chooses what this screen should prioritize, not which one looks nicer. Mixing ("A with B's bulk approve") is a normal answer. Challenger axes come from the persona and job-to-be-done in Step 1: speed vs. clarity vs. overview vs. guidance vs. mobile-first vs. error-prevention. SYSTEM mode uses the same slots on aesthetics: A = taste-anchored, B = opposite mood (e.g. editorial vs. utilitarian), C = wildcard from ui-ux-pro-max matched to the product type.
 
@@ -76,8 +79,8 @@ Dispatch one subagent per variant, in parallel. Each subagent receives: the appr
 **Builders must SEE what they build — but never through the Playwright MCP browser.** All agents in a session share one Playwright MCP server — one browser, one "current tab" — so concurrent agents steal each other's page and the batch hangs (observed: files written, then agents hang for hours on browser calls; no completion ever fires). Instead each builder screenshots with the **Playwright CLI**, which launches its own browser process per call — safe in parallel (verified 2026-10-01):
 
 ```
-npx playwright screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-desktop.png"
-npx playwright screenshot --viewport-size=390,844  --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-mobile.png"
+npx playwright screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-1440.png"
+npx playwright screenshot --viewport-size=390,844  --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-390.png"
 ```
 
 File URLs use **forward slashes** (`file:///D:/work/...`, never `D:\work\...`). Output paths are always **absolute** into the mockup folder's `shots/` — a relative path lands in the repo root (see browser-verification's artifact table). `#screen-id` isolates one screen only because screens are `:target`-toggled (mockup file rules) — with stacked sections `--full-page` would capture the whole file every time.
@@ -94,23 +97,7 @@ Then **Read the PNGs** and critique like a senior product designer before return
 
 Fix what the screenshots reveal and re-shoot: **2–3 rounds**, then return with a 3-line self-assessment (strongest point, weakest point, what was fixed).
 
-Subagent brief template:
-
-```
-Build ONE self-contained HTML mockup at <absolute output path>.
-Concept: <the 3-5 line concept, this variant's only>
-Flow: <screens + states to include, with link structure>
-State labels (use verbatim): <canonical state names in product language>
-Design system: <paste :root tokens + do/don't rules, FEATURE mode>
-Taste: prefer <approved traits>; never <rejected traits>
-Content: realistic data in <product language>; no lorem ipsum.
-Mockup file rules: <paste the whole "Mockup file rules" checklist from this skill
-verbatim — builders never see this skill, so ?clean, iframe-hiding, :target
-screens, the reviewer chrome spec and the font rule must be IN the brief>.
-Self-review: screenshot every state at 1440 and 390 with the Playwright CLI
-(own process — NEVER the Playwright MCP browser tools), read the PNGs,
-critique, fix, 2-3 rounds. Return a 3-line self-assessment.
-```
+**The brief is a file:** write `BRIEF.md` into the mockup folder from [references/brief-template.md](references/brief-template.md) — size, owner feedback verbatim, key jobs, the model slice (objects, CTAs, rules, entry points), hard requirements, canonical state labels, the exact records from `sample-data.md`, and the full mockup file rules pasted in. Each builder's prompt is then: the absolute output path, its concept letter and text only, the `:root` tokens + DESIGN_SYSTEM do/don't rules, a taste summary, and "read BRIEF.md". Builders return their click path per key job along with the self-assessment.
 
 Save under `docs/design/mockups/YYYY-MM-DD-<feature>/` (SYSTEM mode: `YYYY-MM-DD-design-system/`):
 
@@ -119,7 +106,9 @@ docs/design/mockups/2026-08-13-shift-swap/
   variant-a.html
   variant-b.html
   variant-c.html
+  BRIEF.md         (written in Step 3, from references/brief-template.md)
   compare.html
+  ux-score.md      (written in Step 3b, from references/ux-rubric.md)
   shots/           (builder + orchestrator screenshots)
   chosen.md        (written in Step 5)
 ```
@@ -137,7 +126,8 @@ docs/design/mockups/2026-08-13-shift-swap/
   1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,
   2. a **variant switcher** — small A/B/C buttons linking to the sibling `variant-*.html` files, current letter highlighted,
   3. a **desktop/mobile toggle** — mobile mode opens the SAME file in a ~390px-wide `<iframe>` overlay styled as a phone; an iframe is required because media queries track iframe width (a CSS class on `body` cannot re-trigger them).
-  **State labels are canonical, not per-variant:** the orchestrator's brief lists the exact state names (in the product language) and every variant uses them verbatim — same flow, same words. Never let one variant number its screens while another uses prose; the owner flagged exactly this. Hide **all** reviewer chrome when the page is inside an iframe (`window.self !== window.top`) or the URL has `?clean` — so compare.html cells, the mobile overlay, and screenshots stay clean. While mobile mode is on, the states-panel links navigate the iframe (`iframe.contentWindow.location.hash`), not the parent page. Tiny vanilla JS for this chrome is allowed; product UI in the mockup stays JS-free.
+  **State labels are canonical, not per-variant:** the orchestrator's brief lists the exact state names (in the product language) and every variant uses them verbatim — same flow, same words. Never let one variant number its screens while another uses prose; the owner flagged exactly this. Hide **all** reviewer chrome when the page is inside an iframe (`window.self !== window.top`) or the URL has `?clean` — so compare.html cells, the mobile overlay, and screenshots stay clean. While mobile mode is on, the states-panel links navigate the iframe (`iframe.contentWindow.location.hash`), not the parent page. Tiny vanilla JS for this chrome is allowed.
+- [ ] **Key jobs are clickable end to end.** Every step of every key job in the BRIEF is an `<a href="#next-state">` to the state after that step — or, where a step is a tick, a typed amount or a split, a `<label>` / small vanilla-JS handler that does the same. Otherwise product UI stays JS-free. The UX scorer drives jobs by clicking; an unwired step is a finding against the variant.
 
 ### The anti-convergence rule
 
@@ -156,12 +146,13 @@ After all builders return, and **sequentially** (now the Playwright MCP browser 
 1. Starts the mockup server (see Step 4) and opens each variant: every states-panel link lands on a real screen, the A/B/C switcher and mobile toggle work, `browser_console_messages` is clean.
 2. Screenshots the same key screen of all three side by side (desktop + 390px) and applies the anti-convergence rule to the pictures.
 3. Reads the builders' self-assessments; anything a builder flagged as weak gets fixed or the builder is re-briefed via SendMessage.
+4. **UX score (FEATURE mode, Medium/Large, every round — owner rule 2026-10-06; SYSTEM mode skips it — aesthetic directions aren't job paths):** dispatch the `design-reviewer` agent in **mockup mode**, in the foreground, with the mockup folder, the server URL and the **absolute path** of this skill's [references/ux-rubric.md](references/ux-rubric.md) (it can't resolve plugin paths itself). It scores every variant by actually clicking each key job and writes `ux-score.md`. **Medium rounds use the short form** (path metrics, walkthrough failures, placement); Nielsen and the ui-ux-pro-max check are for Large rounds. It scores; it never picks.
 
-Only a set that passes all three goes to the owner. Never present a variant you have not looked at.
+Only a set that passes all four goes to the owner. Never present a variant you have not looked at.
 
 ## Step 4 — The owner chooses
 
-Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over the mockup folder in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups/<date-feature>`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 <dir>`; if 8765 is taken pick the next free port). Paste `http://127.0.0.1:8765/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Ask for:
+Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over **`docs/design/mockups`** (one root for every round, so SCREENS.md targets and old rounds resolve too) in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 docs/design/mockups`; if 8765 is already serving that folder, reuse it; if it's taken by something else pick the next free port). Paste `http://127.0.0.1:8765/<date-feature>/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Put the `ux-score.md` summary table in the same message, under the links — the owner compares looks and job cost side by side. Ask for:
 
 - **Choice** — A, B, or C
 - **Free-form comments** — "B but with A's sidebar" is a normal answer, not an edge case. Merge accordingly: apply the requested elements into the chosen variant's file and re-show once.
@@ -204,6 +195,8 @@ variant-b.html (post-merge) — implementation must match this file.
 
 Maintenance, applied whenever you touch the file: entries not reinforced in ~8 weeks lose confidence (drop by 2, delete at 0); when approved and rejected contradict, keep the newest and delete the older. Recent feedback outweighs old taste. Future SYSTEM and FEATURE runs read this file so variants start near the owner's taste instead of rediscovering it.
 
+**Update the UX model in the same change** (the `ux-model` skill): `SCREENS.md` gets the chosen target (`file#state`) and status for every screen in this round; `OBJECTS.md` and `WORKFLOWS.md` change wherever the chosen design moved a CTA, merged or split a job, or added an entry point. A pick that isn't reflected in the model gets designed against stale facts next round.
+
 ### SYSTEM mode only: extract docs/DESIGN_SYSTEM.md
 
 From the winning variant, write the project design contract:
@@ -218,8 +211,11 @@ Each color with a ROLE — primary / surface / border / text / success / warning
 Families (Thai UI → Thai-capable stack, line-height ≥ 1.6), scale, weights, where each level is used.
 ## Spacing
 The scale (4/8/12/16/24/32…) and what each step is for.
-## Components
-Conventions for buttons, forms, tables, cards, navigation, empty states — one line each.
+## Components (inventory)
+| Component | Use when | Don't use when | Used on (screens) |
+One row per component the app actually has — buttons (and which variant is primary), popup vs. full page, cards with in-card
+actions, tables, tabs, empty states, toasts. Designers pick from this list before inventing; a new component is added here in the
+same change that introduces it.
 ## Rules (~8, concrete)
 DO: dense tables in admin views. DON'T: modals for multi-step flows. …
 ```
@@ -234,7 +230,7 @@ The chosen mockup is not inspiration; it is the acceptance criterion. Add to the
 
 Implementation tasks must verify with Playwright MCP browser tools:
 
-1. `browser_navigate` to the mockup **over the local server** (`http://127.0.0.1:8765/variant-b.html?clean#<screen-id>` — restart the Step 4 server if it is gone; the Playwright MCP may refuse `file://` URLs), `browser_resize` to the target viewport, `browser_take_screenshot` → reference.
+1. `browser_navigate` to the mockup **over the local server** (`http://127.0.0.1:8765/<date-feature>/variant-b.html?clean#<screen-id>` — restart the Step 4 server if it is gone; the Playwright MCP may refuse `file://` URLs), `browser_resize` to the target viewport, `browser_take_screenshot` → reference.
 2. `browser_navigate` to the running app, same `browser_resize`, `browser_take_screenshot` → actual.
 3. Compare side by side. List concrete deltas: spacing, hierarchy, missing states, wrong component. Fix. Re-screenshot.
 4. Iterate **2–3 rounds** until it matches. Screenshot every screen in the flow, including loading/empty/error states — those are the ones that silently drift.
@@ -255,5 +251,9 @@ Implementation tasks must verify with Playwright MCP browser tools:
 | Two variants that could swap headlines unnoticed | One failed — rebuild it before presenting |
 | English placeholder data in a Thai product | The owner can't judge a design wearing the wrong content |
 | Happy-path-only mockup | Empty/error states designed later = designed never |
+| Concepts with no click path per key job | The owner can't see the UX cost until it's built. Every concept states its paths |
+| A CTA placed away from the object it acts on | Check OBJECTS.md — that's the "ปุ่มควรอยู่ด้วยกัน" bug |
+| Variants scored by the builder who made them | Self-grading. The rubric is scored by a fresh design-reviewer, by clicking |
+| Chosen design not reflected in SCREENS/WORKFLOWS | Next round designs against fiction |
 | Skipping the taste profile update | Next session rediscovers the same rejections from scratch |
 | Implementation "close enough" after one screenshot round | The target is the mockup, not the vibe of the mockup |

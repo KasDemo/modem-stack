@@ -34,6 +34,10 @@ docs/
 ├── plans/                  # per-feature implementation plans + change briefs (CR-*.md)
 ├── solutions/              # lessons that need more than one line (linked from CLAUDE.md)
 ├── design/
+│   ├── OBJECTS.md          # UX model: objects, relationships, CTAs per role, attributes (created by ux-model in Step 6 — don't stub)
+│   ├── WORKFLOWS.md        # UX model: roles, key jobs J1…, lifecycles, click → result → destination (Step 6)
+│   ├── SCREENS.md          # UX model: every screen → route, states, entry points, one visual target (Step 6)
+│   ├── sample-data.md      # canonical demo data every mockup and seed uses (Step 6)
 │   ├── mockups/            # design-first-ui output, one folder per feature
 │   └── taste-profile.json  # learned owner taste (created by design-first-ui)
 └── qa/
@@ -70,6 +74,7 @@ Create or extend the project CLAUDE.md. Keep it SHORT — for every line ask "wo
 ## Rules
 - PRD is the contract: docs/PRD.md. If reality diverges, update the PRD in the same change.
 - Specs and plans live in docs/plans/ — this overrides the superpowers default (docs/superpowers/specs|plans).
+- UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md (ux-model skill). Read the relevant part before designing or changing any screen; update it in the same change when objects, CTAs, jobs, states or screens change.
 - UI work: read docs/DESIGN_SYSTEM.md first. New/changed screens go through the design-first-ui skill (mockups -> owner picks) BEFORE implementation.
 - UI gate after brainstorming: if the approved spec adds or visibly changes screens, run design-first-ui BEFORE writing-plans. This owner rule overrides brainstorming's "only writing-plans next" terminal state.
 - UI task is not done until verified in a real browser (browser-verification skill). Console must be clean.
@@ -108,10 +113,17 @@ Before any feature work:
 
 Loops without these gates compound broken code — this step is not skippable.
 
-## Step 6 — Design direction
+## Step 6 — UX model (structure before pixels)
 
-Run the `design-first-ui` skill in **system mode**: 3 radically different full-page style variants → owner picks → extract `docs/DESIGN_SYSTEM.md` (tokens, palette, typography incl. Thai font handling if applicable, spacing, ~8 do/don't rules). This contract is why the UI stays coherent across months of sessions.
+Run the `ux-model` skill against the approved PRD: objects and their relationships, CTAs per role, attributes → `OBJECTS.md`; roles,
+2–4 key jobs per role, lifecycles, step-by-step flows → `WORKFLOWS.md`; the screen inventory → `SCREENS.md`; one canonical dataset →
+`sample-data.md`. Get the owner's OK on the object map and the key jobs — they decide what the representative page in Step 7 is,
+and every later mockup is scored on those jobs.
+
+## Step 7 — Design direction
+
+Run the `design-first-ui` skill in **system mode** on the screen that carries the most important key job: 3 radically different full-page style variants → owner picks → extract `docs/DESIGN_SYSTEM.md` (tokens, palette, typography incl. Thai font handling if applicable, spacing, ~8 do/don't rules). This contract is why the UI stays coherent across months of sessions.
 
 ## Done
 
-Report what was created, then start the first feature through the normal loop: plan → design-first-ui (feature mode) → implement (TDD + browser-verification) → qa-walkthrough → ship-check when releasing.
+Report what was created, then start the first feature through the normal loop: plan → ux-model update → design-first-ui (feature mode) → implement (TDD + browser-verification) → qa-walkthrough → ship-check when releasing.

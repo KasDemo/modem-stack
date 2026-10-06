@@ -15,7 +15,7 @@ Non-negotiable: qa-walkthrough means **browser**, not unit tests. Even a backend
 |------|---------|----------|
 | `--quick` | Fast smoke check | Homepage + top 5 nav targets; console + links only |
 | **diff-aware** (default) | On a feature branch, no scope given | Only routes/flows affected by the branch diff |
-| **full** | Explicit request, or invoked by `ship-check` | Every route, every flow, full health score |
+| **full** | Explicit request, or invoked by `ship-check` | Every route, every flow, every key job in `docs/design/WORKFLOWS.md` §2 from each entry point, full health score |
 
 For verifying one small change ("did my fix work?"), use the lighter `browser-verification` skill instead — this skill is for structured passes that produce a report.
 
@@ -30,7 +30,8 @@ For verifying one small change ("did my fix work?"), use the lighter `browser-ve
    - Changed API route / backend endpoint → every page that calls it
    - Changed shared lib/config/styles → treat as full-mode candidate; say so and ask
 3. Cross-reference commit messages on the branch for intent — test that the change *works as intended*, not just that pages load.
-4. List the affected flows before starting. That list is the test plan.
+4. **Key jobs are the flows.** Read `docs/design/WORKFLOWS.md` §2 (if the project has it): every key job the diff touches is a flow in the plan, walked from **each** of its entry points (menu, notification, to-do, deep link), and its "ends when" is the pass condition. Label flows with their ids (`J2 — เคลียร์บิลค้าง`) so design, QA and acceptance talk about the same thing.
+5. List the affected flows before starting. That list is the test plan.
 
 **Persona rule:** Read `docs/PRD.md` first. Walk every flow as the PRD's target user — their language, their goals, their level of patience — not as the developer who knows where the buttons are. If the PRD says the user is a Thai head nurse on a hospital PC, you type Thai names, use realistic ward data, and get lost the way she would. Type realistic data, never `asdf`. Never include real credentials in the report — write `[REDACTED]`.
 

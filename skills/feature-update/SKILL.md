@@ -22,6 +22,7 @@ Investigate with subagents (keeps main context clean):
 3. **Behavior impact:** which existing user flows change as a side effect? Which tests will break (breaking tests may be correct — flag, don't silently "fix")?
 4. **PRD impact:** does this contradict an existing requirement? Surface the contradiction to the owner instead of quietly picking a side.
 5. **UI impact:** which screens are new or visibly changed? These MUST go through `design-first-ui` before implementation.
+6. **UX model impact:** which objects, relationships, CTAs, key jobs, lifecycle states, entry points or screens change in `docs/design/OBJECTS.md` / `WORKFLOWS.md` / `SCREENS.md`? A new CTA must have a home on its object; a changed job puts every screen it passes through in design-first-ui's scope (or at least re-checks them against the ux-model placement rules).
 
 ## Step 3 — Change brief
 
@@ -41,6 +42,7 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 - Existing behavior: <flows that change as side effects>
 - PRD: <sections to update; contradictions found>
 - UI: <screens needing design-first-ui, or "none">
+- UX model: <objects / CTAs / jobs / states / screens that change, or "none">
 
 ## Risks
 <what could break; what we deliberately do NOT change>
@@ -53,7 +55,7 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 
 ## Step 4 — Implement
 
-- Update `docs/PRD.md` in the same branch — PRD stays the single source of truth.
+- Update `docs/PRD.md` in the same branch — PRD stays the single source of truth. Same for the UX model (`ux-model` skill): the change brief's "UX model" line is applied in this branch.
 - New/changed screens: `design-first-ui` (feature mode) → owner picks → implement to match.
 - Normal discipline: TDD, browser-verification on UI tasks, respect existing code conventions (read neighboring code first, follow its patterns).
 - Migration code gets its own task with its own test.

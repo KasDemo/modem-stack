@@ -18,6 +18,24 @@ function main(input) {
     "- If an approved brainstorming spec adds or visibly changes screens, run modem-stack:design-first-ui BEFORE writing-plans.",
   ];
 
+  // UX model: only for projects with UI (a design folder or a design system). A file still holding template
+  // placeholders ({object}, {role}, …) or nearly empty counts as missing.
+  if (has("docs/design") || has("docs/DESIGN_SYSTEM.md")) {
+    const files = ["OBJECTS.md", "WORKFLOWS.md", "SCREENS.md", "sample-data.md"];
+    const stub = (f) => {
+      const p = path.join(cwd, "docs/design", f);
+      if (!fs.existsSync(p)) return true;
+      const t = fs.readFileSync(p, "utf8");
+      return t.length < 300 || /\{(Project|object|role|job|route|screen name|YYYY-MM-DD)\}/.test(t);
+    };
+    const missing = files.filter(stub);
+    if (missing.length === files.length) {
+      lines.push("- No UX model yet (docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md): before Medium/Large UI design, run modem-stack:ux-model — slice first (only what the round touches).");
+    } else {
+      lines.push("- UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md. Read the relevant part before UI work; update it in the same change." + (missing.length ? ` Missing or still a template: ${missing.join(", ")}.` : ""));
+    }
+  }
+
   const ds = path.join(cwd, "docs/DESIGN_SYSTEM.md");
   if (fs.existsSync(ds) && !/:root\s*\{[^}]*--/.test(fs.readFileSync(ds, "utf8"))) {
     lines.push("- docs/DESIGN_SYSTEM.md is still a stub (no :root tokens): any UI work runs design-first-ui SYSTEM mode first.");
