@@ -14,8 +14,10 @@ function main(input) {
 
   const lines = [
     "modem-stack project. Routing rules (owner rules, override skill defaults):",
-    "- Specs and plans live in docs/plans/, not docs/superpowers/.",
-    "- If an approved brainstorming spec adds or visibly changes screens, run modem-stack:design-first-ui BEFORE writing-plans.",
+    "- Specs and plans live in docs/plans/, not docs/superpowers/. Open questions only in docs/QUESTIONS.md.",
+    "- Feature in the PRD: walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough.",
+    "- Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check) → same loop. End of a งวด: ship-check in milestone mode.",
+    "- brainstorming never jumps straight to writing-plans when screens are involved — design-first-ui comes first.",
   ];
 
   // UX model: only for projects with UI (a design folder or a design system). A file still holding template
@@ -26,11 +28,12 @@ function main(input) {
       const p = path.join(cwd, "docs/design", f);
       if (!fs.existsSync(p)) return true;
       const t = fs.readFileSync(p, "utf8");
-      return t.length < 300 || /\{(Project|object|role|job|route|screen name|YYYY-MM-DD)\}/.test(t);
+      // An untouched template still has its "{Project}" title; a filled file has the real project name.
+      return t.length < 300 || /^# \{Project\}/m.test(t);
     };
     const missing = files.filter(stub);
     if (missing.length === files.length) {
-      lines.push("- No UX model yet (docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md): before Medium/Large UI design, run modem-stack:ux-model — slice first (only what the round touches).");
+      lines.push("- No UX model yet (docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md): new project → project-init Steps 5–6; existing app → run modem-stack:ux-model slice first (only what the next round touches).");
     } else {
       lines.push("- UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md. Read the relevant part before UI work; update it in the same change." + (missing.length ? ` Missing or still a template: ${missing.join(", ")}.` : ""));
     }
@@ -38,7 +41,7 @@ function main(input) {
 
   const ds = path.join(cwd, "docs/DESIGN_SYSTEM.md");
   if (fs.existsSync(ds) && !/:root\s*\{[^}]*--/.test(fs.readFileSync(ds, "utf8"))) {
-    lines.push("- docs/DESIGN_SYSTEM.md is still a stub (no :root tokens): any UI work runs design-first-ui SYSTEM mode first.");
+    lines.push("- docs/DESIGN_SYSTEM.md is still a stub (no :root tokens): the next design round (the first flow, after its walkthrough) runs design-first-ui in SYSTEM mode.");
   }
 
   // Untracked images only: a committed logo.png in the root is not a stray.

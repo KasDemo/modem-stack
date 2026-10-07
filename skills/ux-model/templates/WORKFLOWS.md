@@ -14,9 +14,12 @@
 The unit every mockup is scored on (UX rubric), every QA walkthrough walks, and every acceptance check verifies.
 2–4 per role. "Ends when" must be observable on screen.
 
-| ID | Role | Job | Starts where | Ends when | How often |
-|---|---|---|---|---|---|
-| J1 | {role} | {job} *(example: "close an activity's budget")* | {entry point, e.g. a to-do on the home screen} | {observable end state} | {daily / weekly / monthly} |
+| ID | Role | Job | Starts where | Ends when | How often | งวด | Covers FR |
+|---|---|---|---|---|---|---|---|
+| J0 | every role | sign in and land | login page | the role's home is shown, with its notifications | daily | {1} | {FR-…} |
+| J1 | {role} | {job} *(example: "close an activity's budget")* | {entry point, e.g. a to-do on the home screen} | {observable end state} | {daily / weekly} | {1} | {FR-001, FR-004} |
+
+No-UI FRs (no key job; verified by tests only): {FR-… scheduled expiry, FR-… nightly sync, or "none"}
 
 ## 3. Lifecycles
 
@@ -30,32 +33,45 @@ The unit every mockup is scored on (UX rubric), every QA walkthrough walks, and 
 |---|---|---|
 | {state} | {condition} | {effect} |
 
-## 4. Rules that cross screens
+## 4. Rules in play
 
-Money, permissions, sync — anything a screen must not reinvent. Each rule has an id so screens, OBJECTS.md and tests can cite it.
+Rules live in `docs/PRD.md` §5 — cite them here, never restate them. Add only the screen-level consequence.
 
-- **R1** — {rule, with its formula}
+- **R-{nnn}** → {where it shows up across screens, e.g. "every total of X uses it; the confirm dialog explains it"}
 
-## 5. Step-by-step flows (one per key job)
+## 5. Walkthroughs (one per key job, co-designed with the owner)
 
-Include the unhappy paths: what the user sees when a step fails, and how they recover.
+Written in a walkthrough session (ux-model skill). The heading carries the owner's approval stamp; design-first-ui won't start a
+Medium/Large round on an unstamped flow. Use records from `sample-data.md` so before/after values are concrete.
 
-### J1 — {job}
+### J1 — {job} · ⏳ draft
+
+When approved the heading becomes `### J1 — {job} · ✅ owner-approved YYYY-MM-DD`.
 
 Entry points: {every way into this job — menu, notification, to-do, deep link — and where each lands}.
 
-1. `{role}` · `{screen}` · clicks **"{label}"** → {what happens: state / money / notification} → {where they are now}.
-2. {…}
+| # | Who | Screen (`#state` from SCREENS) | Does | System result (state / data / money / notification) | Now at |
+|---|---|---|---|---|---|
+| 1 | {role} | `{route}` `#{state}` | clicks **"{label}"** | {result} | `#{state}` |
 
-Done when: {the J1 end condition}.
+Unhappy paths:
 
-## 6. Screen map per role
+| When | User sees | Recovers by |
+|---|---|---|
+| {invalid input / no permission / conflict / empty / external system down / timeout} | {message or state} | {action} |
+
+Done when: {the J1 end condition}. Assumed answers: {Q-ids, or "none"}.
+
+## 6. Notifications
+
+| Event | Who | Channel | Message (product language) |
+|---|---|---|---|
+| {e.g. request approved} | {booker} | {in-app + email} | {exact text, with placeholders} |
+
+## 7. Screen map per role
 
 ### {role}
 
 - `{route}` — {what they do here} → links to: {routes}
 
-## Open questions
-
-| # | Question | Owner | Since |
-|---|---|---|---|
+Open questions: `docs/QUESTIONS.md` (cite Q-ids above).

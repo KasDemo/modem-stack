@@ -21,11 +21,11 @@ Scored by the UX rubric (Medium: 1–2 jobs that touch {area}; Large: 2–4). Ev
 
 Fewer clicks, fewer surfaces and less scrolling — with no lost clarity — is the goal.
 
-## Model slice (from `docs/design/`)
+## Model slice (by reference — read these, don't expect them copied here)
 
-- Objects + relationships in scope (OBJECTS.md): {object} 1–many {object}; {object} many–many {object} ({rule})
-- CTAs in scope per role, and the primary CTA per state: {…}
-- Rules that must not change (WORKFLOWS.md §4): R{n} {rule}
+- Walkthroughs to implement visually: WORKFLOWS.md §5 J{n}, J{n} (owner-approved {date}) — the steps, results and unhappy paths are fixed; you decide layout
+- Objects, relationships and CTAs in scope: OBJECTS.md §2–3 rows for {objects}
+- Rules that must not change: R-{nnn} (read them in `docs/PRD.md` §5 — cite, don't copy)
 - Entry points that must land in context: {to-do / notification} → this screen, {object} in focus, its header in the first view at the primary viewport
 
 ## Hard requirements (every variant)
@@ -33,10 +33,9 @@ Fewer clicks, fewer surfaces and less scrolling — with no lost clarity — is 
 - {one job = one place, no separate X tab, …}
 - Owner rules: {from CLAUDE.md Lessons + taste-profile}
 
-## Screens and states (labels verbatim in the reviewer chrome)
+## Screens and states (ids and labels exactly as in `docs/design/SCREENS.md`)
 
-1. `#{screen-id}` {label} — {what it must show}
-2. {…} plus `#empty`, `#loading`, `#error`
+{list the state ids in scope, e.g. `#day` · `#book` · `#pending` · `#empty` · `#error` — never invent new ones here; add them to SCREENS.md first}
 
 ## Canonical data
 
@@ -50,7 +49,7 @@ and sent back to you.
 
 ## Mockup file rules
 
-{paste design-first-ui's "Mockup file rules" checklist verbatim}
+Read `{absolute path to design-first-ui/references/mockup-rules.md}` — every rule applies.
 
 ## Self-review (2–3 rounds before returning)
 

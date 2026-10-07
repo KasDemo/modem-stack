@@ -1,129 +1,170 @@
 ---
 name: project-init
-description: Use when starting a new project with the modem-stack workflow, or retrofitting it onto an existing repo - scaffolds docs structure (PRD, DESIGN_SYSTEM, plans, QA reports), CLAUDE.md with a Lessons ledger, and quality gates, then guides through requirements and design-direction phases. Trigger with /project-init or "set up this project".
+description: Use when starting a new project with the modem-stack workflow, or retrofitting it onto an existing repo - runs kickoff (incl. contract, milestones, hosting, auth), scaffolds docs (TOR, PRD, QUESTIONS, ARCHITECTURE + runbook, CHANGELOG, QA index), writes the PRD with the owner, gets the stack chosen and the app scaffolded with quality gates, then builds the key-job list and the system picture (UX model + design system) before the first feature. Trigger with /project-init or "set up this project".
 ---
 
 # Project Init
 
-Bootstrap a project so every later phase (design-first UI, feature changes, QA, shipping) has a place to put its artifacts and a contract to check against. Run ONCE per project.
+Bootstrap a project so every later phase has a place to put its artifacts and a contract to check against. Run ONCE per project.
 
-**Core principle:** no feature work before (1) a written PRD, (2) a design contract, (3) machine-runnable quality gates. Every agent-loop failure mode documented in the wild traces back to skipping one of these.
+**Core principle:** no feature work before (1) an approved PRD tied to the contract, (2) a chosen stack with a running, gated app,
+(3) the key jobs and the system picture, (4) a design contract. Every agent-loop failure mode documented in the wild traces back to
+skipping one of these.
 
-## Step 1 — Interview the owner (short)
+**The whole loop this sets up** (repeat this line verbatim wherever routing is described):
 
-Ask only what you cannot infer, one question at a time:
+> **Feature in the PRD:** walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. **Client change:** feature-update first. **New idea not in the PRD:** brainstorming → update PRD (+ TOR check) → same loop. **End of a งวด:** ship-check in milestone mode.
 
-1. Project name + one-line purpose. Who is the actual end user? (Name a concrete person/role, not "everyone".)
-2. New build or existing codebase?
-   - **New build:** stack (or "you choose" — then propose one and get approval).
-   - **Existing codebase / rebuild:** do NOT ask about or lock the stack here. Read the existing code and docs first — they are the baseline that tells you what the system really does. Requirements come before architecture: stack and architecture get proposed AFTER the PRD is approved (Step 4), as their own approval gate.
-3. UI language (Thai/English/other) — mockups and test data must use it.
-4. What is the smallest version the client would accept this month?
+Templates for this skill's documents are in its `templates/` folder.
 
-If the owner has client requirements already, collect them raw — do NOT paraphrase-and-lose details. Store verbatim notes in `docs/notes/`.
+## Step 1 — Kickoff interview
 
-## Step 2 — Scaffold the structure
+Ask only what you cannot infer from what the owner already gave you, one question at a time. Collect client material raw — do NOT
+paraphrase-and-lose details: verbatim notes go in `docs/notes/YYYY-MM-DD-<topic>.md`, the TOR file (if any) in `docs/notes/` too.
 
-Create (skip anything that exists — never overwrite):
+1. Project name, one-line purpose, the client, and the actual end users (concrete roles, not "everyone").
+2. New build or existing codebase? **Existing / rebuild:** read the code and docs first — they are the baseline of what the system
+   really does. Never lock the stack here; it is proposed in Step 4.
+3. **Contract:** is there a TOR? Milestones (งวด) — what is due when, and how does the client sign off each one?
+4. What is the smallest version the client would accept first?
+5. **Where it runs:** hosting (client VM, cloud, …), who administers it, backup expectations.
+6. **Login and integrations:** where accounts come from (LDAP/SSO/local), external systems, notification channels (in-app, email, LINE…).
+7. **Personal data:** what personal data the app holds, who may see it, retention (PDPA).
+8. UI language, date format (Buddhist era?), and the device split (desktop vs. mobile — the mobile width becomes QA's mobile viewport).
+9. Who maintains it after delivery, and what they know (decides the stack as much as taste).
+
+Anything the owner can't answer yet goes into `docs/QUESTIONS.md` with whom to ask — not into your head.
+
+## Step 2 — Scaffold the docs
+
+Create (skip anything that exists — never overwrite). Files marked *(step N)* are created by that step, never stubbed here.
 
 ```
 docs/
-├── PRD.md                  # living requirements contract (stub now, filled in Step 4)
-├── DESIGN_SYSTEM.md        # design contract (stub now, filled by design-first-ui system mode)
-├── notes/                  # raw client-meeting notes, verbatim
-├── plans/                  # per-feature implementation plans + change briefs (CR-*.md)
-├── solutions/              # lessons that need more than one line (linked from CLAUDE.md)
+├── TOR.md                  # contract scope as clauses T1… (templates/TOR.md) — from the TOR or the agreed scope
+├── QUESTIONS.md            # the ONE open-questions/decisions register (templates/QUESTIONS.md)
+├── PRD.md                  # (step 3) requirements contract (templates/PRD.md)
+├── ARCHITECTURE.md         # (step 4) stack, decisions, runbook (templates/ARCHITECTURE.md)
+├── DESIGN_SYSTEM.md        # design contract — set by the first flow's design round (SYSTEM mode)
+├── notes/                  # raw client notes + TOR original, verbatim
+├── plans/                  # implementation plans + change briefs (CR-*.md)
+├── solutions/              # lessons that need more than one line
+├── acceptance/             # (ship-check) ตรวจรับงวด records
 ├── design/
-│   ├── OBJECTS.md          # UX model: objects, relationships, CTAs per role, attributes (created by ux-model in Step 6 — don't stub)
-│   ├── WORKFLOWS.md        # UX model: roles, key jobs J1…, lifecycles, click → result → destination (Step 6)
-│   ├── SCREENS.md          # UX model: every screen → route, states, entry points, one visual target (Step 6)
-│   ├── sample-data.md      # canonical demo data every mockup and seed uses (Step 6)
-│   ├── mockups/            # design-first-ui output, one folder per feature
-│   └── taste-profile.json  # learned owner taste (created by design-first-ui)
+│   ├── OBJECTS.md · WORKFLOWS.md · SCREENS.md · sample-data.md   # (steps 5–6) UX model — ux-model skill
+│   ├── mockups/            # design-first-ui output, one folder per round
+│   └── taste-profile.json  # (design-first-ui) learned owner taste
 └── qa/
-    ├── index.md            # master QA index — every run links from here
-    ├── runs/               # walkthrough QA reports (one folder per run)
-    └── design-reviews/     # design-reviewer agent reports
+    ├── index.md            # master QA index
+    ├── runs/
+    └── design-reviews/
+CHANGELOG.md                # Keep-a-Changelog style, client-readable language; "Unreleased" section now
 ```
 
-Append to `.gitignore` (create if missing) so Playwright scratch output never pollutes the repo — see browser-verification's artifact table:
+Append to `.gitignore` (create if missing): `report/` and `.playwright-mcp/` (see browser-verification's artifact table).
 
-```
-report/
-.playwright-mcp/
-```
+Seed `docs/qa/index.md` with `| Date | Scope | Health | Blockers | Report |` and its separator row.
 
-Seed `docs/qa/index.md`:
+Write a **skeleton CLAUDE.md** now (Rules + empty Lessons, template in Step 4 item 6); the stack line and commands are filled in Step 4.
 
-```markdown
-# QA Reports
+## Step 3 — PRD
 
-| Date | Scope | Health | Blockers | Report |
-|------|-------|--------|----------|--------|
-```
+Hand off to `superpowers:brainstorming` to interrogate the owner — push past polished first answers; the second answer usually
+reveals the truth. **Override its terminal state here:** the output is `docs/PRD.md` written from `templates/PRD.md`, and when it is
+approved you come back to this skill's Step 4 — no design doc in `docs/superpowers/`, no writing-plans yet. Where brainstorming
+says "propose approaches", the approaches here are **scope cuts per งวด**; where it says "present architecture/components", stop —
+architecture is Step 4.
 
-## Step 3 — CLAUDE.md
+- Every FR has an id, acceptance criteria a machine or browser walkthrough can check, its งวด, the TOR clause(s) it serves (or
+  `extra — CR-…` when it is outside the contract), and its source note. The PRD's TOR column is the only T↔FR map; a TOR clause no
+  FR cites is a finding.
+- **Run the lifecycle checklist now** (ux-model, "Lifecycles") on every stateful thing in the PRD — hold, expire, who cancels,
+  who is notified, outside events. Rules like "a pending request expires 2 hours before start" belong in the approved PRD, not in a
+  later amendment.
+- Every answer the owner gives on a client matter during this interview becomes a `docs/QUESTIONS.md` row with status
+  `owner-answered` — the client confirms those at the first milestone.
+- Business rules get R-ids in the PRD **only** — every other doc cites them.
+- Not-doing list with "reconsider when".
+- **Rebuild:** the legacy system's real behavior feeds the PRD — mark what the rebuild keeps, changes, and kills.
 
-Create or extend the project CLAUDE.md. Keep it SHORT — for every line ask "would removing this cause mistakes?" Bloated CLAUDE.md files get ignored by the model. Template:
+Before asking for approval, dispatch the `product-critic` agent on the draft and fold in what survives. Then the owner approves the
+PRD explicitly; record the date in its status line. **Later amendments** (a rule found by doubt-check, a walkthrough decision)
+are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` — never silently.
+
+## Step 4 — Architecture, app scaffold, quality gates
+
+1. **Propose 2–3 stack options** against the approved PRD (hosting, auth source and team skills from Step 1 decide more than taste),
+   with reasons and trade-offs. **Verify, don't remember:** current stable versions via web search, and that the pieces work together
+   (e.g. the component library supports the CSS framework's major version) — cite what you checked. Name the UI component layer
+   explicitly (shadcn/ui or equivalent). The owner chooses or adjusts.
+2. Write `docs/ARCHITECTURE.md` from `templates/ARCHITECTURE.md`: stack with verified versions, overview, external systems and their
+   test doubles, decisions D-01…, and the runbook skeleton (deploy/rollback/backup/restore filled as soon as they exist — at the latest
+   by the first ship-check).
+3. **Scaffold the app:** the stack's official generator; the database via a compose file with the **first schema file** for the
+   PRD's objects; test doubles or seed accounts for each external system (LDAP, SMTP, …) so dev never needs the real ones; a health
+   route. Commit.
+4. Run `doubt-check` on that schema file and the auth/permission design before anything is built on them — **one cycle** here
+   unless a finding is Blocker-class. Accepted findings become D-ids, PRD amendments, or QUESTIONS rows.
+5. **Quality gates (not skippable):**
+   - typecheck, lint and test commands exist and run green;
+   - one real unit test, plus Playwright E2E with one smoke test that boots the app and loads the main page (and a unit-test file for
+     any isolated logic such as solvers or calculators);
+   - **Playwright smoke check** — MCP: `browser_navigate` to `about:blank`, `browser_take_screenshot` **without a filename**; it must
+     land in `report/tests/` (in `.playwright-mcp/` at the root → `PLAYWRIGHT_MCP_OUTPUT_DIR` isn't reaching the MCP; tell the owner,
+     README install step 4). CLI: `npx playwright screenshot about:blank "<abs repo path>/report/tests/cli-smoke.png"` must produce the
+     file (`--version` alone succeeds with no browser; missing browser → `npx playwright install chromium`, no `@latest`). Delete both
+     smoke files.
+   - Windows: npm scripts / cross-platform runners, no bash-only scripts.
+6. **Fill CLAUDE.md** (template below): the one-paragraph description with a link to ARCHITECTURE.md for the stack, and the real commands.
 
 ```markdown
 # <Project>
 
-<One paragraph: what this is, who uses it, stack.>
+<One paragraph: what this is, who uses it. Stack: see docs/ARCHITECTURE.md.>
 
 ## Rules
-- PRD is the contract: docs/PRD.md. If reality diverges, update the PRD in the same change.
+- Contract: docs/TOR.md → docs/PRD.md (FR, R, งวด). If reality diverges, update the PRD in the same change.
+- Open questions and decisions: docs/QUESTIONS.md only. Stack, decisions, runbook: docs/ARCHITECTURE.md.
 - Specs and plans live in docs/plans/ — this overrides the superpowers default (docs/superpowers/specs|plans).
-- UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md (ux-model skill). Read the relevant part before designing or changing any screen; update it in the same change when objects, CTAs, jobs, states or screens change.
-- UI work: read docs/DESIGN_SYSTEM.md first. New/changed screens go through the design-first-ui skill (mockups -> owner picks) BEFORE implementation.
-- UI gate after brainstorming: if the approved spec adds or visibly changes screens, run design-first-ui BEFORE writing-plans. This owner rule overrides brainstorming's "only writing-plans next" terminal state.
-- UI task is not done until verified in a real browser (browser-verification skill). Console must be clean.
-- Feature changes after client meetings go through the feature-update skill (impact analysis first).
+- Routing: Feature in the PRD: walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check) → same loop. End of a งวด: ship-check in milestone mode.
+- brainstorming never jumps straight to writing-plans when screens are involved — design-first-ui comes first (overrides its terminal state).
+- UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md. Read before UI work; update in the same change.
+- UI work reads docs/DESIGN_SYSTEM.md; a UI task is done only when verified in a real browser with a clean console.
+- Plans cite FR/R/J ids; where writing-plans wants constraints "copied verbatim", list the R-ids with a one-line gist and the note "PRD §5 wins".
+- Tests are named after the FR / key job they prove (e.g. `fr-012-overlap.test.ts`, `j1-book-room.spec.ts`).
 - QA reports live in docs/qa/runs/ and MUST be linked from docs/qa/index.md.
-- Commands: <typecheck> / <lint> / <test> / <dev server + port>
+- Commands: <typecheck> / <lint> / <test> / <e2e> / <dev server + port>
 
 ## Lessons
 <!-- One line per lesson, newest first. Consolidate into docs/solutions/ when >30 lines. -->
 ```
 
-Fill in the real commands discovered in Step 5.
+Keep it SHORT — for every line ask "would removing this cause mistakes?" Bloated CLAUDE.md files get ignored.
 
-## Step 4 — Requirements phase
+## Step 5 — Features → key jobs
 
-Hand off to `superpowers:brainstorming` to interrogate the owner and produce `docs/PRD.md`. Push past polished first answers — the second answer usually reveals the truth. PRD stories need acceptance criteria a machine can check (typecheck passes, test passes, "verify in browser: <concrete behavior>"). End by having the owner approve the PRD explicitly.
+Run the `ux-model` skill's **key jobs** part: roles (WORKFLOWS §1) and key jobs (WORKFLOWS §2), each with its งวด and the FRs it
+covers. Every FR is covered by a key job or listed under "No-UI FRs" in WORKFLOWS §2 (batch job, sync, scheduled expiry…). Always
+include **J0 — sign in and land** (login, the landing screen per role, no-permission page, notification bell, the app shell): every
+other job starts there, and without it nobody designs those screens. This list is the feature backlog: each job will get its own
+walkthrough, design round, implementation and QA. The owner approves the list.
 
-**Rebuild of an existing system:** the legacy system's real behavior (code, data, docs) feeds the PRD — mine it so nothing silently drops, and mark explicitly what the rebuild keeps, changes, and kills. After the PRD is approved, propose stack + architecture against it (with reasons, as options) and get owner approval — this is the gate that was deliberately deferred from Step 1.
+## Step 6 — System picture
 
-**Any stack proposal (new build or rebuild) must be verified, not remembered:**
-1. Check current stable versions of every proposed piece via web search — model memory is stale by months and WILL name outdated versions.
-2. Verify the pieces are known to work together (e.g., the UI component library supports the chosen CSS framework major version) — cite what you checked.
-3. Name the UI component layer explicitly (shadcn/ui or equivalent) as part of the stack — production-grade design work depends on it, and the design-first-ui contract will build on it.
+1. Run `ux-model` for the rest of the model: OBJECTS.md, lifecycles (WORKFLOWS §3, answering the lifecycle checklist), rule
+   citations (§4), notifications (§6), the screen map (§7), the SCREENS.md skeleton, and sample-data.md. Unanswerable checklist items → QUESTIONS.md.
+   The owner OKs the object map and lifecycles.
+2. **No separate SYSTEM round.** The design system is set by the **first flow's** design round (design-first-ui SYSTEM mode, run
+   after that flow's walkthrough): its three variants differ in style *and* structure, the winner becomes `docs/DESIGN_SYSTEM.md`
+   **and** that flow's visual target. Designing the same page twice wastes a round.
 
-## Step 5 — Quality gates (backpressure)
+**Retrofit onto an existing repo:** build the model slice first (the jobs the next work touches) instead of the whole app.
 
-Before any feature work:
-
-1. Ensure typecheck, lint, and test commands exist and run green (create minimal configs if missing).
-2. Scaffold the smallest honest test harness for the stack: one real unit test + Playwright E2E setup with one smoke test that boots the app and loads the main page. If the backend has isolated logic (solvers, calculators), a unit-test file for it too.
-3. **Playwright smoke check** (both halves the workflow depends on):
-   - MCP: `browser_navigate` to `about:blank`, `browser_take_screenshot` **without a filename** (auto-named `page-<time>.png`). It must land in `report/tests/`. If it lands in `.playwright-mcp/` at the repo root, `PLAYWRIGHT_MCP_OUTPUT_DIR` is not reaching the MCP — tell the owner (README install step 4) before going further. Delete the smoke file afterward. (Don't pass a bare name like `smoke.png` here — a relative filename resolves against the repo root, not the output dir, so it would land in the root regardless of the env.)
-   - CLI: `npx playwright screenshot about:blank "<abs repo path>/report/tests/cli-smoke.png"` produces the file (design-first-ui builders screenshot with it). `--version` alone is not enough — it succeeds with no browser installed. If the browser is missing: `npx playwright install chromium` (no `@latest` — it must match the project's `@playwright/test`).
-4. Record all commands in CLAUDE.md.
-5. Windows note: prefer npm scripts / cross-platform runners over bash-only scripts.
-
-Loops without these gates compound broken code — this step is not skippable.
-
-## Step 6 — UX model (structure before pixels)
-
-Run the `ux-model` skill against the approved PRD: objects and their relationships, CTAs per role, attributes → `OBJECTS.md`; roles,
-2–4 key jobs per role, lifecycles, step-by-step flows → `WORKFLOWS.md`; the screen inventory → `SCREENS.md`; one canonical dataset →
-`sample-data.md`. Get the owner's OK on the object map and the key jobs — they decide what the representative page in Step 7 is,
-and every later mockup is scored on those jobs.
-
-## Step 7 — Design direction
-
-Run the `design-first-ui` skill in **system mode** on the screen that carries the most important key job: 3 radically different full-page style variants → owner picks → extract `docs/DESIGN_SYSTEM.md` (tokens, palette, typography incl. Thai font handling if applicable, spacing, ~8 do/don't rules). This contract is why the UI stays coherent across months of sessions.
+**Pacing (solo dev, short contracts):** only the first flow is a full Large round; later flows that reuse its shell and patterns are
+Medium rounds (the changed sections only). Budget about one design round per flow per week.
 
 ## Done
 
-Report what was created, then start the first feature through the normal loop: plan → ux-model update → design-first-ui (feature mode) → implement (TDD + browser-verification) → qa-walkthrough → ship-check when releasing.
+Report what was created (one line per file) and the open questions that block the first flow, then start the first flow of งวด 1
+(J0 plus the most important job) through the loop at the top of this skill — beginning with its walkthrough session; its design round
+runs in SYSTEM mode.

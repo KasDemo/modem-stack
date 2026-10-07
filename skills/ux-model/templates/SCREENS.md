@@ -7,17 +7,19 @@
 
 ## Flow status
 
-| # | Flow (role) | Key jobs | Target | Decision record | Status |
-|---|---|---|---|---|---|
-| 1 | {flow} | {J1, J2} | `{date-feature}/variant-a.html` | `{date-feature}/chosen.md` | {⏳ designing · ✅ chosen · 🛠 built} |
+| # | Flow (role) | Key jobs | งวด | Target | Decision record | Status |
+|---|---|---|---|---|---|---|
+| 1 | {flow} | {J1, J2} | {1} | `{date-feature}/variant-a.html` | `{date-feature}/chosen.md` | {⏳ designing · ✅ chosen · 🛠 built} |
 
 ## Screens
 
 | Route | Screen | Roles | Objects shown | States (`#id`) | Entry points | Target |
 |---|---|---|---|---|---|---|
-| `{route}` | {screen name} | {roles} | {objects} | `#{state}` `#empty` `#error` | {menu · to-do · notification} | `{date-feature}/variant-a.html#{state}` |
+| `{route}` | {screen name} | {roles} | {objects} | `#{state}` {label} · `#empty` {label} · `#error` {label} | {menu · to-do · notification} | `{date-feature}/variant-a.html#{state}` |
 
-Popups and confirms are rows too (route = "popup on `{route}`"), so every state the user can reach has a target.
+Every state the user can reach is listed — **layout-neutral** until a design is chosen: name the state and its label, not its
+container. Once `chosen.md` exists, note the container (page / popup / inline) next to the state.
+**This file owns the state ids and labels** (`#id label`): walkthroughs, BRIEFs and mockups use them verbatim; a new state is added here first.
 
 ## Built vs. target
 

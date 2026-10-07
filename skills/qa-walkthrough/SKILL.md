@@ -15,7 +15,7 @@ Non-negotiable: qa-walkthrough means **browser**, not unit tests. Even a backend
 |------|---------|----------|
 | `--quick` | Fast smoke check | Homepage + top 5 nav targets; console + links only |
 | **diff-aware** (default) | On a feature branch, no scope given | Only routes/flows affected by the branch diff |
-| **full** | Explicit request, or invoked by `ship-check` | Every route, every flow, every key job in `docs/design/WORKFLOWS.md` §2 from each entry point, full health score |
+| **full** | Explicit request, or invoked by `ship-check` | Every route, every flow, every key job in `docs/design/WORKFLOWS.md` §2 from each entry point, full health score. When ship-check names a งวด, only key jobs of that งวด and earlier |
 
 For verifying one small change ("did my fix work?"), use the lighter `browser-verification` skill instead — this skill is for structured passes that produce a report.
 
@@ -30,7 +30,7 @@ For verifying one small change ("did my fix work?"), use the lighter `browser-ve
    - Changed API route / backend endpoint → every page that calls it
    - Changed shared lib/config/styles → treat as full-mode candidate; say so and ask
 3. Cross-reference commit messages on the branch for intent — test that the change *works as intended*, not just that pages load.
-4. **Key jobs are the flows.** Read `docs/design/WORKFLOWS.md` §2 (if the project has it): every key job the diff touches is a flow in the plan, walked from **each** of its entry points (menu, notification, to-do, deep link), and its "ends when" is the pass condition. Label flows with their ids (`J2 — เคลียร์บิลค้าง`) so design, QA and acceptance talk about the same thing.
+4. **Key jobs are the flows.** Read `docs/design/WORKFLOWS.md` §2 (if the project has it): every key job the diff touches is a flow in the plan, walked from **each** of its entry points (menu, notification, to-do, deep link), following its approved walkthrough in §5 step by step — **including the unhappy paths** — and its "ends when" is the pass condition. Label flows with their ids (`J2 — เคลียร์บิลค้าง`) and the FRs they cover, and give each flow its own heading preceded by an explicit anchor — `<a id="j2"></a>` then `### J2 — …` — because ship-check's acceptance record links to `report.md#j2` and Thai headings don't produce predictable anchors.
 5. List the affected flows before starting. That list is the test plan.
 
 **Persona rule:** Read `docs/PRD.md` first. Walk every flow as the PRD's target user — their language, their goals, their level of patience — not as the developer who knows where the buttons are. If the PRD says the user is a Thai head nurse on a hospital PC, you type Thai names, use realistic ward data, and get lost the way she would. Type realistic data, never `asdf`. Never include real credentials in the report — write `[REDACTED]`.
@@ -71,7 +71,7 @@ For **each flow** in the scope, repeat this cycle:
 5. After **each step**, check `browser_console_messages`. A new error or warning is a finding — file it now with the step that caused it.
 6. `browser_take_screenshot` at every meaningful state (landing, filled form, result, error). Save each capture straight into the run's `screenshots/` folder by passing its **absolute path** as `filename` (a bare relative name resolves against the repo root, not `report/tests/`), named `NN-flow-step.png`, and reference it by **relative path** (`screenshots/01-login-landing.png`) so the report renders standalone.
 7. Check `browser_network_requests` after any submit or data load — failed or 4xx/5xx requests are findings even when the UI hides them.
-8. `browser_resize` to 375×812 once per flow, screenshot, and repeat the discoverability check — hover-only actions and tiny targets surface here. Broken mobile layout is a finding.
+8. `browser_resize` to the PRD's mobile viewport (default 375×812) once per flow, screenshot, and repeat the discoverability check — hover-only actions and tiny targets surface here. Broken mobile layout is a finding.
 9. Use `browser_wait_for` instead of assuming; a race you papered over is a race the user will hit. `browser_evaluate` only when the snapshot can't answer the question.
 
 **Document issues as you find them — never batch.** Each issue gets an ID (`ISSUE-001`, sequential within the run), a severity, a category, repro steps, and at least one screenshot. **Screenshots are evidence: an issue without one does not exist.** Depth beats breadth — 5–10 well-evidenced issues are worth more than 20 vague descriptions.
@@ -121,7 +121,8 @@ Write `docs/qa/runs/YYYY-MM-DD-<scope-slug>/report.md`:
 
 ## Flows Tested
 
-### Flow: <name>
+<a id="j1"></a>
+### J1 — <job> (FR-…)
 | # | Action | Expected | Actual | Evidence |
 |---|--------|----------|--------|----------|
 | 1 | Open /login | Login form | OK | [01](screenshots/01-login-landing.png) |

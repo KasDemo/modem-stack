@@ -1,0 +1,17 @@
+# Mockup file rules (every variant, every mode)
+
+> Builders read this file directly (the orchestrator passes its absolute path). Owner-requested rules are dated.
+
+- [ ] One self-contained `.html` file: **all CSS inline** in a `<style>` block, no CDNs or JS frameworks. **Exception: load the real fonts via a Google Fonts `<link>`** — otherwise every variant silently falls back to the same system font and the owner picks a typeface he never saw (critical in SYSTEM mode, where font pairing is a differentiator). Always keep a system fallback in the stack.
+- [ ] **FEATURE mode: the entire flow in one file.** Every connected page/state is its own `<section id="screen-id">`, **one visible at a time via `:target`** (the first screen shows when there is no hash); screens link to each other with working `<a href="#screen-id">` anchors. Clicking through the mockup must feel like clicking through the feature.
+- [ ] Loading, empty, and error states included as real screens, not footnotes.
+- [ ] **Realistic data in the product's language.** Thai product → Thai names, Thai dates, Thai button labels. Never `Lorem ipsum`, never `User 1`. Realistic lengths: a Thai hospital ward name, a 32-character full name, a table with 12 rows not 3.
+- [ ] Thai UI text → Thai-capable font stack (e.g. `"Noto Sans Thai", "Sarabun", "IBM Plex Sans Thai", sans-serif`) and line-height ≥ 1.6 — Thai ascenders/descenders clip at tight leading.
+- [ ] FEATURE mode: use `DESIGN_SYSTEM.md` tokens verbatim (copy the `:root` custom properties into the file). Variants differ in **layout, density, navigation pattern, and component choices** — not in palette or type.
+- [ ] Mobile-first sanity: 44px minimum touch targets, readable at 375px wide.
+- [ ] **Reviewer chrome (owner-requested 2026-08-14 — always include):** every variant carries fixed overlay helpers for the reviewing owner, visually neutral (dark pill, corner-fixed) so they never read as part of the design:
+  1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,
+  2. a **variant switcher** — small A/B/C buttons linking to the sibling `variant-*.html` files, current letter highlighted,
+  3. a **desktop/mobile toggle** — mobile mode opens the SAME file in a ~390px-wide `<iframe>` overlay styled as a phone; an iframe is required because media queries track iframe width (a CSS class on `body` cannot re-trigger them).
+  **State labels are canonical, not per-variant:** the orchestrator's brief lists the exact state names (in the product language) and every variant uses them verbatim — same flow, same words. Never let one variant number its screens while another uses prose; the owner flagged exactly this. Hide **all** reviewer chrome when the page is inside an iframe (`window.self !== window.top`) or the URL has `?clean` — so compare.html cells, the mobile overlay, and screenshots stay clean. While mobile mode is on, the states-panel links navigate the iframe (`iframe.contentWindow.location.hash`), not the parent page. Tiny vanilla JS for this chrome is allowed.
+- [ ] **Key jobs are clickable end to end.** Every step of every key job in the BRIEF is an `<a href="#next-state">` to the state after that step — or, where a step is a tick, a typed amount or a split, a `<label>` / small vanilla-JS handler that does the same. Otherwise product UI stays JS-free. The UX scorer drives jobs by clicking; an unwired step is a finding against the variant.

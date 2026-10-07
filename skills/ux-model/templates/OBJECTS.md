@@ -32,9 +32,9 @@ Primary CTA per object per state (the one button that gets the primary style):
 
 ## 4. Attributes
 
-| Object | In a list row (2–4) | In a card | Full view only | Computed values → formula (WORKFLOWS §4 R{n}) |
+| Object | In a list row (2–4) | In a card | Full view only | Computed values → rule (PRD R-{nnn}) |
 |---|---|---|---|---|
-| {object} | {fields} | {fields} | {fields} | {value = formula — R{n}} |
+| {object} | {fields} | {fields} | {fields} | {value — R-{nnn}} |
 
 ## 5. Glossary and vocabulary
 
@@ -44,7 +44,4 @@ One name per thing, used verbatim on every screen; maps the UI word to the code 
 |---|---|---|---|
 | {UI word} | {identifier} | {one line} | {banned synonyms} |
 
-## Open questions
-
-| # | Question | Owner | Since |
-|---|---|---|---|
+Open questions: `docs/QUESTIONS.md` (cite Q-ids).

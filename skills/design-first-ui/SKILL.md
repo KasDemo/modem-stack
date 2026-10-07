@@ -11,12 +11,15 @@ Two modes:
 
 | Mode | When | Output |
 |---|---|---|
-| **SYSTEM** | Once per project: `docs/DESIGN_SYSTEM.md` missing or stub | 3 radically different full-style variants of one representative page → extract `docs/DESIGN_SYSTEM.md` |
+| **SYSTEM** | Once per project: `docs/DESIGN_SYSTEM.md` missing or stub — run as the **first flow's** round, after its walkthrough | 3 variants of that flow, different in style **and** structure → the winner becomes `docs/DESIGN_SYSTEM.md` **and** the flow's visual target (key jobs and UX scoring apply as in FEATURE mode) |
 | **FEATURE** | Default, per feature | 3 variants of the feature's **entire screen flow**, all obeying `DESIGN_SYSTEM.md` |
+
+**Pacing:** only a project's first flow needs a Large round; later flows that reuse its shell and patterns are usually Medium (the
+new sections only).
 
 **Always 3 variants for Medium and Large changes — never ask how many** (owner rule 2026-10-01; Small changes get none, see Step 0). Build more or fewer only when the owner says so unprompted.
 
-If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, run SYSTEM mode first. The design system is the contract; features interpret it, they don't renegotiate it.
+If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, this round **is** the SYSTEM round. The design system is the contract; features interpret it, they don't renegotiate it.
 
 ## Step 0 — Size the change (FEATURE mode)
 
@@ -34,6 +37,10 @@ When the size is unclear, ask **one** AskUserQuestion with your recommended size
 
 Read, in order:
 
+**Gate (FEATURE mode, Medium/Large):** every key job in scope has an **owner-approved walkthrough** in `WORKFLOWS.md` §5 (heading
+stamped `✅ owner-approved YYYY-MM-DD`). Missing or unstamped → run the `ux-model` walkthrough session with the owner first. The
+walkthrough settles *what happens*; this skill only decides *how it looks*.
+
 0. **The UX model** — `docs/design/OBJECTS.md`, `WORKFLOWS.md`, `SCREENS.md`, `sample-data.md` (the `ux-model` skill). This is the whole-app picture: which objects this screen shows, which CTAs belong on them, which key jobs pass through it, where users arrive from. Missing or stale → run `ux-model` first — **slice first**: build or fix only the objects, jobs and screens this round touches (a whole-app model on an existing app is its own task, done when the owner wants it, not before a filter bar). Designing without it is how buttons end up on the wrong object.
 1. `docs/design/taste-profile.json` — the owner's accumulated taste. Variants start near it, they don't rediscover it.
 2. `docs/DESIGN_SYSTEM.md` — tokens and rules every FEATURE variant must obey.
@@ -45,7 +52,7 @@ Then confirm the five dimensions of context (auto-gather what you can; ask for w
 1. **Who** — persona, expertise, familiarity with the product
 2. **Key jobs** — from `WORKFLOWS.md` §2 (ids `J1`…), each "who · starts where · ends when": Large 2–4, Medium the 1–2 that pass through the section. New job → add it to WORKFLOWS first.
 3. **What exists** — components, patterns, adjacent pages, and the objects/CTAs in scope from `OBJECTS.md`
-4. **User flow** — every entry point into these jobs (menu, notification, to-do, deep link) and where each must land
+4. **User flow** — every entry point into these jobs (menu, notification, to-do, deep link) and where each must land — already in the approved walkthrough; state ids come from `SCREENS.md` (add new ones there first)
 5. **Edge cases** — long Thai names, zero states, errors, mobile, first-time vs. power users
 
 ## Step 2 — Concepts before mockups
@@ -60,9 +67,16 @@ Before building anything, present exactly 3 text concepts — A, B, C — (3–5
 | **B — Challenger 1** | bets on one priority | Deliberately trades something away to win on one axis (e.g. speed for power users: inline actions, bulk approve, dense). |
 | **C — Challenger 2** | bets on a *different* priority | Wins on an axis B doesn't (e.g. overview/clarity: calendar view, guided steps). Two challengers betting on the same priority is convergence. |
 
+Concepts design the **approved** walkthrough: if a concept needs to change its steps (merge two steps, move a decision elsewhere), it
+says so in one line — choosing that concept means the owner re-stamps the walkthrough with the change.
+
 Every concept (FEATURE mode) also states **its click path for each key job** — e.g. "J1: to-do → กิจกรรมกางออก → ติ๊กบิล → ปิดยอด = 4 คลิก, 1 จุด" — and where each in-scope CTA sits. The owner sees the UX cost of each direction before any pixels exist, and a concept that puts a CTA away from its object is caught here, cheaply.
 
 Every concept states its trade in one line — **"ได้: X / เสีย: Y"** — so the owner chooses what this screen should prioritize, not which one looks nicer. Mixing ("A with B's bulk approve") is a normal answer. Challenger axes come from the persona and job-to-be-done in Step 1: speed vs. clarity vs. overview vs. guidance vs. mobile-first vs. error-prevention. SYSTEM mode uses the same slots on aesthetics: A = taste-anchored, B = opposite mood (e.g. editorial vs. utilitarian), C = wildcard from ui-ux-pro-max matched to the product type.
+
+**Save the concepts** to `CONCEPTS.md` in the round's mockup folder (date, the three concepts, click paths, trades, then the owner's
+answer verbatim) — chat scrolls away; the folder is the record. **First project, no taste profile or codebase yet:** the Anchor is the
+most conventional pattern for this product type (ui-ux-pro-max), not a guess at taste.
 
 Confirm via **one AskUserQuestion**: build these three as-is, or swap/adjust which letter. Never ask about the count. Do not generate until the owner has approved the three concepts. This is the cheapest point to steer.
 
@@ -97,7 +111,7 @@ Then **Read the PNGs** and critique like a senior product designer before return
 
 Fix what the screenshots reveal and re-shoot: **2–3 rounds**, then return with a 3-line self-assessment (strongest point, weakest point, what was fixed).
 
-**The brief is a file:** write `BRIEF.md` into the mockup folder from [references/brief-template.md](references/brief-template.md) — size, owner feedback verbatim, key jobs, the model slice (objects, CTAs, rules, entry points), hard requirements, canonical state labels, the exact records from `sample-data.md`, and the full mockup file rules pasted in. Each builder's prompt is then: the absolute output path, its concept letter and text only, the `:root` tokens + DESIGN_SYSTEM do/don't rules, a taste summary, and "read BRIEF.md". Builders return their click path per key job along with the self-assessment.
+**The brief is a file:** write `BRIEF.md` into the mockup folder from [references/brief-template.md](references/brief-template.md) — size, owner feedback verbatim, key jobs with their start/end `#state`s, the model slice **by reference** (J-ids, R-ids, OBJECTS sections, state ids from SCREENS — the builder reads those files; copying them is how ids drift), hard requirements, and the exact records from `sample-data.md`. Each builder's prompt is then: the absolute output path, its concept letter and text only, the `:root` tokens + DESIGN_SYSTEM do/don't rules, a taste summary, the absolute paths of `BRIEF.md`, the project's `docs/design/` folder and [references/mockup-rules.md](references/mockup-rules.md). Builders return their click path per key job along with the self-assessment.
 
 Save under `docs/design/mockups/YYYY-MM-DD-<feature>/` (SYSTEM mode: `YYYY-MM-DD-design-system/`):
 
@@ -106,6 +120,7 @@ docs/design/mockups/2026-08-13-shift-swap/
   variant-a.html
   variant-b.html
   variant-c.html
+  CONCEPTS.md      (written in Step 2: the three concepts + the owner's answer)
   BRIEF.md         (written in Step 3, from references/brief-template.md)
   compare.html
   ux-score.md      (written in Step 3b, from references/ux-rubric.md)
@@ -113,21 +128,12 @@ docs/design/mockups/2026-08-13-shift-swap/
   chosen.md        (written in Step 5)
 ```
 
-### Mockup file rules (every variant, every mode)
+### Mockup file rules
 
-- [ ] One self-contained `.html` file: **all CSS inline** in a `<style>` block, no CDNs or JS frameworks. **Exception: load the real fonts via a Google Fonts `<link>`** — otherwise every variant silently falls back to the same system font and the owner picks a typeface he never saw (critical in SYSTEM mode, where font pairing is a differentiator). Always keep a system fallback in the stack.
-- [ ] **FEATURE mode: the entire flow in one file.** Every connected page/state is its own `<section id="screen-id">`, **one visible at a time via `:target`** (the first screen shows when there is no hash); screens link to each other with working `<a href="#screen-id">` anchors. Clicking through the mockup must feel like clicking through the feature.
-- [ ] Loading, empty, and error states included as real screens, not footnotes.
-- [ ] **Realistic data in the product's language.** Thai product → Thai names, Thai dates, Thai button labels. Never `Lorem ipsum`, never `User 1`. Realistic lengths: a Thai hospital ward name, a 32-character full name, a table with 12 rows not 3.
-- [ ] Thai UI text → Thai-capable font stack (e.g. `"Noto Sans Thai", "Sarabun", "IBM Plex Sans Thai", sans-serif`) and line-height ≥ 1.6 — Thai ascenders/descenders clip at tight leading.
-- [ ] FEATURE mode: use `DESIGN_SYSTEM.md` tokens verbatim (copy the `:root` custom properties into the file). Variants differ in **layout, density, navigation pattern, and component choices** — not in palette or type.
-- [ ] Mobile-first sanity: 44px minimum touch targets, readable at 375px wide.
-- [ ] **Reviewer chrome (owner-requested 2026-08-14 — always include):** every variant carries fixed overlay helpers for the reviewing owner, visually neutral (dark pill, corner-fixed) so they never read as part of the design:
-  1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,
-  2. a **variant switcher** — small A/B/C buttons linking to the sibling `variant-*.html` files, current letter highlighted,
-  3. a **desktop/mobile toggle** — mobile mode opens the SAME file in a ~390px-wide `<iframe>` overlay styled as a phone; an iframe is required because media queries track iframe width (a CSS class on `body` cannot re-trigger them).
-  **State labels are canonical, not per-variant:** the orchestrator's brief lists the exact state names (in the product language) and every variant uses them verbatim — same flow, same words. Never let one variant number its screens while another uses prose; the owner flagged exactly this. Hide **all** reviewer chrome when the page is inside an iframe (`window.self !== window.top`) or the URL has `?clean` — so compare.html cells, the mobile overlay, and screenshots stay clean. While mobile mode is on, the states-panel links navigate the iframe (`iframe.contentWindow.location.hash`), not the parent page. Tiny vanilla JS for this chrome is allowed.
-- [ ] **Key jobs are clickable end to end.** Every step of every key job in the BRIEF is an `<a href="#next-state">` to the state after that step — or, where a step is a tick, a typed amount or a split, a `<label>` / small vanilla-JS handler that does the same. Otherwise product UI stays JS-free. The UX scorer drives jobs by clicking; an unwired step is a finding against the variant.
+The full checklist is [references/mockup-rules.md](references/mockup-rules.md) — one self-contained HTML file per variant, the whole
+flow in one file with `:target`-toggled screens, real data in the product language, design-system tokens verbatim, key-job steps
+clickable end to end, and the reviewer chrome (collapsible states panel, A/B/C switcher, desktop/mobile toggle, hidden under
+`?clean` and inside iframes). Builders get that file's **absolute path** and read it themselves — never paste it into a brief.
 
 ### The anti-convergence rule
 

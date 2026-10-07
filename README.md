@@ -58,41 +58,51 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 /modem-stack:project-init
 ```
 
-สิ่งที่จะเกิด: สัมภาษณ์สั้นๆ → สร้างโครง `docs/` (PRD, DESIGN_SYSTEM, plans, qa, design/mockups) + CLAUDE.md พร้อมช่อง Lessons → ตั้ง quality gates (typecheck/lint/test/Playwright) → เข้า brainstorming ทำ PRD → เลือกทิศทาง design ทั้งระบบ (variants ให้เลือก) → ได้ `DESIGN_SYSTEM.md` เป็นสัญญา design ที่ทุก session ต้องทำตาม จะได้ไม่หลงทางเมื่อระบบโตขึ้น
+## Workflow ตั้งแต่เริ่มจนจบ
 
-## Workflow ประจำวัน
+🧑 = คุณตัดสิน/อนุมัติ · 🤖 = AI ตรวจเอง
 
-| จังหวะ | ใช้อะไร | ได้อะไร |
-|---|---|---|
-| ลูกค้าขอเพิ่ม/แก้ feature | `feature-update` | impact analysis กับระบบเดิมก่อนเสมอ → change brief ให้อนุมัติ → PRD ถูกอัปเดตให้ตรงความจริง |
-| ก่อนออกแบบ / เมื่อ object, ปุ่ม, งาน หรือหน้าจอเปลี่ยน | `ux-model` | แผนที่ทั้งระบบใน `docs/design/`: OBJECTS (object · ความสัมพันธ์ · ปุ่มของแต่ละ role), WORKFLOWS (key jobs J1… · วงจรสถานะ · กดอะไร → เกิดอะไร → ไปไหน), SCREENS (ทุกหน้า → route · state · เป้า mockup), sample-data — ทุก design ถูกเช็กกับแผนที่นี้ ปุ่มจึงอยู่กับ object ของมัน |
-| ก่อนทำ UI ทุกหน้า | `design-first-ui` | ประเมินขนาดก่อน: เล็ก (เช่นเปลี่ยนประเภทปุ่ม) = ส่ง screenshot ก่อน/หลังให้ดู ไม่ทำ mockup · กลาง (section ใหม่) = 3 แบบเฉพาะส่วนนั้น · ใหญ่ (หน้าใหม่/flow ใหม่) = mockup ทั้ง flow 3 แบบ (HTML คลิกดูได้) → คุณเลือก/สั่งผสม → แบบที่เลือกเป็น "เป้า" ที่โค้ดต้อง screenshot เทียบให้ตรง + ระบบจำรสนิยมคุณสะสมใน taste-profile |
-| ระหว่าง implement | `browser-verification` (+ superpowers TDD) | ทุก UI task ถูกเปิดดูในเบราว์เซอร์จริง console สะอาด ก่อนถือว่าเสร็จ |
-| ตัดสินใจเสี่ยงสูง (schema, สูตร solver, auth) | `doubt-check` | ผู้ตรวจ context สดพยายามหักล้างก่อน commit |
-| จบ feature | `qa-clicker` agent (ใช้ `qa-walkthrough`) | เดินเทสตามบท user จริง → report ใน `docs/qa/runs/` พร้อม screenshot ทุก step + แถวใหม่ใน `docs/qa/index.md` |
-| UI ชิ้นใหญ่เสร็จ | `design-reviewer` agent | ตรวจ 7 เฟส (flow/responsive/WCAG/ตรง mockup ไหม) → report ใน `docs/qa/design-reviews/` |
-| งานช้า/หนัก | `performance-budget` | วัดก่อนแก้ งบ Core Web Vitals |
-| แตะ auth/ข้อมูลคน | `security-hardening` | วินัย security ตอนสร้าง (คู่กับ `/security-review` ตอนตรวจ) |
-| จะส่งงาน/deploy | `ship-check` | gate ครบชุด — ทุกข้อมีหลักฐาน (output/screenshot/ลิงก์ report) ไม่มีคำว่า "น่าจะผ่าน" |
-| คุณแก้อะไรผม 1 ครั้ง | `lesson` (อัตโนมัติ) | กติกาเข้า CLAUDE.md ทันที — ผิดซ้ำไม่ได้ |
+| # | ขั้น | ใช้อะไร | ได้อะไร |
+|---|---|---|---|
+| 1 | Kickoff | `project-init` Step 1–2 | สัมภาษณ์ (รวมสัญญา/งวด/hosting/login/PDPA/backup) → `notes/` คำพูดลูกค้าคำต่อคำ, `TOR.md` (ข้อ T1…), `QUESTIONS.md`, `CHANGELOG.md` |
+| 2 | PRD | Step 3 (brainstorming) → 🤖 `product-critic` → 🧑 อนุมัติ | `PRD.md`: FR-### (AC · งวด · ข้อ TOR · ที่มา), กฎ R-###, งวด, NFR, สิ่งที่ไม่ทำ |
+| 3 | Stack & architecture | Step 4 → 🧑 เลือก stack → 🤖 `doubt-check` schema/auth | `ARCHITECTURE.md` (stack ที่ตรวจเวอร์ชันแล้ว · การตัดสินใจ · runbook) + แอปที่รันได้ + quality gates + CLAUDE.md |
+| 4 | Features | Step 5 (`ux-model`) → 🧑 อนุมัติรายการ | key jobs J0 (login/หน้าแรก) + J1… (งวด · ครอบคลุม FR ไหน) = backlog |
+| 5 | ภาพระบบใหญ่ | Step 6 (`ux-model`) → 🧑 OK | `OBJECTS.md`, `WORKFLOWS.md` (วงจรสถานะ · การแจ้งเตือน), `SCREENS.md`, `sample-data.md` |
+| 6 | Walkthrough ทีละ flow | `ux-model` walkthrough session — 🧑🤖 ออกแบบด้วยกัน → 🧑 ตราอนุมัติ | WORKFLOWS §5: ใคร · หน้า · กด → ระบบทำอะไร → ไปไหน + เส้นทางที่พัง |
+| 7 | Design | `design-first-ui` (flow แรก = SYSTEM mode → ได้ `DESIGN_SYSTEM.md` ด้วย) → 🧑 concept → mock 3 แบบ + 🤖 ux-score → 🧑 เลือก/ผสม | `CONCEPTS.md`, `BRIEF.md`, mockups, `ux-score.md`, `chosen.md`, SCREENS อัปเดต |
+| 8 | Implement | superpowers writing-plans → TDD + `browser-verification` | โค้ด + เทสต์ที่ตั้งชื่อตาม FR/J |
+| 9 | Test | 🤖 `design-reviewer` → 🤖 `qa-clicker` (`qa-walkthrough`) | รายงาน design review + QA ที่อ้าง J/FR ใน `docs/qa/` |
+| 10 | ส่งงวด | `ship-check` โหมดงวด → 🧑 + ลูกค้าเซ็น | deploy ตาม runbook, ทดสอบ restore, `acceptance/งวด-N.md` (TOR → FR → J → หลักฐาน), CHANGELOG |
+| ↺ | ลูกค้าขอแก้ | `feature-update` → 🧑 อนุมัติ brief | CR + PRD/TOR/QUESTIONS อัปเดต + walkthrough ที่โดนแก้ต้องอนุมัติใหม่ → กลับขั้น 7 |
 
-## โครงสร้างที่ปลั๊กอินสร้างในแต่ละโปรเจกต์
+ขั้น 6–9 วนทีละ flow ตามงวด · ระหว่างทาง: `security-hardening` (แตะ auth/ข้อมูลคน), `performance-budget` (ช้า), `doubt-check` (ตัดสินใจเสี่ยง), `lesson` (คุณแก้ผม 1 ครั้ง → กติกาถาวร)
+
+## โครงสร้างเอกสาร — ข้อมูลแต่ละเรื่องมีบ้านเดียว
 
 ```
 docs/
-├── PRD.md                  # สัญญา requirement (มีชีวิต — อัปเดตทุกครั้งที่ของจริงเปลี่ยน)
-├── DESIGN_SYSTEM.md        # สัญญา design
-├── notes/                  # โน้ตดิบจากการคุยลูกค้า
-├── plans/                  # แผนรายฟีเจอร์ + change briefs (CR-*.md)
+├── TOR.md                  # ขอบเขตตามสัญญา (ข้อ T) ← ที่อื่นอ้าง T-id
+├── PRD.md                  # FR · กฎ R · งวด · NFR · สิ่งที่ไม่ทำ ← ที่อื่นอ้าง FR/R
+├── QUESTIONS.md            # คำถามค้าง + คำตอบ (ทะเบียนเดียว) ← ที่อื่นอ้าง Q-id
+├── ARCHITECTURE.md         # stack · การตัดสินใจ D · runbook (deploy/rollback/backup/restore)
+├── DESIGN_SYSTEM.md        # token · component inventory · กฎ
+├── notes/                  # คำพูดลูกค้า + TOR ต้นฉบับ (คำต่อคำ)
+├── plans/                  # แผน implement + change briefs (CR-*.md)
 ├── solutions/              # บทเรียนแบบยาว
+├── acceptance/งวด-N.md     # ตรวจรับงวด (ship-check)
 ├── design/
-│   ├── OBJECTS.md · WORKFLOWS.md · SCREENS.md · sample-data.md   # UX model (ux-model)
-│   ├── mockups/<feature>/  # BRIEF.md + variant-a/b/c.html + compare.html + ux-score.md + chosen.md
+│   ├── OBJECTS.md          # object · ความสัมพันธ์ · ปุ่มต่อ role · คำศัพท์
+│   ├── WORKFLOWS.md        # role · key jobs J · วงจรสถานะ · walkthrough ต่อ flow (มีตราอนุมัติ)
+│   ├── SCREENS.md          # ทุกหน้า → route · state id (เจ้าของ id) · เป้า mockup
+│   ├── sample-data.md      # ข้อมูลตัวอย่างชุดกลาง
+│   ├── mockups/<date-flow>/  # CONCEPTS · BRIEF · variant-a/b/c · compare · ux-score · chosen
 │   └── taste-profile.json  # รสนิยมของเจ้าของ (สะสม + จางตามเวลา)
 └── qa/
     ├── index.md            # ตารางหลัก คลิกเข้า report ทุกอันได้
-    ├── runs/<date-scope>/  # report.md + screenshots/
+    ├── runs/<date-scope>/  # report.md + screenshots/ (หัวข้อละ key job)
     └── design-reviews/
+CHANGELOG.md · CLAUDE.md (Rules + Lessons)
 ```
 
 ## หลักการที่ฝังอยู่ (มาจากหลักฐาน ไม่ใช่ความเชื่อ)

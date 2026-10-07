@@ -20,7 +20,7 @@ Investigate with subagents (keeps main context clean):
 1. **Code impact:** which modules/components/routes touch this behavior today? Search — do not assume something is unimplemented; agents that assume duplicate existing code.
 2. **Data impact:** schema changes? Existing records that need migration? Backwards compatibility with data already in production?
 3. **Behavior impact:** which existing user flows change as a side effect? Which tests will break (breaking tests may be correct — flag, don't silently "fix")?
-4. **PRD impact:** does this contradict an existing requirement? Surface the contradiction to the owner instead of quietly picking a side.
+4. **PRD and contract impact:** which FRs and R-rules change or are added? Does this contradict an existing requirement — surface it to the owner instead of quietly picking a side. **Is it in the TOR** (`docs/TOR.md`)? In scope, a change to a clause, or extra work outside the contract — say which, because it decides who pays and whether the งวด plan moves.
 5. **UI impact:** which screens are new or visibly changed? These MUST go through `design-first-ui` before implementation.
 6. **UX model impact:** which objects, relationships, CTAs, key jobs, lifecycle states, entry points or screens change in `docs/design/OBJECTS.md` / `WORKFLOWS.md` / `SCREENS.md`? A new CTA must have a home on its object; a changed job puts every screen it passes through in design-first-ui's scope (or at least re-checks them against the ux-model placement rules).
 
@@ -40,7 +40,8 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 - Code: <files/modules affected>
 - Data: <schema/migration needs, or "none">
 - Existing behavior: <flows that change as side effects>
-- PRD: <sections to update; contradictions found>
+- PRD: <FR/R ids added or changed; contradictions found>
+- Contract: <in TOR clause Tn / changes Tn / outside the TOR — extra work>; งวด affected: <n>
 - UI: <screens needing design-first-ui, or "none">
 - UX model: <objects / CTAs / jobs / states / screens that change, or "none">
 
@@ -55,7 +56,9 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 
 ## Step 4 — Implement
 
-- Update `docs/PRD.md` in the same branch — PRD stays the single source of truth. Same for the UX model (`ux-model` skill): the change brief's "UX model" line is applied in this branch.
+- Update `docs/PRD.md` (FR, R, milestone table) and, if the contract moved, `docs/TOR.md`'s change log in the same branch — PRD stays the single source of truth. New open questions go in `docs/QUESTIONS.md`.
+- **Walkthroughs:** a change that alters a key job's steps edits WORKFLOWS §5 and **removes that flow's approval stamp** — the owner re-approves the revised walkthrough before design-first-ui or implementation of the change.
+- The rest of the change brief's "UX model" line (objects, CTAs, states, screens) is applied in this branch too (`ux-model` skill).
 - New/changed screens: `design-first-ui` (feature mode) → owner picks → implement to match.
 - Normal discipline: TDD, browser-verification on UI tasks, respect existing code conventions (read neighboring code first, follow its patterns).
 - Migration code gets its own task with its own test.

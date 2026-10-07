@@ -25,7 +25,7 @@ Cover **every lifecycle state** in WORKFLOWS §3 and every edge case: zero, nega
 
 ## 4. Totals (verified)
 
-Every total a screen shows, computed from the rows above, with its rule id (WORKFLOWS §4 R{n}). A mockup total that doesn't match is wrong.
+Every total a screen shows, computed from the rows above, with its rule id (PRD R-{nnn}). A mockup total that doesn't match is wrong.
 
 ## 5. Conflicts
 
