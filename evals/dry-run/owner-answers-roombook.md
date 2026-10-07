@@ -2,6 +2,9 @@
 
 The dry-run agent answers owner questions ONLY from this sheet. Anything not here: invent, and log as UNCOVERED.
 
+> **This is a fictional test scenario** chosen to exercise the TOR + milestone path. Its 6-week / 2-milestone timeline is NOT a
+> property of the owner's real work (most projects have no TOR and no rush) — never turn findings that depend on it into plugin rules.
+
 ## Client and contract
 - Client: คณะวิทยาศาสตร์ มหาวิทยาลัยนเรศวร. App: ระบบจองห้องประชุม/ห้องเรียนพิเศษ (12 rooms).
 - TOR exists, 15 clauses (T1–T15). Paraphrase the clauses from the rules below; T15 = "คู่มือการติดตั้งและสำรองข้อมูล".

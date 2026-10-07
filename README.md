@@ -64,8 +64,8 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 
 | # | ขั้น | ใช้อะไร | ได้อะไร |
 |---|---|---|---|
-| 1 | Kickoff | `project-init` Step 1–2 | สัมภาษณ์ (รวมสัญญา/งวด/hosting/login/PDPA/backup) → `notes/` คำพูดลูกค้าคำต่อคำ, `TOR.md` (ข้อ T1…), `QUESTIONS.md`, `CHANGELOG.md` |
-| 2 | PRD | Step 3 (brainstorming) → 🤖 `product-critic` → 🧑 อนุมัติ | `PRD.md`: FR-### (AC · งวด · ข้อ TOR · ที่มา), กฎ R-###, งวด, NFR, สิ่งที่ไม่ทำ |
+| 1 | Kickoff | `project-init` Step 1–2 | สัมภาษณ์ (สัญญา/TOR/งวด ถ้ามี · hosting · login · PDPA · backup) → `notes/` คำพูดลูกค้าคำต่อคำ, `QUESTIONS.md`, `CHANGELOG.md` (+ `TOR.md` เฉพาะงานที่มี TOR) |
+| 2 | PRD | Step 3 (brainstorming) → 🤖 `product-critic` → 🧑 อนุมัติ | `PRD.md`: FR-### (AC · ที่มา · งวด/ข้อ TOR เฉพาะงานที่มี), กฎ R-###, NFR, สิ่งที่ไม่ทำ |
 | 3 | Stack & architecture | Step 4 → 🧑 เลือก stack → 🤖 `doubt-check` schema/auth | `ARCHITECTURE.md` (stack ที่ตรวจเวอร์ชันแล้ว · การตัดสินใจ · runbook) + แอปที่รันได้ + quality gates + CLAUDE.md |
 | 4 | Features | Step 5 (`ux-model`) → 🧑 อนุมัติรายการ | key jobs J0 (login/หน้าแรก) + J1… (งวด · ครอบคลุม FR ไหน) = backlog |
 | 5 | ภาพระบบใหญ่ | Step 6 (`ux-model`) → 🧑 OK | `OBJECTS.md`, `WORKFLOWS.md` (วงจรสถานะ · การแจ้งเตือน), `SCREENS.md`, `sample-data.md` |
@@ -73,7 +73,7 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | 7 | Design | `design-first-ui` (flow แรก = SYSTEM mode → ได้ `DESIGN_SYSTEM.md` ด้วย) → 🧑 concept → mock 3 แบบ + 🤖 ux-score → 🧑 เลือก/ผสม | `CONCEPTS.md`, `BRIEF.md`, mockups, `ux-score.md`, `chosen.md`, SCREENS อัปเดต |
 | 8 | Implement | superpowers writing-plans → TDD + `browser-verification` | โค้ด + เทสต์ที่ตั้งชื่อตาม FR/J |
 | 9 | Test | 🤖 `design-reviewer` → 🤖 `qa-clicker` (`qa-walkthrough`) | รายงาน design review + QA ที่อ้าง J/FR ใน `docs/qa/` |
-| 10 | ส่งงวด | `ship-check` โหมดงวด → 🧑 + ลูกค้าเซ็น | deploy ตาม runbook, ทดสอบ restore, `acceptance/งวด-N.md` (TOR → FR → J → หลักฐาน), CHANGELOG |
+| 10 | Release / ส่งงวด | `ship-check` (งานทั่วไป = release mode · งานที่ลูกค้าเซ็นรับเป็นงวด = โหมดงวด) | deploy ตาม runbook, CHANGELOG · โหมดงวด: ทดสอบ restore + `acceptance/งวด-N.md` (TOR → FR → J → หลักฐาน) ให้ลูกค้าเซ็น |
 | ↺ | ลูกค้าขอแก้ | `feature-update` → 🧑 อนุมัติ brief | CR + PRD/TOR/QUESTIONS อัปเดต + walkthrough ที่โดนแก้ต้องอนุมัติใหม่ → กลับขั้น 7 |
 
 ขั้น 6–9 วนทีละ flow ตามงวด · ระหว่างทาง: `security-hardening` (แตะ auth/ข้อมูลคน), `performance-budget` (ช้า), `doubt-check` (ตัดสินใจเสี่ยง), `lesson` (คุณแก้ผม 1 ครั้ง → กติกาถาวร)

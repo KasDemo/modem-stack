@@ -7,7 +7,8 @@ description: Use before any release, deploy, or client delivery ("ship it", "rel
 
 The pre-release gate. Its one rule: **evidence before assertions**. "Tests pass" means you ran them in this session and show the output. A skipped check is reported as skipped, never papered over.
 
-**Two modes.** A **release** ships whatever is on the branch. **Milestone mode** (a งวด delivery — "ส่งงวด 1", "ตรวจรับ") scopes the
+**Two modes.** A **release** ships whatever is on the branch — the default, and the only mode for projects without client-signed
+milestones. **Milestone mode** (a งวด delivery — "ส่งงวด 1", "ตรวจรับ"; only when the PRD has a milestone table) scopes the
 gate to that งวด: its FRs and key jobs come from `docs/PRD.md` §3 and `docs/design/WORKFLOWS.md` §2 (this งวด and earlier ones —
 later งวด's jobs are not built yet and are out of scope), and it ends with the acceptance record below.
 

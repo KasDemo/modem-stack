@@ -9,7 +9,9 @@ throwaway repo, never in this one. Expensive steps (HTML mockups, real code) are
 
 - Plugin under test: this repo (read `README.md`, then follow `skills/*/SKILL.md`, their `templates/` and `references/`).
 - superpowers skills it hands off to: `brainstorming`, `writing-plans` (from the installed plugin cache).
-- Answer sheet: `owner-answers-roombook.md`. A question the sheet doesn't cover → invent a plausible answer and log it as
+- Answer sheet: `owner-answers-roombook.md` (scenario A: TOR + milestones). Still to write: scenario B — no TOR, no milestones, no
+  deadline (the owner's more common case); both must pass before a workflow change ships. A finding that only exists because of a
+  scenario's invented constraints (deadlines, budgets) is reported as scenario-specific, never as a plugin rule. A question the sheet doesn't cover → invent a plausible answer and log it as
   **UNCOVERED** (that is a finding about the interview, not about the sheet).
 - Pilot repo: a new folder in the scratchpad, `git init`, one commit per phase.
 - **Elicitation check:** the sheet holds more facts than the owner volunteers. Reveal a fact only when a skill's instruction makes

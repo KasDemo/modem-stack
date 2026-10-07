@@ -18,7 +18,7 @@ The model is four living files in `docs/design/`. Templates are in this skill's 
 
 ## When to build it
 
-- **New project:** project-init runs it in two parts after the PRD and stack are approved — **key jobs** first (Step 5: roles + jobs, each with its งวด and the FRs it covers), then the **system picture** (Step 6: objects, lifecycles, screen map, sample data) before design-first-ui SYSTEM mode. Per-flow **walkthroughs** (WORKFLOWS §5) come later, one flow at a time, in walkthrough sessions with the owner.
+- **New project:** project-init runs it in two parts after the PRD and stack are approved — **key jobs** first (Step 5: roles + jobs, each with the FRs it covers and its งวด if the project has milestones), then the **system picture** (Step 6: objects, lifecycles, screen map, sample data) before design-first-ui SYSTEM mode. Per-flow **walkthroughs** (WORKFLOWS §5) come later, one flow at a time, in walkthrough sessions with the owner.
 - **Existing project without it:** build it **slice first** — the objects, jobs and screens the next design round or change touches — from the code (routes, models, permission checks) + PRD. Grow it with every feature; build the whole-app model in one go only when the owner asks for it. Mark anything inferred as `(inferred — confirm)` and ask the owner once, in one batch.
 - **Every feature:** feature-update's impact analysis and design-first-ui's Step 1 read it. The feature's change updates it **in the same branch** — the model is only useful while it is true.
 
@@ -28,7 +28,7 @@ The model is four living files in `docs/design/`. Templates are in this skill's 
 2. **Relationships** — an object × object table: 1–1, 1–many, many–many, and the business rule. Every relationship is a navigation path: if A has many B, A's screen shows its B's and B's screen links back to A.
 3. **CTAs per role** — object × role grid of verbs. A CTA with no role is dead; a role with no CTA on an object it can see is read-only (say so).
 4. **Attributes** — what each object shows: in a list row (2–4 fields), in a card, in full. Mark computed values and their formula owner.
-5. **Roles and key jobs** (`WORKFLOWS.md`). 2–4 key jobs per role, each written **who · starts where · ends when**, with an id (`J1`, `J2` …), its งวด and the PRD FRs it covers. Key jobs are the unit everything is scored and tested by — mockup rubric, QA walkthrough, milestone acceptance.
+5. **Roles and key jobs** (`WORKFLOWS.md`). 2–4 key jobs per role, each written **who · starts where · ends when**, with an id (`J1`, `J2` …), the PRD FRs it covers, and its งวด when the project has milestones. Key jobs are the unit everything is scored and tested by — mockup rubric, QA walkthrough, milestone acceptance.
 6. **Lifecycles** — a state machine per object that has states, with the transition, who triggers it, and what changes (money, notifications, access). Every lifecycle answers this checklist (first run during the PRD, project-init Step 3 — re-checked here); what nobody can answer goes to `docs/QUESTIONS.md`:
    - Does this state **hold** a resource (a slot, a budget, stock)? Does a pending one?
    - What happens if nobody acts — does it **expire**, and when?

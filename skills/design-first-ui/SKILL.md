@@ -14,9 +14,6 @@ Two modes:
 | **SYSTEM** | Once per project: `docs/DESIGN_SYSTEM.md` missing or stub — run as the **first flow's** round, after its walkthrough | 3 variants of that flow, different in style **and** structure → the winner becomes `docs/DESIGN_SYSTEM.md` **and** the flow's visual target (key jobs and UX scoring apply as in FEATURE mode) |
 | **FEATURE** | Default, per feature | 3 variants of the feature's **entire screen flow**, all obeying `DESIGN_SYSTEM.md` |
 
-**Pacing:** only a project's first flow needs a Large round; later flows that reuse its shell and patterns are usually Medium (the
-new sections only).
-
 **Always 3 variants for Medium and Large changes — never ask how many** (owner rule 2026-10-01; Small changes get none, see Step 0). Build more or fewer only when the owner says so unprompted.
 
 If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, this round **is** the SYSTEM round. The design system is the contract; features interpret it, they don't renegotiate it.

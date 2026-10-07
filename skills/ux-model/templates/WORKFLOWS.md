@@ -12,7 +12,7 @@
 ## 2. Key jobs
 
 The unit every mockup is scored on (UX rubric), every QA walkthrough walks, and every acceptance check verifies.
-2–4 per role. "Ends when" must be observable on screen.
+2–4 per role. "Ends when" must be observable on screen. Drop the งวด column when the project has no milestones.
 
 | ID | Role | Job | Starts where | Ends when | How often | งวด | Covers FR |
 |---|---|---|---|---|---|---|---|

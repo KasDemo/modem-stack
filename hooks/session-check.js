@@ -16,7 +16,7 @@ function main(input) {
     "modem-stack project. Routing rules (owner rules, override skill defaults):",
     "- Specs and plans live in docs/plans/, not docs/superpowers/. Open questions only in docs/QUESTIONS.md.",
     "- Feature in the PRD: walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough.",
-    "- Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check) → same loop. End of a งวด: ship-check in milestone mode.",
+    "- Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check if there is a TOR) → same loop. Release: ship-check (milestone mode only for client-signed งวด).",
     "- brainstorming never jumps straight to writing-plans when screens are involved — design-first-ui comes first.",
   ];
 

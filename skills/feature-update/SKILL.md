@@ -20,7 +20,7 @@ Investigate with subagents (keeps main context clean):
 1. **Code impact:** which modules/components/routes touch this behavior today? Search — do not assume something is unimplemented; agents that assume duplicate existing code.
 2. **Data impact:** schema changes? Existing records that need migration? Backwards compatibility with data already in production?
 3. **Behavior impact:** which existing user flows change as a side effect? Which tests will break (breaking tests may be correct — flag, don't silently "fix")?
-4. **PRD and contract impact:** which FRs and R-rules change or are added? Does this contradict an existing requirement — surface it to the owner instead of quietly picking a side. **Is it in the TOR** (`docs/TOR.md`)? In scope, a change to a clause, or extra work outside the contract — say which, because it decides who pays and whether the งวด plan moves.
+4. **PRD and contract impact:** which FRs and R-rules change or are added? Does this contradict an existing requirement — surface it to the owner instead of quietly picking a side. **If the project has a TOR** (`docs/TOR.md`): in scope, a change to a clause, or extra work outside the contract — say which, because it decides who pays and whether a milestone moves.
 5. **UI impact:** which screens are new or visibly changed? These MUST go through `design-first-ui` before implementation.
 6. **UX model impact:** which objects, relationships, CTAs, key jobs, lifecycle states, entry points or screens change in `docs/design/OBJECTS.md` / `WORKFLOWS.md` / `SCREENS.md`? A new CTA must have a home on its object; a changed job puts every screen it passes through in design-first-ui's scope (or at least re-checks them against the ux-model placement rules).
 
@@ -41,7 +41,7 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 - Data: <schema/migration needs, or "none">
 - Existing behavior: <flows that change as side effects>
 - PRD: <FR/R ids added or changed; contradictions found>
-- Contract: <in TOR clause Tn / changes Tn / outside the TOR — extra work>; งวด affected: <n>
+- Contract (TOR projects only): <in TOR clause Tn / changes Tn / outside the TOR — extra work>; milestone affected: <n or none>
 - UI: <screens needing design-first-ui, or "none">
 - UX model: <objects / CTAs / jobs / states / screens that change, or "none">
 

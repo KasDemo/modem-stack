@@ -25,7 +25,10 @@ paraphrase-and-lose details: verbatim notes go in `docs/notes/YYYY-MM-DD-<topic>
 1. Project name, one-line purpose, the client, and the actual end users (concrete roles, not "everyone").
 2. New build or existing codebase? **Existing / rebuild:** read the code and docs first — they are the baseline of what the system
    really does. Never lock the stack here; it is proposed in Step 4.
-3. **Contract:** is there a TOR? Milestones (งวด) — what is due when, and how does the client sign off each one?
+3. **Contract (optional — many projects have none):** is there a TOR or a signed scope? Are there milestones (งวด) the client
+   signs off, or does it simply ship when it's ready? Don't invent deadlines or milestones the owner didn't give.
+   - **No TOR** → no `TOR.md`, and the PRD drops its TOR column; the FR's source note is the trace.
+   - **No milestones** → the PRD has no milestone table; key jobs carry no งวด; ship-check runs in release mode only.
 4. What is the smallest version the client would accept first?
 5. **Where it runs:** hosting (client VM, cloud, …), who administers it, backup expectations.
 6. **Login and integrations:** where accounts come from (LDAP/SSO/local), external systems, notification channels (in-app, email, LINE…).
@@ -41,7 +44,7 @@ Create (skip anything that exists — never overwrite). Files marked *(step N)* 
 
 ```
 docs/
-├── TOR.md                  # contract scope as clauses T1… (templates/TOR.md) — from the TOR or the agreed scope
+├── TOR.md                  # only if there is a TOR / signed scope: clauses T1… (templates/TOR.md)
 ├── QUESTIONS.md            # the ONE open-questions/decisions register (templates/QUESTIONS.md)
 ├── PRD.md                  # (step 3) requirements contract (templates/PRD.md)
 ├── ARCHITECTURE.md         # (step 4) stack, decisions, runbook (templates/ARCHITECTURE.md)
@@ -49,7 +52,7 @@ docs/
 ├── notes/                  # raw client notes + TOR original, verbatim
 ├── plans/                  # implementation plans + change briefs (CR-*.md)
 ├── solutions/              # lessons that need more than one line
-├── acceptance/             # (ship-check) ตรวจรับงวด records
+├── acceptance/             # only with client-signed milestones: ตรวจรับงวด records (ship-check)
 ├── design/
 │   ├── OBJECTS.md · WORKFLOWS.md · SCREENS.md · sample-data.md   # (steps 5–6) UX model — ux-model skill
 │   ├── mockups/            # design-first-ui output, one folder per round
@@ -72,12 +75,12 @@ Write a **skeleton CLAUDE.md** now (Rules + empty Lessons, template in Step 4 it
 Hand off to `superpowers:brainstorming` to interrogate the owner — push past polished first answers; the second answer usually
 reveals the truth. **Override its terminal state here:** the output is `docs/PRD.md` written from `templates/PRD.md`, and when it is
 approved you come back to this skill's Step 4 — no design doc in `docs/superpowers/`, no writing-plans yet. Where brainstorming
-says "propose approaches", the approaches here are **scope cuts per งวด**; where it says "present architecture/components", stop —
+says "propose approaches", the approaches here are **scope cuts** (what ships first, what waits); where it says "present architecture/components", stop —
 architecture is Step 4.
 
-- Every FR has an id, acceptance criteria a machine or browser walkthrough can check, its งวด, the TOR clause(s) it serves (or
-  `extra — CR-…` when it is outside the contract), and its source note. The PRD's TOR column is the only T↔FR map; a TOR clause no
-  FR cites is a finding.
+- Every FR has an id, acceptance criteria a machine or browser walkthrough can check, and its source note — plus, **only when the
+  project has them**, its งวด and the TOR clause(s) it serves (or `extra — CR-…` when it is outside the contract). With a TOR, the
+  PRD's TOR column is the only T↔FR map; a TOR clause no FR cites is a finding.
 - **Run the lifecycle checklist now** (ux-model, "Lifecycles") on every stateful thing in the PRD — hold, expire, who cancels,
   who is notified, outside events. Rules like "a pending request expires 2 hours before start" belong in the approved PRD, not in a
   later amendment.
@@ -103,8 +106,8 @@ are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` �
 3. **Scaffold the app:** the stack's official generator; the database via a compose file with the **first schema file** for the
    PRD's objects; test doubles or seed accounts for each external system (LDAP, SMTP, …) so dev never needs the real ones; a health
    route. Commit.
-4. Run `doubt-check` on that schema file and the auth/permission design before anything is built on them — **one cycle** here
-   unless a finding is Blocker-class. Accepted findings become D-ids, PRD amendments, or QUESTIONS rows.
+4. Run `doubt-check` on that schema file and the auth/permission design before anything is built on them (its normal stop
+   rules apply). Accepted findings become D-ids, PRD amendments, or QUESTIONS rows.
 5. **Quality gates (not skippable):**
    - typecheck, lint and test commands exist and run green;
    - one real unit test, plus Playwright E2E with one smoke test that boots the app and loads the main page (and a unit-test file for
@@ -123,7 +126,7 @@ are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` �
 <One paragraph: what this is, who uses it. Stack: see docs/ARCHITECTURE.md.>
 
 ## Rules
-- Contract: docs/TOR.md → docs/PRD.md (FR, R, งวด). If reality diverges, update the PRD in the same change.
+- Contract: docs/PRD.md (FR, R; milestones and docs/TOR.md only if the project has them). If reality diverges, update the PRD in the same change.
 - Open questions and decisions: docs/QUESTIONS.md only. Stack, decisions, runbook: docs/ARCHITECTURE.md.
 - Specs and plans live in docs/plans/ — this overrides the superpowers default (docs/superpowers/specs|plans).
 - Routing: Feature in the PRD: walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check) → same loop. End of a งวด: ship-check in milestone mode.
@@ -143,8 +146,8 @@ Keep it SHORT — for every line ask "would removing this cause mistakes?" Bloat
 
 ## Step 5 — Features → key jobs
 
-Run the `ux-model` skill's **key jobs** part: roles (WORKFLOWS §1) and key jobs (WORKFLOWS §2), each with its งวด and the FRs it
-covers. Every FR is covered by a key job or listed under "No-UI FRs" in WORKFLOWS §2 (batch job, sync, scheduled expiry…). Always
+Run the `ux-model` skill's **key jobs** part: roles (WORKFLOWS §1) and key jobs (WORKFLOWS §2), each with the FRs it covers (and its
+งวด, if the project has milestones). Every FR is covered by a key job or listed under "No-UI FRs" in WORKFLOWS §2 (batch job, sync, scheduled expiry…). Always
 include **J0 — sign in and land** (login, the landing screen per role, no-permission page, notification bell, the app shell): every
 other job starts there, and without it nobody designs those screens. This list is the feature backlog: each job will get its own
 walkthrough, design round, implementation and QA. The owner approves the list.
@@ -160,11 +163,8 @@ walkthrough, design round, implementation and QA. The owner approves the list.
 
 **Retrofit onto an existing repo:** build the model slice first (the jobs the next work touches) instead of the whole app.
 
-**Pacing (solo dev, short contracts):** only the first flow is a full Large round; later flows that reuse its shell and patterns are
-Medium rounds (the changed sections only). Budget about one design round per flow per week.
-
 ## Done
 
-Report what was created (one line per file) and the open questions that block the first flow, then start the first flow of งวด 1
-(J0 plus the most important job) through the loop at the top of this skill — beginning with its walkthrough session; its design round
+Report what was created (one line per file) and the open questions that block the first flow, then start the first flow
+(J0 plus the most important job — of the first milestone, if there are milestones) through the loop at the top of this skill — beginning with its walkthrough session; its design round
 runs in SYSTEM mode.

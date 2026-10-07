@@ -1,8 +1,7 @@
 # {Project}: TOR / scope baseline
 
-> The contract scope, as the client wrote it. Clause ids (T1…) are what PRD FRs and the acceptance records cite.
-> Original file: `docs/notes/{original TOR file}`. No TOR? Write the agreed scope here as clauses anyway — it is the baseline
-> that decides "in scope" vs. "extra work". Updated {YYYY-MM-DD}.
+> Create this file only when there is a TOR or a signed scope. The contract scope, as the client wrote it. Clause ids (T1…) are what PRD FRs and the acceptance records cite.
+> Original file: `docs/notes/{original TOR file}`. Updated {YYYY-MM-DD}.
 
 ## Clauses
 
