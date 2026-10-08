@@ -15,6 +15,11 @@ From `docs/PRD.md` §3: FR {…}. TOR clauses: T{…}. Key jobs: J{…}.
 
 Every clause of this งวด has a row. A clause with no evidence is ❌ — never left blank.
 
+### Delivered outside the TOR (CR / extra work)
+
+| FR | What | Agreed in | Evidence |
+|---|---|---|---|
+
 ## 3. Deliverables
 
 | Deliverable (TOR) | Where | Done |
@@ -32,11 +37,12 @@ Every clause of this งวด has a row. A clause with no evidence is ❌ — n
 
 ## 6. Decisions for the client to confirm
 
-{every `docs/QUESTIONS.md` row with status `assumed` or `owner-answered` — the client confirms or corrects each here.}
+{every `docs/QUESTIONS.md` row with status `assumed` or `owner-answered`, **grouped by topic** (permissions, rules, data…) — the client confirms or corrects each here.}
 
 ## 7. Sign-off
 
 | Role | Name | Date | Signature |
 |---|---|---|---|
-| ผู้ตรวจรับ (client) | | | |
+| ผู้ตรวจรับ / กรรมการ 1 | | | |
+| กรรมการ 2 *(add a row per committee member)* | | | |
 | ผู้พัฒนา | | | |

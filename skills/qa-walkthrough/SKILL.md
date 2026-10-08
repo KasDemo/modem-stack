@@ -15,7 +15,7 @@ Non-negotiable: qa-walkthrough means **browser**, not unit tests. Even a backend
 |------|---------|----------|
 | `--quick` | Fast smoke check | Homepage + top 5 nav targets; console + links only |
 | **diff-aware** (default) | On a feature branch, no scope given | Only routes/flows affected by the branch diff |
-| **full** | Explicit request, or invoked by `ship-check` | Every route, every flow, every key job in `docs/design/WORKFLOWS.md` §2 from each entry point, full health score. When ship-check names a งวด, only key jobs of that งวด and earlier |
+| **full** | Explicit request, or invoked by `ship-check` | Every route, every flow, every key job in `docs/design/WORKFLOWS.md` §2 from each entry point, full health score. Scoped by ship-check to the key jobs whose FRs are already shipped or ship in this release / งวด — unbuilt jobs are out of scope, not Blockers |
 
 For verifying one small change ("did my fix work?"), use the lighter `browser-verification` skill instead — this skill is for structured passes that produce a report.
 
@@ -71,7 +71,7 @@ For **each flow** in the scope, repeat this cycle:
 5. After **each step**, check `browser_console_messages`. A new error or warning is a finding — file it now with the step that caused it.
 6. `browser_take_screenshot` at every meaningful state (landing, filled form, result, error). Save each capture straight into the run's `screenshots/` folder by passing its **absolute path** as `filename` (a bare relative name resolves against the repo root, not `report/tests/`), named `NN-flow-step.png`, and reference it by **relative path** (`screenshots/01-login-landing.png`) so the report renders standalone.
 7. Check `browser_network_requests` after any submit or data load — failed or 4xx/5xx requests are findings even when the UI hides them.
-8. `browser_resize` to the PRD's mobile viewport (default 375×812) once per flow, screenshot, and repeat the discoverability check — hover-only actions and tiny targets surface here. Broken mobile layout is a finding.
+8. `browser_resize` to the PRD's mobile viewport (390×844 if none) once per flow, screenshot, and repeat the discoverability check — hover-only actions and tiny targets surface here. Broken mobile layout is a finding.
 9. Use `browser_wait_for` instead of assuming; a race you papered over is a race the user will hit. `browser_evaluate` only when the snapshot can't answer the question.
 
 **Document issues as you find them — never batch.** Each issue gets an ID (`ISSUE-001`, sequential within the run), a severity, a category, repro steps, and at least one screenshot. **Screenshots are evidence: an issue without one does not exist.** Depth beats breadth — 5–10 well-evidenced issues are worth more than 20 vague descriptions.

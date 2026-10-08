@@ -1,7 +1,7 @@
 # {Project}: Architecture and runbook
 
 > How the system is built, why, and how to run, deploy, roll back, back up and restore it. CLAUDE.md links here instead of
-> repeating the stack. The runbook half doubles as the installation/backup manual many TORs require. Updated {YYYY-MM-DD}.
+> repeating the stack. The runbook half doubles as an installation/backup manual (which TORs often require). Updated {YYYY-MM-DD}.
 
 ## 1. Stack (versions verified {YYYY-MM-DD})
 

@@ -2,10 +2,10 @@
 
 > Saved as `docs/design/mockups/{YYYY-MM-DD-feature}/BRIEF.md`. Each builder gets this file **plus its own concept letter only**.
 > Builders never see the design-first-ui skill — everything they must obey is in here.
-> **SYSTEM mode:** omit Size, Key jobs and Model slice; keep the rest.
+> **SYSTEM round (first flow):** keep every section; Size = Large; add "palette and type are open — propose them".
 
 - **Size:** {Medium / Large} (design-first-ui Step 0). Medium: redesign ONLY {area}; copy `{chosen file}` as the shell and keep everything outside {area} unchanged.
-- **Primary viewport:** {e.g. 1366×768 desktop} — scroll and "first view" are measured here. Also check 390×844.
+- **Primary viewport per role:** {e.g. ward head 1366×768 · nurse 390×844} — scroll and "first view" are measured per job at its role's viewport.
 
 ## Owner feedback (verbatim — why this round exists)
 

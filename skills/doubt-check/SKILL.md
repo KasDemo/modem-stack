@@ -115,7 +115,7 @@ For each finding, classify in this **precedence order** (first matching class wi
 
 A fresh reviewer can be wrong because it lacks context. Don't defer just because it's "fresh."
 
-**Record what survived.** Accepted trade-offs (class 3) go into the active plan in `docs/plans/` or, if the decision resolves a recurring problem, a short entry in `docs/solutions/`. Future sessions must be able to see why the "wrong-looking" choice was deliberate.
+**Record what survived.** Accepted trade-offs (class 3) go into `docs/ARCHITECTURE.md` §3 as a D-id (rules into the PRD as an amendment), the active plan in `docs/plans/`, or, if the decision resolves a recurring problem, a short entry in `docs/solutions/`. Future sessions must be able to see why the "wrong-looking" choice was deliberate.
 
 ### Step 5: STOP — Bounded loop, not recursion
 

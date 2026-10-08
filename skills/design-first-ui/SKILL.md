@@ -16,7 +16,10 @@ Two modes:
 
 **Always 3 variants for Medium and Large changes — never ask how many** (owner rule 2026-10-01; Small changes get none, see Step 0). Build more or fewer only when the owner says so unprompted.
 
-If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, this round **is** the SYSTEM round. The design system is the contract; features interpret it, they don't renegotiate it.
+If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, this round **is** the SYSTEM round. **SYSTEM round = a
+FEATURE round** (walkthrough gate, key jobs, model slice, click paths, UX score) **plus** freedom in palette and type **plus**
+extracting `DESIGN_SYSTEM.md` from the winner. Before its concepts, ask the owner **one** question — known likes and dislikes (layouts,
+patterns like modals, apps they like) — and seed `docs/design/taste-profile.json` with the answer. The design system is the contract; features interpret it, they don't renegotiate it.
 
 ## Step 0 — Size the change (FEATURE mode)
 
@@ -34,7 +37,7 @@ When the size is unclear, ask **one** AskUserQuestion with your recommended size
 
 Read, in order:
 
-**Gate (FEATURE mode, Medium/Large):** every key job in scope has an **owner-approved walkthrough** in `WORKFLOWS.md` §5 (heading
+**Gate (FEATURE mode Medium/Large, and the first-flow SYSTEM round):** every key job in scope has an **owner-approved walkthrough** in `WORKFLOWS.md` §5 (heading
 stamped `✅ owner-approved YYYY-MM-DD`). Missing or unstamped → run the `ux-model` walkthrough session with the owner first. The
 walkthrough settles *what happens*; this skill only decides *how it looks*.
 
@@ -67,12 +70,12 @@ Before building anything, present exactly 3 text concepts — A, B, C — (3–5
 Concepts design the **approved** walkthrough: if a concept needs to change its steps (merge two steps, move a decision elsewhere), it
 says so in one line — choosing that concept means the owner re-stamps the walkthrough with the change.
 
-Every concept (FEATURE mode) also states **its click path for each key job** — e.g. "J1: to-do → กิจกรรมกางออก → ติ๊กบิล → ปิดยอด = 4 คลิก, 1 จุด" — and where each in-scope CTA sits. The owner sees the UX cost of each direction before any pixels exist, and a concept that puts a CTA away from its object is caught here, cheaply.
+Every concept (FEATURE mode and the first-flow SYSTEM round) also states **its click path for each key job** — e.g. "J1: to-do → กิจกรรมกางออก → ติ๊กบิล → ปิดยอด = 4 คลิก, 1 จุด" — and where each in-scope CTA sits. The owner sees the UX cost of each direction before any pixels exist, and a concept that puts a CTA away from its object is caught here, cheaply.
 
 Every concept states its trade in one line — **"ได้: X / เสีย: Y"** — so the owner chooses what this screen should prioritize, not which one looks nicer. Mixing ("A with B's bulk approve") is a normal answer. Challenger axes come from the persona and job-to-be-done in Step 1: speed vs. clarity vs. overview vs. guidance vs. mobile-first vs. error-prevention. SYSTEM mode uses the same slots on aesthetics: A = taste-anchored, B = opposite mood (e.g. editorial vs. utilitarian), C = wildcard from ui-ux-pro-max matched to the product type.
 
 **Save the concepts** to `CONCEPTS.md` in the round's mockup folder (date, the three concepts, click paths, trades, then the owner's
-answer verbatim) — chat scrolls away; the folder is the record. **First project, no taste profile or codebase yet:** the Anchor is the
+answer verbatim) and write any taste the answer reveals ("no modals", "dense tables for staff") into `taste-profile.json` right away — chat scrolls away; the folder is the record. **First project, no taste profile or codebase yet:** the Anchor is the
 most conventional pattern for this product type (ui-ux-pro-max), not a guess at taste.
 
 Confirm via **one AskUserQuestion**: build these three as-is, or swap/adjust which letter. Never ask about the count. Do not generate until the owner has approved the three concepts. This is the cheapest point to steer.
@@ -110,7 +113,7 @@ Fix what the screenshots reveal and re-shoot: **2–3 rounds**, then return with
 
 **The brief is a file:** write `BRIEF.md` into the mockup folder from [references/brief-template.md](references/brief-template.md) — size, owner feedback verbatim, key jobs with their start/end `#state`s, the model slice **by reference** (J-ids, R-ids, OBJECTS sections, state ids from SCREENS — the builder reads those files; copying them is how ids drift), hard requirements, and the exact records from `sample-data.md`. Each builder's prompt is then: the absolute output path, its concept letter and text only, the `:root` tokens + DESIGN_SYSTEM do/don't rules, a taste summary, the absolute paths of `BRIEF.md`, the project's `docs/design/` folder and [references/mockup-rules.md](references/mockup-rules.md). Builders return their click path per key job along with the self-assessment.
 
-Save under `docs/design/mockups/YYYY-MM-DD-<feature>/` (SYSTEM mode: `YYYY-MM-DD-design-system/`):
+Save under `docs/design/mockups/YYYY-MM-DD-<flow>/` (the SYSTEM round is named after its flow too — it is that flow's target):
 
 ```
 docs/design/mockups/2026-08-13-shift-swap/
@@ -149,7 +152,7 @@ After all builders return, and **sequentially** (now the Playwright MCP browser 
 1. Starts the mockup server (see Step 4) and opens each variant: every states-panel link lands on a real screen, the A/B/C switcher and mobile toggle work, `browser_console_messages` is clean.
 2. Screenshots the same key screen of all three side by side (desktop + 390px) and applies the anti-convergence rule to the pictures.
 3. Reads the builders' self-assessments; anything a builder flagged as weak gets fixed or the builder is re-briefed via SendMessage.
-4. **UX score (FEATURE mode, Medium/Large, every round — owner rule 2026-10-06; SYSTEM mode skips it — aesthetic directions aren't job paths):** dispatch the `design-reviewer` agent in **mockup mode**, in the foreground, with the mockup folder, the server URL and the **absolute path** of this skill's [references/ux-rubric.md](references/ux-rubric.md) (it can't resolve plugin paths itself). It scores every variant by actually clicking each key job and writes `ux-score.md`. **Medium rounds use the short form** (path metrics, walkthrough failures, placement); Nielsen and the ui-ux-pro-max check are for Large rounds. It scores; it never picks.
+4. **UX score (every Medium/Large FEATURE round and the first-flow SYSTEM round — owner rule 2026-10-06):** dispatch the `design-reviewer` agent in **mockup mode**, in the foreground, with the mockup folder, the server URL and the **absolute path** of this skill's [references/ux-rubric.md](references/ux-rubric.md) (it can't resolve plugin paths itself). It scores every variant by actually clicking each key job and writes `ux-score.md`. **Medium rounds use the short form** (path metrics, walkthrough failures, placement); Nielsen and the ui-ux-pro-max check are for Large rounds. It scores; it never picks.
 
 Only a set that passes all four goes to the owner. Never present a variant you have not looked at.
 

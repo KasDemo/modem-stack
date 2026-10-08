@@ -76,21 +76,21 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | 10 | Release / ส่งงวด | `ship-check` (งานทั่วไป = release mode · งานที่ลูกค้าเซ็นรับเป็นงวด = โหมดงวด) | deploy ตาม runbook, CHANGELOG · โหมดงวด: ทดสอบ restore + `acceptance/งวด-N.md` (TOR → FR → J → หลักฐาน) ให้ลูกค้าเซ็น |
 | ↺ | ลูกค้าขอแก้ | `feature-update` → 🧑 อนุมัติ brief | CR + PRD/TOR/QUESTIONS อัปเดต + walkthrough ที่โดนแก้ต้องอนุมัติใหม่ → กลับขั้น 7 |
 
-ขั้น 6–9 วนทีละ flow ตามงวด · ระหว่างทาง: `security-hardening` (แตะ auth/ข้อมูลคน), `performance-budget` (ช้า), `doubt-check` (ตัดสินใจเสี่ยง), `lesson` (คุณแก้ผม 1 ครั้ง → กติกาถาวร)
+ขั้น 6–9 วนทีละ flow ตามลำดับ release ใน PRD §3 · ระหว่างทาง: `security-hardening` (แตะ auth/ข้อมูลคน), `performance-budget` (ช้า), `doubt-check` (ตัดสินใจเสี่ยง), `lesson` (คุณแก้ผม 1 ครั้ง → กติกาถาวร)
 
 ## โครงสร้างเอกสาร — ข้อมูลแต่ละเรื่องมีบ้านเดียว
 
 ```
 docs/
-├── TOR.md                  # ขอบเขตตามสัญญา (ข้อ T) ← ที่อื่นอ้าง T-id
-├── PRD.md                  # FR · กฎ R · งวด · NFR · สิ่งที่ไม่ทำ ← ที่อื่นอ้าง FR/R
+├── TOR.md                  # (เฉพาะงานที่มี TOR) ขอบเขตตามสัญญา (ข้อ T) ← ที่อื่นอ้าง T-id
+├── PRD.md                  # feature map · FR · กฎ R · ลำดับ release (หรืองวด) · NFR · สิ่งที่ไม่ทำ ← ที่อื่นอ้าง FR/R
 ├── QUESTIONS.md            # คำถามค้าง + คำตอบ (ทะเบียนเดียว) ← ที่อื่นอ้าง Q-id
 ├── ARCHITECTURE.md         # stack · การตัดสินใจ D · runbook (deploy/rollback/backup/restore)
 ├── DESIGN_SYSTEM.md        # token · component inventory · กฎ
 ├── notes/                  # คำพูดลูกค้า + TOR ต้นฉบับ (คำต่อคำ)
 ├── plans/                  # แผน implement + change briefs (CR-*.md)
 ├── solutions/              # บทเรียนแบบยาว
-├── acceptance/งวด-N.md     # ตรวจรับงวด (ship-check)
+├── acceptance/งวด-N.md     # (เฉพาะงานที่ลูกค้าเซ็นรับเป็นงวด) ตรวจรับงวด (ship-check)
 ├── design/
 │   ├── OBJECTS.md          # object · ความสัมพันธ์ · ปุ่มต่อ role · คำศัพท์
 │   ├── WORKFLOWS.md        # role · key jobs J · วงจรสถานะ · walkthrough ต่อ flow (มีตราอนุมัติ)

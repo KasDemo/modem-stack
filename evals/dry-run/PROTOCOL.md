@@ -26,9 +26,9 @@ throwaway repo, never in this one. Expensive steps (HTML mockups, real code) are
 | P2 | Step 3: PRD (feature map, brainstorming, product-critic, owner approval) | feature map confirmed row by row, 🤖 rows proposed from the checklist; every FR has AC · source (+ งวด · T only if the project has them); every T covered; rules only here as R-ids; status "approved {date}" |
 | P3 | Step 4: architecture, scaffold, gates (write commands, don't install) | ARCHITECTURE.md stack + D-ids + runbook skeleton; doubt-check run on schema/auth; CLAUDE.md links to it, no stack duplicated |
 | P4 | Step 5: key jobs | every FR covered by a J or marked "no UI"; each J has งวด; owner approved the list |
-| P5 | Step 6: system picture (+ SYSTEM design at concept stage, text only) | OBJECTS/WORKFLOWS §1–4,6/SCREENS/sample-data filled; lifecycle checklist answered or → QUESTIONS; rules cited not restated |
+| P5 | Step 6: system picture (no design round here) | OBJECTS/WORKFLOWS §1–4,6/SCREENS/sample-data filled; lifecycle checklist answered or → QUESTIONS; rules cited not restated |
 | P6 | Walkthrough session for the first งวด-1 flow (2 key jobs) | §5 tables with unhappy paths; owner asked about each guess; stamp `✅ owner-approved`; state ids exist in SCREENS |
-| P7 | design-first-ui FEATURE to the BRIEF + concepts (no HTML) | gate checked the stamp; CONCEPTS.md saved; BRIEF cites ids (no copied rules/flows); state ids = SCREENS |
+| P7 | design-first-ui for the first flow = SYSTEM round (FEATURE rules + style freedom), to the BRIEF + concepts (no HTML) | gate checked the stamp; CONCEPTS.md saved; BRIEF cites ids (no copied rules/flows); state ids = SCREENS |
 | P8 | *Paper:* writing-plans outline for the flow | plan tasks cite FR/J; test names follow `fr-…`/`j…`; nothing had to be invented |
 | P9 | *Paper:* QA plan for the flow | each QA flow = a J with its §5 steps incl. unhappy paths, labelled J/FR |
 | P10 | *Paper:* ship-check — milestone mode for งวด 1 (scenario A) / release mode (scenario B) | A: acceptance/งวด-1.md with every งวด-1 T → FR → J → evidence slot and owner-answered + assumed Qs; B: release report, CHANGELOG, runbook — and **no** TOR/งวด/acceptance artefacts created |
@@ -61,3 +61,4 @@ top 5 findings, and per phase: owner minutes (estimate), AI effort, documents pr
 |---|---|---|---|
 | 2026-10-07 | 0.1.10 | 9/35 (scored retroactively in run 2) | stopped at the BRIEF; no TOR/QUESTIONS/ARCHITECTURE/acceptance, routing contradictory |
 | 2026-10-07 | 0.1.11 (pre-fix) | 24/35 | all 10 phases ran; ~119 owner-minutes, ~1,035 doc lines before code. 12 findings fixed in the same 0.1.11 commit: lifecycle checklist moved into the PRD, layout-neutral walkthroughs/SCREENS, J0 sign-in job, explicit QA anchors, owner-answered decisions to acceptance, doubt-check after the first schema, SYSTEM round merged into flow 1 |
+| 2026-10-08 | a36674a | A 28/35 · B 25/35 | first run of both scenarios; B: feature-map recall 9/9, no TOR artefacts leaked into files but milestone wording leaked into ~10 lines, release mode under-specified; A: 10/12 run-2 findings fixed. Fixed after: SYSTEM round = FEATURE rules, release order in PRD §3, release-mode QA scope + decisions-to-confirm + restore drill, two-tier feature map, client-rules question, doubt-check on the shape before the schema, one PRD approval, No-UI FRs 'built with' |

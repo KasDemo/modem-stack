@@ -1,6 +1,6 @@
 # {Project}: PRD
 
-> The requirements contract. Owns: requirements (FR), business rules (R), milestones (งวด), non-goals. Everything else links here.
+> The requirements contract. Owns: the feature map, requirements (FR), business rules (R), release order, non-goals. Everything else links here.
 > Roles and step-by-step flows live in `docs/design/WORKFLOWS.md`; open questions in `docs/QUESTIONS.md`; stack in
 > `docs/ARCHITECTURE.md`. Status: {draft / approved YYYY-MM-DD · amended YYYY-MM-DD: R-011 (owner OK)}. Updated {YYYY-MM-DD}.
 
@@ -21,19 +21,19 @@ Roles: {role names only — who they are and what they do live in WORKFLOWS §1}
 🤖 rows are features the owner didn't mention but systems like this usually need — each one is confirmed, deferred or dropped by
 the owner, never silently kept. ✗ dropped rows move to §7 "Not doing"; ⏭ later rows stay here without FRs.
 
-## 3. Milestones (งวด)
+## 3. Releases (or milestones / งวด)
 
-Only when the client signs off in milestones. Otherwise delete this section — the project ships in releases.
+The order things ship in. Most projects: releases with no dates. Client-signed milestones (งวด): add Due and Acceptance.
 
-| งวด | Scope (FR ids) | Due | Acceptance (how the client signs off) | Status |
-|---|---|---|---|---|
-| 1 | {FR-001…} | {date} | {e.g. demo + กรรมการตรวจรับ} | {planned / building / delivered / accepted YYYY-MM-DD} |
+| Release / งวด | Scope (FR ids) | Depends on | Due *(งวด only)* | Acceptance *(งวด only)* | Status |
+|---|---|---|---|---|---|
+| R1 | {FR-001…} | {—} | | | {planned / building / shipped vX.Y / accepted YYYY-MM-DD} |
 
 ## 4. Functional requirements
 
-One row per testable requirement. **AC** must be checkable by a machine or a browser walkthrough. Drop the งวด / TOR columns when the project has no milestones / no TOR.
+One row per testable requirement. **AC** must be checkable by a machine or a browser walkthrough. The release column says which §3 row ships it; drop the TOR column when there is no TOR.
 
-| ID | Requirement | Acceptance criteria | งวด | TOR | Source |
+| ID | Requirement | Acceptance criteria | Release / งวด | TOR | Source |
 |---|---|---|---|---|---|
 | FR-001 | {what the system does} | {Given … when … then …} | {1} | {T3, or `extra — CR-…`} | {notes/2026-…md} |
 
@@ -46,6 +46,8 @@ The single home of every rule. WORKFLOWS, OBJECTS, code and tests cite these ids
 | R-001 | {e.g. no two confirmed bookings of one room overlap} | {FR-…} |
 
 ## 6. Non-functional requirements
+
+NFRs that a TOR clause demands as testable requirements get an FR in §4; the bullet here then just cites it (`see FR-…`).
 
 - Performance: {budget, or "performance-budget defaults"}
 - Devices / viewports: {e.g. 70% desktop 1366, 30% mobile 390}

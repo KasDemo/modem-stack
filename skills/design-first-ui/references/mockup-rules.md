@@ -8,7 +8,7 @@
 - [ ] **Realistic data in the product's language.** Thai product → Thai names, Thai dates, Thai button labels. Never `Lorem ipsum`, never `User 1`. Realistic lengths: a Thai hospital ward name, a 32-character full name, a table with 12 rows not 3.
 - [ ] Thai UI text → Thai-capable font stack (e.g. `"Noto Sans Thai", "Sarabun", "IBM Plex Sans Thai", sans-serif`) and line-height ≥ 1.6 — Thai ascenders/descenders clip at tight leading.
 - [ ] FEATURE mode: use `DESIGN_SYSTEM.md` tokens verbatim (copy the `:root` custom properties into the file). Variants differ in **layout, density, navigation pattern, and component choices** — not in palette or type.
-- [ ] Mobile-first sanity: 44px minimum touch targets, readable at 375px wide.
+- [ ] Mobile-first sanity: 44px minimum touch targets, readable at the PRD's mobile width (390px if none is set).
 - [ ] **Reviewer chrome (owner-requested 2026-08-14 — always include):** every variant carries fixed overlay helpers for the reviewing owner, visually neutral (dark pill, corner-fixed) so they never read as part of the design:
   1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,
   2. a **variant switcher** — small A/B/C buttons linking to the sibling `variant-*.html` files, current letter highlighted,

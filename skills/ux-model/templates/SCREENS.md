@@ -7,7 +7,7 @@
 
 ## Flow status
 
-| # | Flow (role) | Key jobs | งวด | Target | Decision record | Status |
+| # | Flow (role) | Key jobs | Release / งวด | Target | Decision record | Status |
 |---|---|---|---|---|---|---|
 | 1 | {flow} | {J1, J2} | {1} | `{date-feature}/variant-a.html` | `{date-feature}/chosen.md` | {⏳ designing · ✅ chosen · 🛠 built} |
 
@@ -18,7 +18,7 @@
 | `{route}` | {screen name} | {roles} | {objects} | `#{state}` {label} · `#empty` {label} · `#error` {label} | {menu · to-do · notification} | `{date-feature}/variant-a.html#{state}` |
 
 Every state the user can reach is listed — **layout-neutral** until a design is chosen: name the state and its label, not its
-container. Once `chosen.md` exists, note the container (page / popup / inline) next to the state.
+container; a state whose page/popup/inline placement isn't decided yet has `(design)` in the Route column. Once `chosen.md` exists, note the container (page / popup / inline) next to the state.
 **This file owns the state ids and labels** (`#id label`): walkthroughs, BRIEFs and mockups use them verbatim; a new state is added here first.
 
 ## Built vs. target

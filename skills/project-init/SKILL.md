@@ -13,7 +13,7 @@ skipping one of these.
 
 **The whole loop this sets up** (repeat this line verbatim wherever routing is described):
 
-> **Feature in the PRD:** walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. **Client change:** feature-update first. **New idea not in the PRD:** brainstorming → update PRD (+ TOR check) → same loop. **End of a งวด:** ship-check in milestone mode.
+> **Feature in the PRD:** walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. **Client change:** feature-update first. **New idea not in the PRD:** brainstorming → update PRD (+ TOR check) → same loop. **Release:** ship-check (milestone mode only for client-signed งวด).
 
 Templates for this skill's documents are in its `templates/` folder.
 
@@ -29,7 +29,7 @@ paraphrase-and-lose details: verbatim notes go in `docs/notes/YYYY-MM-DD-<topic>
    signs off, or does it simply ship when it's ready? Don't invent deadlines or milestones the owner didn't give.
    - **No TOR** → no `TOR.md`, and the PRD drops its TOR column; the FR's source note is the trace.
    - **No milestones** → the PRD has no milestone table; key jobs carry no งวด; ship-check runs in release mode only.
-4. What is the smallest version the client would accept first?
+4. What should be usable first? (Informal clients rarely have a defined first version — help the owner pick one.)
 5. **Where it runs:** hosting (client VM, cloud, …), who administers it, backup expectations.
 6. **Login and integrations:** where accounts come from (LDAP/SSO/local), external systems, notification channels (in-app, email, LINE…).
 7. **Personal data:** what personal data the app holds, who may see it, retention (PDPA).
@@ -48,7 +48,7 @@ docs/
 ├── QUESTIONS.md            # the ONE open-questions/decisions register (templates/QUESTIONS.md)
 ├── PRD.md                  # (step 3) requirements contract (templates/PRD.md)
 ├── ARCHITECTURE.md         # (step 4) stack, decisions, runbook (templates/ARCHITECTURE.md)
-├── DESIGN_SYSTEM.md        # design contract — set by the first flow's design round (SYSTEM mode)
+├── DESIGN_SYSTEM.md        # (first flow's design round) design contract — SYSTEM mode
 ├── notes/                  # raw client notes + TOR original, verbatim
 ├── plans/                  # implementation plans + change briefs (CR-*.md)
 ├── solutions/              # lessons that need more than one line
@@ -83,22 +83,29 @@ architecture is Step 4.
   checklist and add a `🤖 AI suggests` row for each one that applies: admin & settings · roles and permissions · notifications ·
   history/audit · search & filters · import/export · reports & dashboards · mistakes and undo (cancel, edit after submit, delete
   rules) · first-run and empty states · mobile use · migrating data from the old system · help in context. Show the table to the
-  owner and go row by row until every row is ✅ / ⏭ / ✗ and the owner says nothing is missing. Then write the FRs per confirmed
-  feature and fill the FRs column.
+  owner in two tiers: **likely needed now** (~15 rows at most) go row by row; **usually later** rows come as one batch the owner can
+  accept as ⏭ in a single answer. Done when every row is ✅ / ⏭ / ✗ and the owner says nothing is missing. Then write the FRs per
+  confirmed feature and fill the FRs column.
+- **Ask for the rules the client applies by hand today** (in Excel, in heads, in a LINE group): limits, who may do what, what must
+  never happen, deadlines inside the work. Each becomes an R-id. Many requirements hide here, not in the feature list.
 - Every FR has an id, acceptance criteria a machine or browser walkthrough can check, and its source note — plus, **only when the
   project has them**, its งวด and the TOR clause(s) it serves (or `extra — CR-…` when it is outside the contract). With a TOR, the
   PRD's TOR column is the only T↔FR map; a TOR clause no FR cites is a finding.
 - **Run the lifecycle checklist now** (ux-model, "Lifecycles") on every stateful thing in the PRD — hold, expire, who cancels,
   who is notified, outside events. Rules like "a pending request expires 2 hours before start" belong in the approved PRD, not in a
   later amendment.
-- Every answer the owner gives on a client matter during this interview becomes a `docs/QUESTIONS.md` row with status
-  `owner-answered` — the client confirms those at the first milestone.
+- A decision the owner makes **for the client** that isn't already stated in the client's own words (notes, TOR) becomes a
+  `docs/QUESTIONS.md` row with status `owner-answered` — that list is what the client confirms later (milestone acceptance, or the
+  release report's "decisions to confirm"). Internal engineering choices go to ARCHITECTURE D-ids, not QUESTIONS; feature-map
+  statuses and stamped walkthroughs are already their own record.
 - Business rules get R-ids in the PRD **only** — every other doc cites them.
 - Not-doing list with "reconsider when".
 - **Rebuild:** the legacy system's real behavior feeds the PRD — mark what the rebuild keeps, changes, and kills.
 
-Before asking for approval, dispatch the `product-critic` agent on the draft and fold in what survives. Then the owner approves the
-PRD explicitly; record the date in its status line. **Later amendments** (a rule found by doubt-check, a walkthrough decision)
+Before asking for approval, dispatch the `product-critic` agent on the draft and fold in what survives. Then **one** final approval:
+the confirmed feature map already settled scope, so don't re-approve section by section. Record the date in the status line as
+`approved YYYY-MM-DD (rules open to Step 4's doubt-check)` — Step 4 regularly adds rules, and saying so up front beats four surprise
+amendments. **Later amendments** (a rule found by doubt-check, a walkthrough decision)
 are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` — never silently.
 
 ## Step 4 — Architecture, app scaffold, quality gates
@@ -108,13 +115,13 @@ are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` �
    (e.g. the component library supports the CSS framework's major version) — cite what you checked. Name the UI component layer
    explicitly (shadcn/ui or equivalent). The owner chooses or adjusts.
 2. Write `docs/ARCHITECTURE.md` from `templates/ARCHITECTURE.md`: stack with verified versions, overview, external systems and their
-   test doubles, decisions D-01…, and the runbook skeleton (deploy/rollback/backup/restore filled as soon as they exist — at the latest
-   by the first ship-check).
-3. **Scaffold the app:** the stack's official generator; the database via a compose file with the **first schema file** for the
-   PRD's objects; test doubles or seed accounts for each external system (LDAP, SMTP, …) so dev never needs the real ones; a health
+   test doubles, decisions D-01…, the **proposed data shape** (tables, keys, the state fields), and the runbook skeleton
+   (deploy/rollback/backup/restore filled as soon as they exist — at the latest by the first ship-check).
+3. Run `doubt-check` on the proposed data shape and the auth/permission design **before** the schema is written — fixing a shape is
+   free, fixing a migration is not (its normal stop rules apply). Accepted findings become D-ids or PRD amendments (rules).
+4. **Scaffold the app:** the stack's official generator; the database via a compose file with the first schema file built from the
+   doubted shape; test doubles or seed accounts for each external system (LDAP, SMTP, …) so dev never needs the real ones; a health
    route. Commit.
-4. Run `doubt-check` on that schema file and the auth/permission design before anything is built on them (its normal stop
-   rules apply). Accepted findings become D-ids, PRD amendments, or QUESTIONS rows.
 5. **Quality gates (not skippable):**
    - typecheck, lint and test commands exist and run green;
    - one real unit test, plus Playwright E2E with one smoke test that boots the app and loads the main page (and a unit-test file for
@@ -136,7 +143,7 @@ are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` �
 - Contract: docs/PRD.md (FR, R; milestones and docs/TOR.md only if the project has them). If reality diverges, update the PRD in the same change.
 - Open questions and decisions: docs/QUESTIONS.md only. Stack, decisions, runbook: docs/ARCHITECTURE.md.
 - Specs and plans live in docs/plans/ — this overrides the superpowers default (docs/superpowers/specs|plans).
-- Routing: Feature in the PRD: walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check) → same loop. End of a งวด: ship-check in milestone mode.
+- Routing: Feature in the PRD: walkthrough (ux-model, WORKFLOWS §5, owner-approved) → design-first-ui → writing-plans → implement (TDD + browser-verification) → design-reviewer → qa-walkthrough. Client change: feature-update first. New idea not in the PRD: brainstorming → update PRD (+ TOR check) → same loop. Release: ship-check (milestone mode only for client-signed งวด).
 - brainstorming never jumps straight to writing-plans when screens are involved — design-first-ui comes first (overrides its terminal state).
 - UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md. Read before UI work; update in the same change.
 - UI work reads docs/DESIGN_SYSTEM.md; a UI task is done only when verified in a real browser with a clean console.
@@ -154,7 +161,7 @@ Keep it SHORT — for every line ask "would removing this cause mistakes?" Bloat
 ## Step 5 — Features → key jobs
 
 Run the `ux-model` skill's **key jobs** part: roles (WORKFLOWS §1) and key jobs (WORKFLOWS §2), each with the FRs it covers (and its
-งวด, if the project has milestones). Every FR is covered by a key job or listed under "No-UI FRs" in WORKFLOWS §2 (batch job, sync, scheduled expiry…). Always
+งวด, if the project has milestones). Every FR is covered by a key job or listed under "No-UI FRs" in WORKFLOWS §2 (batch job, sync, scheduled expiry…) with the key job it is **built with** — otherwise no plan ever builds it. Always
 include **J0 — sign in and land** (login, the landing screen per role, no-permission page, notification bell, the app shell): every
 other job starts there, and without it nobody designs those screens. This list is the feature backlog: each job will get its own
 walkthrough, design round, implementation and QA. The owner approves the list.

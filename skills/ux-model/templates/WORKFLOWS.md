@@ -12,14 +12,14 @@
 ## 2. Key jobs
 
 The unit every mockup is scored on (UX rubric), every QA walkthrough walks, and every acceptance check verifies.
-2–4 per role. "Ends when" must be observable on screen. Drop the งวด column when the project has no milestones.
+2–4 per role. "Ends when" must be observable on screen. Release / งวด = the PRD §3 row that ships the job.
 
-| ID | Role | Job | Starts where | Ends when | How often | งวด | Covers FR |
+| ID | Role | Job | Starts where | Ends when | How often | Release / งวด | Covers FR |
 |---|---|---|---|---|---|---|---|
 | J0 | every role | sign in and land | login page | the role's home is shown, with its notifications | daily | {1} | {FR-…} |
 | J1 | {role} | {job} *(example: "close an activity's budget")* | {entry point, e.g. a to-do on the home screen} | {observable end state} | {daily / weekly} | {1} | {FR-001, FR-004} |
 
-No-UI FRs (no key job; verified by tests only): {FR-… scheduled expiry, FR-… nightly sync, or "none"}
+No-UI FRs (no key job; verified by tests only) and the job each is **built with**: {FR-… scheduled expiry → built with J2; FR-… nightly sync → built with J4; or "none"}
 
 ## 3. Lifecycles
 

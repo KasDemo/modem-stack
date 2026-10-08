@@ -1,6 +1,6 @@
 # UX rubric — scored for every Medium/Large mockup round
 
-Origin: owner rule 2026-10-06 ("ใช้ทุกรอบ"). FEATURE mode only. **Medium rounds: sections 1–4 (short form); Large: all.** The score table goes to the owner next to `compare.html`.
+Origin: owner rule 2026-10-06 ("ใช้ทุกรอบ"). FEATURE rounds and the first-flow SYSTEM round. **Medium rounds: sections 1–4 (short form); Large: all.** The score table goes to the owner next to `compare.html`.
 Visual/rule compliance (DESIGN_SYSTEM, Lessons, owner rules) is checked separately; this rubric measures **how easy the user's job is**.
 
 **Who scores:** a fresh-context agent (the `design-reviewer` agent in mockup mode), never the builder — builders only self-check their

@@ -28,8 +28,8 @@ The model is four living files in `docs/design/`. Templates are in this skill's 
 2. **Relationships** — an object × object table: 1–1, 1–many, many–many, and the business rule. Every relationship is a navigation path: if A has many B, A's screen shows its B's and B's screen links back to A.
 3. **CTAs per role** — object × role grid of verbs. A CTA with no role is dead; a role with no CTA on an object it can see is read-only (say so).
 4. **Attributes** — what each object shows: in a list row (2–4 fields), in a card, in full. Mark computed values and their formula owner.
-5. **Roles and key jobs** (`WORKFLOWS.md`). 2–4 key jobs per role, each written **who · starts where · ends when**, with an id (`J1`, `J2` …), the PRD FRs it covers, and its งวด when the project has milestones. Key jobs are the unit everything is scored and tested by — mockup rubric, QA walkthrough, milestone acceptance.
-6. **Lifecycles** — a state machine per object that has states, with the transition, who triggers it, and what changes (money, notifications, access). Every lifecycle answers this checklist (first run during the PRD, project-init Step 3 — re-checked here); what nobody can answer goes to `docs/QUESTIONS.md`:
+5. **Roles and key jobs** (`WORKFLOWS.md`). 2–4 key jobs per role, each written **who · starts where · ends when**, with an id (`J1`, `J2` …), the PRD FRs it covers, and its release (PRD §3). Key jobs are the unit everything is scored and tested by — mockup rubric, QA walkthrough, acceptance.
+6. **Lifecycles** — a state machine per object that has states, with the transition, who triggers it, and what changes (money, notifications, access). Every lifecycle answers this checklist (first run during the PRD, project-init Step 3 — re-checked here). An answer that is a **rule** becomes a PRD amendment (R-id), never a line in WORKFLOWS; what nobody can answer goes to `docs/QUESTIONS.md`:
    - Does this state **hold** a resource (a slot, a budget, stock)? Does a pending one?
    - What happens if nobody acts — does it **expire**, and when?
    - **Who can cancel / reverse** it, until when, and what happens to dependent records?
@@ -52,8 +52,8 @@ This is where "what should happen" is settled — mockups only decide how it loo
    no question cap here; this is the cheapest place to find out what the client really needs. Unknowns the owner can't answer go to
    `QUESTIONS.md`; the flow proceeds on an explicit `assumed` answer only if the owner agrees.
 3. **Revise and stamp** the flow's heading: `### J2 — {job} · ✅ owner-approved YYYY-MM-DD`. design-first-ui refuses a Medium/Large
-   round whose key jobs lack this stamp. Every owner decision on a client matter made here → a `docs/QUESTIONS.md` row
-   (`owner-answered`); a decision that changes a rule → a PRD amendment.
+   round whose key jobs lack this stamp. A decision that changes a rule → a PRD amendment; a decision made for the client that the
+   steps themselves don't make obvious (e.g. "the head may not approve her own swap") → a `docs/QUESTIONS.md` row (`owner-answered`).
 4. A later client change (feature-update) that alters the flow **removes the stamp** until the owner re-approves the revised steps.
 
 ## Placement rules (check every design against these)
