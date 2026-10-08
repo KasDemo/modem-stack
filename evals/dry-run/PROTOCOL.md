@@ -9,8 +9,9 @@ throwaway repo, never in this one. Expensive steps (HTML mockups, real code) are
 
 - Plugin under test: this repo (read `README.md`, then follow `skills/*/SKILL.md`, their `templates/` and `references/`).
 - superpowers skills it hands off to: `brainstorming`, `writing-plans` (from the installed plugin cache).
-- Answer sheet: `owner-answers-roombook.md` (scenario A: TOR + milestones). Still to write: scenario B — no TOR, no milestones, no
-  deadline (the owner's more common case); both must pass before a workflow change ships. A finding that only exists because of a
+- Answer sheets: `owner-answers-roombook.md` (scenario A: TOR + milestones) and `owner-answers-nurseshift.md` (scenario B: no TOR,
+  no milestones, no deadline — the owner's more common case). Both must pass before a workflow change ships; run them as two
+  independent agents. A finding that only exists because of a
   scenario's invented constraints (deadlines, budgets) is reported as scenario-specific, never as a plugin rule. A question the sheet doesn't cover → invent a plausible answer and log it as
   **UNCOVERED** (that is a finding about the interview, not about the sheet).
 - Pilot repo: a new folder in the scratchpad, `git init`, one commit per phase.
@@ -22,7 +23,7 @@ throwaway repo, never in this one. Expensive steps (HTML mockups, real code) are
 | # | Phase (follow the skill as written) | Checkpoint — must be true at the end of the phase |
 |---|---|---|
 | P1 | project-init Steps 1–2: kickoff + scaffold | notes/ verbatim; TOR.md clauses T…; QUESTIONS.md has every unanswered item; CHANGELOG.md; no stubs of step-3+ files |
-| P2 | Step 3: PRD (brainstorming, product-critic, owner approval) | every FR has AC · งวด · T · source; every T covered by ≥1 FR; rules only here as R-ids; status "approved {date}" |
+| P2 | Step 3: PRD (feature map, brainstorming, product-critic, owner approval) | feature map confirmed row by row, 🤖 rows proposed from the checklist; every FR has AC · source (+ งวด · T only if the project has them); every T covered; rules only here as R-ids; status "approved {date}" |
 | P3 | Step 4: architecture, scaffold, gates (write commands, don't install) | ARCHITECTURE.md stack + D-ids + runbook skeleton; doubt-check run on schema/auth; CLAUDE.md links to it, no stack duplicated |
 | P4 | Step 5: key jobs | every FR covered by a J or marked "no UI"; each J has งวด; owner approved the list |
 | P5 | Step 6: system picture (+ SYSTEM design at concept stage, text only) | OBJECTS/WORKFLOWS §1–4,6/SCREENS/sample-data filled; lifecycle checklist answered or → QUESTIONS; rules cited not restated |
@@ -30,7 +31,7 @@ throwaway repo, never in this one. Expensive steps (HTML mockups, real code) are
 | P7 | design-first-ui FEATURE to the BRIEF + concepts (no HTML) | gate checked the stamp; CONCEPTS.md saved; BRIEF cites ids (no copied rules/flows); state ids = SCREENS |
 | P8 | *Paper:* writing-plans outline for the flow | plan tasks cite FR/J; test names follow `fr-…`/`j…`; nothing had to be invented |
 | P9 | *Paper:* QA plan for the flow | each QA flow = a J with its §5 steps incl. unhappy paths, labelled J/FR |
-| P10 | *Paper:* ship-check milestone mode for งวด 1 | acceptance/งวด-1.md drafted: every งวด-1 T → FR → J → evidence slot; runbook sections present; assumed Qs listed |
+| P10 | *Paper:* ship-check — milestone mode for งวด 1 (scenario A) / release mode (scenario B) | A: acceptance/งวด-1.md with every งวด-1 T → FR → J → evidence slot and owner-answered + assumed Qs; B: release report, CHANGELOG, runbook — and **no** TOR/งวด/acceptance artefacts created |
 
 ## Log (the deliverable)
 
@@ -48,6 +49,8 @@ For every step: skill + step, files produced (path + lines), owner questions ask
 | **Instruction clarity** — the skills agree and are executable | ≥4 conflicts/ambiguities | 1–3 | none |
 | **Weight** — documents earn their lines; no busywork | most docs restate others | some padding | every doc used downstream |
 | **Downstream readiness** — implement/QA/ship need no invented facts | ship or QA must invent core facts | minor inventions | none |
+
+For scenario B also report **feature-map recall**: how many of the sheet's "never mentioned but would want" items the feature map surfaced as 🤖 rows.
 
 Report: per-dimension score with one line of evidence, total /35, the comparison with the previous run's score, the
 top 5 findings, and per phase: owner minutes (estimate), AI effort, documents produced.
