@@ -78,6 +78,13 @@ approved you come back to this skill's Step 4 — no design doc in `docs/superpo
 says "propose approaches", the approaches here are **scope cuts** (what ships first, what waits); where it says "present architecture/components", stop —
 architecture is Step 4.
 
+- **Feature map first** (PRD §2), before any FR detail. From the owner's description, the client notes and what systems of this
+  kind need, draft modules → features → for whom, each marked by source. Then actively propose what wasn't mentioned — walk this
+  checklist and add a `🤖 AI suggests` row for each one that applies: admin & settings · roles and permissions · notifications ·
+  history/audit · search & filters · import/export · reports & dashboards · mistakes and undo (cancel, edit after submit, delete
+  rules) · first-run and empty states · mobile use · migrating data from the old system · help in context. Show the table to the
+  owner and go row by row until every row is ✅ / ⏭ / ✗ and the owner says nothing is missing. Then write the FRs per confirmed
+  feature and fill the FRs column.
 - Every FR has an id, acceptance criteria a machine or browser walkthrough can check, and its source note — plus, **only when the
   project has them**, its งวด and the TOR clause(s) it serves (or `extra — CR-…` when it is outside the contract). With a TOR, the
   PRD's TOR column is the only T↔FR map; a TOR clause no FR cites is a finding.

@@ -40,7 +40,7 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 - Code: <files/modules affected>
 - Data: <schema/migration needs, or "none">
 - Existing behavior: <flows that change as side effects>
-- PRD: <FR/R ids added or changed; contradictions found>
+- PRD: <feature-map rows added or changed (module · feature · source CR-…); FR/R ids added or changed; contradictions found>
 - Contract (TOR projects only): <in TOR clause Tn / changes Tn / outside the TOR — extra work>; milestone affected: <n or none>
 - UI: <screens needing design-first-ui, or "none">
 - UX model: <objects / CTAs / jobs / states / screens that change, or "none">
@@ -56,7 +56,7 @@ Write `docs/plans/CR-YYYY-MM-DD-<slug>.md`:
 
 ## Step 4 — Implement
 
-- Update `docs/PRD.md` (FR, R, milestone table) and, if the contract moved, `docs/TOR.md`'s change log in the same branch — PRD stays the single source of truth. New open questions go in `docs/QUESTIONS.md`.
+- Update `docs/PRD.md` (feature map, FR, R, milestone table) and, if the contract moved, `docs/TOR.md`'s change log in the same branch — PRD stays the single source of truth. New open questions go in `docs/QUESTIONS.md`.
 - **Walkthroughs:** a change that alters a key job's steps edits WORKFLOWS §5 and **removes that flow's approval stamp** — the owner re-approves the revised walkthrough before design-first-ui or implementation of the change.
 - The rest of the change brief's "UX model" line (objects, CTAs, states, screens) is applied in this branch too (`ux-model` skill).
 - New/changed screens: `design-first-ui` (feature mode) → owner picks → implement to match.

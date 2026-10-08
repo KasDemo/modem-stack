@@ -8,9 +8,18 @@
 
 {2–4 sentences: who has what problem today, what changes when this ships, how the client will judge success.}
 
-## 2. Users
+## 2. Users and feature map
 
-{Role names only — who they are and what they do live in WORKFLOWS §1.}
+Roles: {role names only — who they are and what they do live in WORKFLOWS §1}.
+
+**Feature map** — the whole system on one screen; the first thing the owner confirms, before any FR detail.
+
+| Module | Feature | For whom | Source | Status | FRs |
+|---|---|---|---|---|---|
+| {e.g. Scheduling} | {e.g. auto-generate next month's roster} | {role} | {owner · notes/… · 🤖 AI suggests} | {✅ confirmed · ❓ to confirm · ⏭ later · ✗ dropped} | {FR-001…} |
+
+🤖 rows are features the owner didn't mention but systems like this usually need — each one is confirmed, deferred or dropped by
+the owner, never silently kept. ✗ dropped rows move to §7 "Not doing"; ⏭ later rows stay here without FRs.
 
 ## 3. Milestones (งวด)
 

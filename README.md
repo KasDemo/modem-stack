@@ -65,7 +65,7 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | # | ขั้น | ใช้อะไร | ได้อะไร |
 |---|---|---|---|
 | 1 | Kickoff | `project-init` Step 1–2 | สัมภาษณ์ (สัญญา/TOR/งวด ถ้ามี · hosting · login · PDPA · backup) → `notes/` คำพูดลูกค้าคำต่อคำ, `QUESTIONS.md`, `CHANGELOG.md` (+ `TOR.md` เฉพาะงานที่มี TOR) |
-| 2 | PRD | Step 3 (brainstorming) → 🤖 `product-critic` → 🧑 อนุมัติ | `PRD.md`: FR-### (AC · ที่มา · งวด/ข้อ TOR เฉพาะงานที่มี), กฎ R-###, NFR, สิ่งที่ไม่ทำ |
+| 2 | PRD | Step 3 (brainstorming) → 🤖 `product-critic` → 🧑 อนุมัติ | `PRD.md`: **feature map** (โมดูล → feature → ใคร · 🤖 feature ที่ AI เสนอเพิ่มให้คุณยืนยันทีละแถว) → FR-### (AC · ที่มา · งวด/ข้อ TOR เฉพาะงานที่มี), กฎ R-###, NFR, สิ่งที่ไม่ทำ |
 | 3 | Stack & architecture | Step 4 → 🧑 เลือก stack → 🤖 `doubt-check` schema/auth | `ARCHITECTURE.md` (stack ที่ตรวจเวอร์ชันแล้ว · การตัดสินใจ · runbook) + แอปที่รันได้ + quality gates + CLAUDE.md |
 | 4 | Features | Step 5 (`ux-model`) → 🧑 อนุมัติรายการ | key jobs J0 (login/หน้าแรก) + J1… (งวด · ครอบคลุม FR ไหน) = backlog |
 | 5 | ภาพระบบใหญ่ | Step 6 (`ux-model`) → 🧑 OK | `OBJECTS.md`, `WORKFLOWS.md` (วงจรสถานะ · การแจ้งเตือน), `SCREENS.md`, `sample-data.md` |
