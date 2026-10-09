@@ -1,6 +1,8 @@
-# UX rubric — scored for every Medium/Large mockup round
+# UX rubric — the chosen variant's checklist (Step 4b)
 
-Origin: owner rule 2026-10-06 ("ใช้ทุกรอบ"). FEATURE rounds and the first-flow SYSTEM round. **Medium rounds: sections 1–4 (short form); Large: all.** The score table goes to the owner next to `compare.html`.
+Origin: owner rule 2026-10-06 ("ใช้ทุกรอบ"). Since 2026-10-08 the owner gets **measured** job numbers for every variant at choice time from the
+pre-owner critic (references/critic.md); this full rubric runs on the **chosen** variant in Step 4b, and its findings are a checklist
+to fix before it becomes the visual target — not a ranking. **Medium rounds: sections 1–4 (short form); Large: all.** The checklist goes into Step 4b's fix round.
 Visual/rule compliance (DESIGN_SYSTEM, Lessons, owner rules) is checked separately; this rubric measures **how easy the user's job is**.
 
 **Who scores:** a fresh-context agent (the `design-reviewer` agent in mockup mode), never the builder — builders only self-check their
@@ -52,18 +54,13 @@ Anchors (use them; without anchors every variant drifts to 4):
 Search its UX domain for the topics these screens touch (form, table, feedback, error, navigation, accessibility; chart domain for
 charts) — see that skill for the command. List up to 8 that apply, each ✓ / ✗ / n/a per variant.
 
-## 7. Output — `ux-score.md` in the mockup folder
+## 7. Output — `ux-score.md` in the mockup folder (chosen variant)
 ```
-| | A | B | C |
+| Key job | คลิก / มอง / เลื่อน / ตัดสินใจ | Walkthrough failures | Placement ✗ |
 |---|---|---|---|
-| J1 คลิก / มอง / เลื่อน / ตัดสินใจ | 4 / 1 / 0.5 / 1 | … | … |
-| J2 … | | | |
-| Walkthrough failures (Q2 notice / Q3 connect / …) | 1 (J1 step 3, Q2) | … | … |
-| Placement ✗ | none | rule 1 | … |
-| Nielsen — only where variants differ by ≥ 2 | #5 A=4 B=2 | … | … |
-| Nielsen total (/50) | 41 | … | … |
-| ui-ux-pro-max ✓ / ✗ | 7 / 1 | … | … |
-| สะดุดที่สุด | … | … | … |
+| J1 | 4 / 1 / 0.5 / 1 | step 3 Q2 (button not noticed) | none |
+
+Nielsen (Large only): per heuristic score + one line of evidence · ui-ux-pro-max ✓ / ✗ (Large only)
+สะดุดที่สุด: …
 ```
-Then: the strongest variant **per job** (not overall), and for each variant the 1–3 fixes that would lift it most.
-Full per-heuristic and per-step detail goes below the table, not in it.
+Then the **fix checklist**: every failure above as a concrete, ordered fix item for the Step 4b polish round.

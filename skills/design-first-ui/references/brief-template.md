@@ -44,8 +44,9 @@ From `docs/design/sample-data.md` §{n}: {the exact records this round uses}. No
 ## Wiring — every key-job step must be clickable
 
 Each step of each key job is an `<a href="#next-state">` (or a `<label>` / small vanilla-JS handler for ticks, typed amounts and
-splits) that leads to the state after that step. The reviewer scores by clicking; a step it cannot click is reported as **unwired**
-and sent back to you.
+splits) that leads to the state after that step. **An independent critic will click-test every key job and every control**
+(filters, period buttons, "try …" links, toggles, retry): a control that changes a label but not the figures, a link that lands in
+a state contradicting itself, or a "loading…" that never ends is a must-fix. Make each one really work.
 
 ## Mockup file rules
 

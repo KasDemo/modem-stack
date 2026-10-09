@@ -123,7 +123,10 @@ docs/design/mockups/2026-08-13-shift-swap/
   CONCEPTS.md      (written in Step 2: the three concepts + the owner's answer)
   BRIEF.md         (written in Step 3, from references/brief-template.md)
   compare.html
-  ux-score.md      (written in Step 3b, from references/ux-rubric.md)
+  critic-a.json …  (Step 3b, one per variant)
+  review.md        (Step 3b — measured job table + suggestions, shown to the owner)
+  timeline.md      (Step 3b — when each phase started and ended)
+  ux-score.md      (Step 4b, chosen variant only)
   shots/           (builder + orchestrator screenshots)
   chosen.md        (written in Step 5)
 ```
@@ -145,26 +148,51 @@ SYSTEM mode: different font pairing, different palette, different layout skeleto
 
 A simple page, no dependencies: one column per variant with a heading ("Variant A — <concept one-liner>"), an `<iframe src="variant-a.html">` sized ~420×720 (mobile) or ~1200×800 (desktop, `transform: scale(0.5)` to fit side by side), and an "open full" link. Side-by-side beats sequential — the owner compares, not recalls.
 
-## Step 3b — Orchestrator checks the set before the owner sees it
+## Step 3b — One critic pass, then the owner (no review loop)
 
-After all builders return, and **sequentially** (now the Playwright MCP browser is safe), the orchestrator:
+Evidence (dry-run 2026-10-08, `evals/experiments/2026-10-08-mockup-review.md`): a "score ≥ 8.5" critic loop never passed in 3
+rounds, oscillated (removed, re-added, removed again), overrode trade-offs the owner had approved until variants converged, and let
+more broken controls through than a single click-testing pass. Polishing all three before the pick did not change their ranking.
+So: **one pass before the owner, polish only the winner after.**
 
-1. Starts the mockup server (see Step 4) and opens each variant: every states-panel link lands on a real screen, the A/B/C switcher and mobile toggle work, `browser_console_messages` is clean.
-2. Screenshots the same key screen of all three side by side (desktop + 390px) and applies the anti-convergence rule to the pictures.
-3. Reads the builders' self-assessments; anything a builder flagged as weak gets fixed or the builder is re-briefed via SendMessage.
-4. **UX score (every Medium/Large FEATURE round and the first-flow SYSTEM round — owner rule 2026-10-06):** dispatch the `design-reviewer` agent in **mockup mode**, in the foreground, with the mockup folder, the server URL and the **absolute path** of this skill's [references/ux-rubric.md](references/ux-rubric.md) (it can't resolve plugin paths itself). It scores every variant by actually clicking each key job and writes `ux-score.md`. **Medium rounds use the short form** (path metrics, walkthrough failures, placement); Nielsen and the ui-ux-pro-max check are for Large rounds. It scores; it never picks.
+1. **Critics, in parallel** — as soon as each builder returns, dispatch one critic for that variant with
+   [references/critic.md](references/critic.md) (fill its slots; pass absolute paths). It click-tests every key job and control,
+   sorts findings into `must_fix` (broken · slop · figures · mobile), `build_notes` and `suggestions`, measures each key job, and
+   never asks to undo an approved trade-off. Playwright CLI only — the critics run in parallel.
+2. **One fix per variant** — must_fix only, re-shoot changed states only (template at the end of critic.md). **No second critic
+   round** and no score threshold.
+3. **Smoke check (orchestrator, ~1 min, sequential MCP is fine now):** open each variant over the mockup server — states panel,
+   A/B/C switcher and mobile toggle work, console clean. Put the same key screen of all three side by side and apply the
+   anti-convergence rule to the pictures.
+4. **Write `review.md`** in the mockup folder: per variant, the measured job table from `critic-<x>.json` (clicks · surfaces ·
+   scroll · decisions · answer in first view · placement violations), any must_fix left unfixed, and the critic's suggestions.
+5. **Log `timeline.md`** in the mockup folder: when concepts were approved, builders dispatched/returned, critics and fixes done,
+   link sent, owner answered. Next round's speed questions get answered from data, not guesses.
 
-Only a set that passes all four goes to the owner. Never present a variant you have not looked at.
+Never present a variant you have not looked at.
 
 ## Step 4 — The owner chooses
 
-Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over **`docs/design/mockups`** (one root for every round, so SCREENS.md targets and old rounds resolve too) in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 docs/design/mockups`; if 8765 is already serving that folder, reuse it; if it's taken by something else pick the next free port). Paste `http://127.0.0.1:8765/<date-feature>/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Put the `ux-score.md` summary table in the same message, under the links — the owner compares looks and job cost side by side. Ask for:
+Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over **`docs/design/mockups`** (one root for every round, so SCREENS.md targets and old rounds resolve too) in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 docs/design/mockups`; if 8765 is already serving that folder, reuse it; if it's taken by something else pick the next free port). Paste `http://127.0.0.1:8765/<date-feature>/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Put the `review.md` table in the same message, under the links — measured job cost per variant (owner rule 2026-10-06: UX numbers next to the variants every round) plus each variant's critic suggestions, so the owner compares looks, job cost and known weak spots side by side. No 1–10 score: measured numbers compare fairly, LLM scores didn't predict the owner's pick. Ask for:
 
 - **Choice** — A, B, or C
 - **Free-form comments** — "B but with A's sidebar" is a normal answer, not an edge case. Merge accordingly: apply the requested elements into the chosen variant's file and re-show once.
 - If everything is rejected, treat the comments as a new brief: log every rejected trait to the taste profile, then return to Step 2 with fresh concepts. Never quietly tweak and re-present the same three.
 
 Before recording, restate what you understood ("Going with B; sidebar from A; primary button larger") and confirm — prevents accidental approvals.
+
+## Step 4b — Polish the chosen variant only
+
+The polish the old loop spent on all three now goes into the one that will be built (the experiment's judges preferred the
+polished anchor — polish has value, just not before the pick):
+
+1. Apply the owner's merge requests and the critic **suggestions the owner agreed to** (ask in the same message as the restatement:
+   "also apply suggestions 2, 4, 5?").
+2. **UX score the chosen variant** — dispatch `design-reviewer` in mockup mode on that one file with
+   [references/ux-rubric.md](references/ux-rubric.md) (full form for Large, short form for Medium). Its findings are a **checklist to
+   fix**, not a ranking.
+3. One fix round on what the checklist and the merge turned up, then **one** critic pass ([references/critic.md](references/critic.md))
+   on the polished file to catch anything the polish broke; fix its must_fix. Re-show the owner once.
 
 ## Step 5 — Record the decision
 
@@ -183,7 +211,11 @@ Feature: shift-swap flow
 > "B ดีสุด แต่เอา sidebar ของ A มาใส่ ปุ่มยืนยันใหญ่กว่านี้หน่อย"
 
 ## Visual target
-variant-b.html (post-merge) — implementation must match this file.
+variant-b.html (post-merge, polished in Step 4b) — implementation must match this file.
+
+## Build notes (from the critic and the UX checklist — do these in the real implementation)
+- Ranking as a real <table> with the name as the link; aria-sort on sortable headers
+- Period and department in the URL so Retry/back/CSV keep them
 ```
 
 **Update `docs/design/taste-profile.json`** on every selection — bump chosen traits, log rejected ones:
@@ -260,6 +292,10 @@ Implementation tasks must verify with Playwright MCP browser tools:
 | Concepts with no click path per key job | The owner can't see the UX cost until it's built. Every concept states its paths |
 | A CTA placed away from the object it acts on | Check OBJECTS.md — that's the "ปุ่มควรอยู่ด้วยกัน" bug |
 | Variants scored by the builder who made them | Self-grading. The rubric is scored by a fresh design-reviewer, by clicking |
+| A critic → fix → critic loop before the owner, or a score threshold | One click-testing pass, then the owner. Loops oscillated and never passed |
+| A critic finding that undoes the trade-off the owner approved | Out of scope by rule — the owner chooses between directions |
+| Polishing all three variants before the pick | Polish the chosen one in Step 4b; the ranking didn't change with polish |
+| Accessibility/ARIA fixes in throwaway mockup HTML | Build notes in chosen.md; the real implementation does them |
 | Chosen design not reflected in SCREENS/WORKFLOWS | Next round designs against fiction |
 | Skipping the taste profile update | Next session rediscovers the same rejections from scratch |
 | Implementation "close enough" after one screenshot round | The target is the mockup, not the vibe of the mockup |

@@ -21,14 +21,13 @@ If `chosen.md` is missing for the feature, say so at the top of the report as a 
 
 ## Mockup mode — UX scoring before the owner picks
 
-When the caller says **mockup mode** (design-first-ui Step 3b), you are not reviewing a built app. You score the round's variants in
+When the caller says **mockup mode** (design-first-ui Step 4b), you are not reviewing a built app. You score the **chosen** variant in
 `docs/design/mockups/<date-feature>/` against `skills/design-first-ui/references/ux-rubric.md` from the modem-stack plugin (the
 caller passes its path) and write `ux-score.md` in that folder. Then stop — The Review Contract above, the seven phases and Report
 Output below are for built features (no `chosen.md` exists yet in mockup mode — that's expected, not a finding).
 
 - Read `BRIEF.md` (key jobs, model slice, hard requirements), `docs/design/OBJECTS.md` and `WORKFLOWS.md` for the placement rules.
-- Open each variant over the caller's mockup server, `?clean`, at the BRIEF's primary viewport. **Drive every key job by clicking**,
-  one variant at a time, and count from what you actually did — never from reading the HTML.
+- Open each variant over the caller's mockup server, `?clean`, at the BRIEF's primary viewport. **Drive every key job by clicking**, and count from what you actually did — never from reading the HTML.
 - If a step isn't wired (no link/control leads to the next state), `browser_navigate` to the BRIEF's `#state` for that step, count the
   clicks the design intends, and record the step as **unwired** — a finding the builder fixes.
 - Screenshots go to `<abs mockup dir>/shots/ux-<letter>-J<n>-s<step>.png` — always an absolute `filename`; a bare name lands in the repo root.
@@ -36,7 +35,7 @@ Output below are for built features (no `chosen.md` exists yet in mockup mode �
   four cognitive-walkthrough questions and name the most likely wrong move (or why there is none). LLM walkthroughs under-find
   failures — hunt for them.
 - **Medium rounds use the short form** (path metrics, walkthrough failures, placement); Nielsen and ui-ux-pro-max only for Large.
-- Score honestly with the rubric's anchors. You never pick the winner; report the strongest variant **per job** and the top fixes for each.
+- Score honestly with the rubric's anchors and turn every failure into a concrete fix item — your output is the checklist the polish round works through.
 - No index row in mockup mode — the score lives in the mockup folder.
 
 ## Review Process

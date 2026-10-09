@@ -70,7 +70,7 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | 4 | Features | Step 5 (`ux-model`) → 🧑 อนุมัติรายการ | key jobs J0 (login/หน้าแรก) + J1… (งวด · ครอบคลุม FR ไหน) = backlog |
 | 5 | ภาพระบบใหญ่ | Step 6 (`ux-model`) → 🧑 OK | `OBJECTS.md`, `WORKFLOWS.md` (วงจรสถานะ · การแจ้งเตือน), `SCREENS.md`, `sample-data.md` |
 | 6 | Walkthrough ทีละ flow | `ux-model` walkthrough session — 🧑🤖 ออกแบบด้วยกัน → 🧑 ตราอนุมัติ | WORKFLOWS §5: ใคร · หน้า · กด → ระบบทำอะไร → ไปไหน + เส้นทางที่พัง |
-| 7 | Design | `design-first-ui` (flow แรก = SYSTEM mode → ได้ `DESIGN_SYSTEM.md` ด้วย) → 🧑 concept → mock 3 แบบ + 🤖 ux-score → 🧑 เลือก/ผสม | `CONCEPTS.md`, `BRIEF.md`, mockups, `ux-score.md`, `chosen.md`, SCREENS อัปเดต |
+| 7 | Design | `design-first-ui` (flow แรก = SYSTEM mode → ได้ `DESIGN_SYSTEM.md` ด้วย) → 🧑 concept → mock 3 แบบ → 🤖 critic 1 รอบ (คลิกทดสอบจริง, วัดจำนวนคลิกต่องาน) → 🧑 เลือก/ผสม (เห็นตัวเลข + ข้อเสนอแนะ) → 🤖 ขัดเกลา + ux-score เฉพาะแบบที่เลือก | `CONCEPTS.md`, `BRIEF.md`, mockups, `review.md`, `timeline.md`, `ux-score.md`, `chosen.md` (+ build notes), SCREENS อัปเดต |
 | 8 | Implement | superpowers writing-plans → TDD + `browser-verification` | โค้ด + เทสต์ที่ตั้งชื่อตาม FR/J |
 | 9 | Test | 🤖 `design-reviewer` → 🤖 `qa-clicker` (`qa-walkthrough`) | รายงาน design review + QA ที่อ้าง J/FR ใน `docs/qa/` |
 | 10 | Release / ส่งงวด | `ship-check` (งานทั่วไป = release mode · งานที่ลูกค้าเซ็นรับเป็นงวด = โหมดงวด) | deploy ตาม runbook, CHANGELOG · โหมดงวด: ทดสอบ restore + `acceptance/งวด-N.md` (TOR → FR → J → หลักฐาน) ให้ลูกค้าเซ็น |
@@ -96,7 +96,7 @@ docs/
 │   ├── WORKFLOWS.md        # role · key jobs J · วงจรสถานะ · walkthrough ต่อ flow (มีตราอนุมัติ)
 │   ├── SCREENS.md          # ทุกหน้า → route · state id (เจ้าของ id) · เป้า mockup
 │   ├── sample-data.md      # ข้อมูลตัวอย่างชุดกลาง
-│   ├── mockups/<date-flow>/  # CONCEPTS · BRIEF · variant-a/b/c · compare · ux-score · chosen
+│   ├── mockups/<date-flow>/  # CONCEPTS · BRIEF · variant-a/b/c · compare · critic-*.json · review · timeline · ux-score (แบบที่เลือก) · chosen
 │   └── taste-profile.json  # รสนิยมของเจ้าของ (สะสม + จางตามเวลา)
 └── qa/
     ├── index.md            # ตารางหลัก คลิกเข้า report ทุกอันได้
