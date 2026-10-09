@@ -42,7 +42,7 @@ stamped `✅ owner-approved YYYY-MM-DD`). Missing or unstamped → run the `ux-m
 walkthrough settles *what happens*; this skill only decides *how it looks*.
 
 0. **The UX model** — `docs/design/OBJECTS.md`, `WORKFLOWS.md`, `SCREENS.md`, `sample-data.md` (the `ux-model` skill). This is the whole-app picture: which objects this screen shows, which CTAs belong on them, which key jobs pass through it, where users arrive from. Missing or stale → run `ux-model` first — **slice first**: build or fix only the objects, jobs and screens this round touches (a whole-app model on an existing app is its own task, done when the owner wants it, not before a filter bar). Designing without it is how buttons end up on the wrong object.
-1. `docs/design/taste-profile.json` — the owner's accumulated taste. Variants start near it, they don't rediscover it.
+1. `docs/design/taste-profile.json` — the owner's accumulated taste — and [references/owner-taste-baseline.md](references/owner-taste-baseline.md), his taste across projects (21 rounds of evidence). Missing or thin project profile → seed it from the baseline (source `"baseline"`); project entries override the baseline. Variants start near it, they don't rediscover it. Note whether the screen is **public-facing or back-office** — his conventions differ (baseline, last table).
 2. `docs/DESIGN_SYSTEM.md` — tokens and rules every FEATURE variant must obey.
 3. The feature's spec/plan in `docs/plans/` (older sessions may have saved it under `docs/superpowers/specs/` or `docs/superpowers/plans/`), and `docs/PRD.md` for product context.
 4. Existing pages/components in the codebase — reuse established patterns unless a variant deliberately challenges one.
@@ -63,9 +63,15 @@ Before building anything, present exactly 3 text concepts — A, B, C — (3–5
 
 | Slot | Role | What it is |
 |---|---|---|
-| **A — Anchor** | the safe pick | Closest to `taste-profile.json` and the patterns already in the codebase. Choosing A is never a regret. |
+| **A — Anchor** | the safe pick | Closest to `taste-profile.json` and the patterns already in the codebase — familiar app anatomy he would recognise. Choosing A is never a regret. |
 | **B — Challenger 1** | bets on one priority | Deliberately trades something away to win on one axis (e.g. speed for power users: inline actions, bulk approve, dense). |
 | **C — Challenger 2** | bets on a *different* priority | Wins on an axis B doesn't (e.g. overview/clarity: calendar view, guided steps). Two challengers betting on the same priority is convergence. |
+
+**Taste gate for every concept:** no pattern from the rejected lists (project taste-profile + baseline — e.g. side sheets, drawers,
+side panes, split views) unless the owner asked for it; containers follow the form-size rule (small form → popup, big form → full page,
+first-time entry → stepped wizard); a public page names the references it borrows from (ask the owner for references he likes if the
+round has none). Challengers differ in **priority and structure**, not by adopting a rejected pattern — he usually picks the familiar
+one and borrows parts of the others, so give each challenger parts worth borrowing.
 
 Concepts design the **approved** walkthrough: if a concept needs to change its steps (merge two steps, move a decision elsewhere), it
 says so in one line — choosing that concept means the owner re-stamps the walkthrough with the change.

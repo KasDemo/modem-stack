@@ -29,8 +29,12 @@ distinct is the point.
 
 Sort everything you find:
 - **must_fix** — ONLY these four kinds: (1) **broken** — a state, link, control or core interaction that doesn't work, dead-ends or
-  contradicts itself; (2) **slop** — a trait in taste-profile's rejected list, or the classic patterns (cards-in-cards,
-  border-everything, chip overload, initials avatars, hero-metric gradient template, equal-weight everything, decorative sparklines);
+  contradicts itself; or a key job whose **next action can't be found at a glance**; or a save/submit with **no visible feedback**;
+  (2) **slop** — a trait in taste-profile's rejected list or in the owner taste baseline (read
+  `{abs path of design-first-ui/references/owner-taste-baseline.md}` — e.g. side sheets/drawers/side panes, misaligned rows, a
+  lopsided half-empty panel, loud colour), or the classic patterns (cards-in-cards, border-everything, chip overload, initials
+  avatars, hero-metric gradient template, filler or duplicated tiles, nothing marking the primary answer, decorative sparklines).
+  **Balanced is not slop:** a row of equal cards where every card means something is fine — the owner likes balance;
   (3) **figures** — numbers or vocabulary wrong vs sample-data.md / OBJECTS.md vocabulary; (4) **mobile** — sideways scroll or an
   unusable layout at 390px.
 - **build_notes** — accessibility/ARIA/keyboard semantics and anything that belongs to the real implementation, not the mockup.

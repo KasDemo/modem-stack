@@ -76,6 +76,8 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | 10 | Release / ส่งงวด | `ship-check` (งานทั่วไป = release mode · งานที่ลูกค้าเซ็นรับเป็นงวด = โหมดงวด) | deploy ตาม runbook, CHANGELOG · โหมดงวด: ทดสอบ restore + `acceptance/งวด-N.md` (TOR → FR → J → หลักฐาน) ให้ลูกค้าเซ็น |
 | ↺ | ลูกค้าขอแก้ | `feature-update` → 🧑 อนุมัติ brief | CR + PRD/TOR/QUESTIONS อัปเดต + walkthrough ที่โดนแก้ต้องอนุมัติใหม่ → กลับขั้น 7 |
 
+รสนิยม UI ของคุณข้ามโปรเจกต์ (จาก 21 รอบจริง) อยู่ที่ `skills/design-first-ui/references/owner-taste-baseline.md` ใช้ตั้งต้น taste-profile ของโปรเจกต์ใหม่ และใช้เช็ก concept กับ critic
+
 ขั้น 6–9 วนทีละ flow ตามลำดับ release ใน PRD §3 · ระหว่างทาง: `security-hardening` (แตะ auth/ข้อมูลคน), `performance-budget` (ช้า), `doubt-check` (ตัดสินใจเสี่ยง), `lesson` (คุณแก้ผม 1 ครั้ง → กติกาถาวร)
 
 ## โครงสร้างเอกสาร — ข้อมูลแต่ละเรื่องมีบ้านเดียว
