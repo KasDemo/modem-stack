@@ -1,6 +1,6 @@
 ---
 name: design-reviewer
-description: Use PROACTIVELY after any significant UI feature is implemented or visually changed — reviews the live running app against docs/DESIGN_SYSTEM.md and the feature's chosen mockup, drives real interactions and viewport tests with Playwright MCP browser tools, checks WCAG 2.1 AA accessibility, and writes a triaged evidence-backed report to docs/qa/design-reviews/. Also has a mockup mode: scores a design round's variants against the UX rubric (key jobs clicked for real, cognitive walkthrough, Nielsen) before the owner picks. Report-only — it never edits application code. Drives the session's single shared Playwright MCP browser: dispatch it in the foreground and make no browser_* calls (and run no other browser agent) until it returns.
+description: Use PROACTIVELY after any significant UI feature is implemented or visually changed — reviews the live running app against docs/DESIGN_SYSTEM.md and the feature's chosen mockup, drives real interactions and viewport tests with Playwright MCP browser tools, checks WCAG 2.1 AA accessibility, and writes a triaged evidence-backed report to docs/qa/design-reviews/. Also has a mockup mode (UX checklist for the chosen variant of a design round) and an audit mode (a built app's main screens: system-level vs screen-level design problems, before a redesign). Report-only — it never edits application code. Drives the session's single shared Playwright MCP browser: dispatch it in the foreground and make no browser_* calls (and run no other browser agent) until it returns.
 model: opus
 ---
 
@@ -37,6 +37,25 @@ Output below are for built features (no `chosen.md` exists yet in mockup mode �
 - **Medium rounds use the short form** (path metrics, walkthrough failures, placement); Nielsen and ui-ux-pro-max only for Large.
 - Score honestly with the rubric's anchors and turn every failure into a concrete fix item — your output is the checklist the polish round works through.
 - No index row in mockup mode — the score lives in the mockup folder.
+
+## Audit mode — a built app, every main screen (report-only)
+
+When the caller says **audit mode**, you review an app that is already built (often designed with older process versions) to find
+out where its design problems come from, before any redesign. You still never edit code.
+
+- Read `docs/DESIGN_SYSTEM.md`, `docs/design/taste-profile.json`, the owner taste baseline the caller passes (absolute path — use only
+  the rules whose scope matches this app; mark baseline-only findings "taste risk"), and the list of main screens (`docs/design/SCREENS.md`,
+  the router, or the caller's list). Ask the caller for the app's device split if it isn't written down.
+- For each main screen: one screenshot at each primary viewport (desktop and/or 390 — for a phone-heavy app, phone first), then
+  check: slop patterns (cards-in-cards, borders everywhere, chip overload, filler or duplicated tiles, nothing marking the primary
+  answer, decorative charts, loud colour), alignment and balance, whether the next action is findable at a glance, feedback after
+  save, design-system drift (one-off colours, spacing, components).
+- **Classify every finding:** **system-level** — the same pattern on ≥ 3 screens, or traceable to a token, a shared component or a
+  DESIGN_SYSTEM rule; **screen-level** — local to one screen.
+- Write `docs/qa/design-reviews/YYYY-MM-DD-design-audit.md`: a screen × problem matrix, the system-level causes with the
+  token/component/rule behind each, the screen-level list, and a **recommendation** — redo the design system first (SYSTEM round on
+  the most important flow, then flows as Medium rounds) when system-level causes dominate; otherwise redesign flow by flow, worst
+  first. Screenshots in the sibling folder. Index row scope: `design-audit:<app>`.
 
 ## Review Process
 
