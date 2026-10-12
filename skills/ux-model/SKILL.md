@@ -16,10 +16,22 @@ The model is four living files in `docs/design/`. Templates are in this skill's 
 | `SCREENS.md` | Every screen: route, roles, states, which objects it shows, entry points, its one visual target | Screen inventory / IA |
 | `sample-data.md` | The one canonical demo dataset every mockup and seed uses | Content-first design |
 
+## Two layers: the map is always whole, the detail grows flow by flow
+
+| Layer | What | When |
+|---|---|---|
+| **1. System map — always the whole app** | OBJECTS.md (all objects, relationships, CTAs per role, vocabulary) · WORKFLOWS.md §1 roles, §2 **all** key jobs, §3 lifecycles, §6 notifications, §7 menu/screen map per role · SCREENS.md listing **every** screen (existing and planned) · the PRD feature map | once, for the whole app, before the first Medium/Large design round — new or existing project — then kept true with every change |
+| **2. Flow detail — one flow at a time** | WORKFLOWS §5 walkthroughs (step tables, unhappy paths) · each screen's full state list and labels · detailed sample records | in the walkthrough session right before that flow's design round |
+
+The map is cheap compared with what it prevents: designed flow by flow without it, buttons land on the wrong object, the same job
+gets split across pages, and the menu is reshuffled every time a page is added. A map can be coarse (one line per object, job,
+screen) — it must be **complete**, not detailed.
+
 ## When to build it
 
 - **New project:** project-init runs it in two parts after the PRD and stack are approved — **key jobs** first (Step 5: roles + jobs, each with the FRs it covers and its งวด if the project has milestones), then the **system picture** (Step 6: objects, lifecycles, screen map, sample data) before design-first-ui SYSTEM mode. Per-flow **walkthroughs** (WORKFLOWS §5) come later, one flow at a time, in walkthrough sessions with the owner.
-- **Existing project without it:** build it **slice first** — the objects, jobs and screens the next design round or change touches — from the code (routes, models, permission checks) + PRD. Grow it with every feature; build the whole-app model in one go only when the owner asks for it. Mark anything inferred as `(inferred — confirm)` and ask the owner once, in one batch.
+- **Existing project without it:** build the **whole system map** (layer 1) from the code (routes, menus, models, permission checks) + PRD before the first Medium/Large design round, even if that round touches one flow — the new flow has to connect to the rest. Mark anything inferred as `(inferred — confirm)` and ask the owner once, in one batch. Flow detail (layer 2) is then written flow by flow. Only a **Small** change (design-first-ui Step 0) may go ahead without a map.
+- **A change request that touches many screens** (a client round after a demo): update the **whole map first** — new/changed objects, jobs, screens, menu — get the owner's OK on it, then walk the flows one by one against that map.
 - **Every feature:** feature-update's impact analysis and design-first-ui's Step 1 read it. The feature's change updates it **in the same branch** — the model is only useful while it is true.
 
 ## Building it — order matters

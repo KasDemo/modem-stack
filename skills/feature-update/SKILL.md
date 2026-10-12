@@ -22,7 +22,7 @@ Investigate with subagents (keeps main context clean):
 3. **Behavior impact:** which existing user flows change as a side effect? Which tests will break (breaking tests may be correct — flag, don't silently "fix")?
 4. **PRD and contract impact:** which FRs and R-rules change or are added? Does this contradict an existing requirement — surface it to the owner instead of quietly picking a side. **If the project has a TOR** (`docs/TOR.md`): in scope, a change to a clause, or extra work outside the contract — say which, because it decides who pays and whether a milestone moves.
 5. **UI impact:** which screens are new or visibly changed? These MUST go through `design-first-ui` before implementation.
-6. **UX model impact:** which objects, relationships, CTAs, key jobs, lifecycle states, entry points or screens change in `docs/design/OBJECTS.md` / `WORKFLOWS.md` / `SCREENS.md`? A new CTA must have a home on its object; a changed job puts every screen it passes through in design-first-ui's scope (or at least re-checks them against the ux-model placement rules).
+6. **UX model impact:** which objects, relationships, CTAs, key jobs, lifecycle states, entry points, menu items or screens change in `docs/design/OBJECTS.md` / `WORKFLOWS.md` / `SCREENS.md`? A new CTA must have a home on its object; a changed job puts every screen it passes through in design-first-ui's scope (or at least re-checks them against the ux-model placement rules). **A request that touches many screens** (typical after a client demo): update the whole system map first and get the owner's OK on it, before any flow is redesigned. No map yet → build the whole map now (ux-model layer 1).
 
 ## Step 3 — Change brief
 

@@ -33,7 +33,7 @@ function main(input) {
     };
     const missing = files.filter(stub);
     if (missing.length === files.length) {
-      lines.push("- No UX model yet (docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md): new project → project-init Steps 5–6; existing app → run modem-stack:ux-model slice first (only what the next round touches).");
+      lines.push("- No UX model yet (docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md): new project → project-init Steps 5–6; existing app → run modem-stack:ux-model for the WHOLE system map first (all objects, key jobs, screens, menu per role), then flow detail flow by flow.");
     } else {
       lines.push("- UX model: docs/design/OBJECTS.md, WORKFLOWS.md, SCREENS.md, sample-data.md. Read the relevant part before UI work; update it in the same change." + (missing.length ? ` Missing or still a template: ${missing.join(", ")}.` : ""));
     }

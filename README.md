@@ -68,7 +68,7 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | 2 | PRD | Step 3 (brainstorming) → 🤖 `product-critic` → 🧑 อนุมัติ | `PRD.md`: **feature map** (โมดูล → feature → ใคร · 🤖 feature ที่ AI เสนอเพิ่มให้คุณยืนยันทีละแถว) → FR-### (AC · ที่มา · งวด/ข้อ TOR เฉพาะงานที่มี), กฎ R-###, NFR, สิ่งที่ไม่ทำ |
 | 3 | Stack & architecture | Step 4 → 🧑 เลือก stack → 🤖 `doubt-check` schema/auth | `ARCHITECTURE.md` (stack ที่ตรวจเวอร์ชันแล้ว · การตัดสินใจ · runbook) + แอปที่รันได้ + quality gates + CLAUDE.md |
 | 4 | Features | Step 5 (`ux-model`) → 🧑 อนุมัติรายการ | key jobs J0 (login/หน้าแรก) + J1… (งวด · ครอบคลุม FR ไหน) = backlog |
-| 5 | ภาพระบบใหญ่ | Step 6 (`ux-model`) → 🧑 OK | `OBJECTS.md`, `WORKFLOWS.md` (วงจรสถานะ · การแจ้งเตือน), `SCREENS.md`, `sample-data.md` |
+| 5 | ภาพระบบใหญ่ (**แผนที่ทั้งระบบเสมอ** — ทั้งโปรเจกต์ใหม่และเก่า) | Step 6 (`ux-model` ชั้น 1) → 🧑 OK | `OBJECTS.md`, `WORKFLOWS.md` (วงจรสถานะ · การแจ้งเตือน), `SCREENS.md`, `sample-data.md` |
 | 6 | Walkthrough ทีละ flow | `ux-model` walkthrough session — 🧑🤖 ออกแบบด้วยกัน → 🧑 ตราอนุมัติ | WORKFLOWS §5: ใคร · หน้า · กด → ระบบทำอะไร → ไปไหน + เส้นทางที่พัง |
 | 7 | Design | `design-first-ui` (flow แรก = SYSTEM mode → ได้ `DESIGN_SYSTEM.md` ด้วย) → 🧑 concept → mock 3 แบบ → 🤖 critic 1 รอบ (คลิกทดสอบจริง, วัดจำนวนคลิกต่องาน) → 🧑 เลือก/ผสม (เห็นตัวเลข + ข้อเสนอแนะ) → 🤖 ขัดเกลา + ux-score เฉพาะแบบที่เลือก | `CONCEPTS.md`, `BRIEF.md`, mockups, `review.md`, `timeline.md`, `ux-score.md`, `chosen.md` (+ build notes), SCREENS อัปเดต |
 | 8 | Implement | superpowers writing-plans → TDD + `browser-verification` | โค้ด + เทสต์ที่ตั้งชื่อตาม FR/J |

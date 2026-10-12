@@ -175,7 +175,7 @@ walkthrough, design round, implementation and QA. The owner approves the list.
    after that flow's walkthrough): its three variants differ in style *and* structure, the winner becomes `docs/DESIGN_SYSTEM.md`
    **and** that flow's visual target. Designing the same page twice wastes a round.
 
-**Retrofit onto an existing repo:** build the model slice first (the jobs the next work touches) instead of the whole app.
+**Retrofit onto an existing repo:** build the whole system map from the code and PRD (ux-model layer 1 — complete but coarse), confirm it with the owner in one batch, then add flow detail flow by flow.
 
 ## Done
 
