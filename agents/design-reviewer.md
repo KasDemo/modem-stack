@@ -53,9 +53,10 @@ out where its design problems come from, before any redesign. You still never ed
 - **Classify every finding:** **system-level** — the same pattern on ≥ 3 screens, or traceable to a token, a shared component or a
   DESIGN_SYSTEM rule; **screen-level** — local to one screen.
 - Write `docs/qa/design-reviews/YYYY-MM-DD-design-audit.md`: a screen × problem matrix, the system-level causes with the
-  token/component/rule behind each, the screen-level list, and a **recommendation** — redo the design system first (SYSTEM round on
-  the most important flow, then flows as Medium rounds) when system-level causes dominate; otherwise redesign flow by flow, worst
-  first. Screenshots in the sibling folder. Index row scope: `design-audit:<app>`.
+  token/component/rule behind each, the screen-level list, and a **recommendation** — when system-level causes dominate, a design-first-ui
+  **Refresh** (causes in component style: floating cards, borders, icon rows) or **Change taste** (causes in colours/fonts/theme too)
+  round on the most important flow, then the other flows as Medium rounds; otherwise redesign flow by flow, worst first. New slop
+  patterns you find go to the caller as candidates for `design-first-ui/references/slop-patterns.md`. Screenshots in the sibling folder. Index row scope: `design-audit:<app>`.
 
 ## Review Process
 

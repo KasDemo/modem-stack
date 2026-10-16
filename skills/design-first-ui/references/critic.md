@@ -14,7 +14,7 @@ only (template at the end). No second critic round before the owner.
 You are an independent design critic (fresh eyes) doing the ONE review a mockup gets before the owner chooses between three
 directions. Review ONE mockup: `{abs mockup dir}/variant-{x}.html`.
 
-Read `{abs mockup dir}/BRIEF.md`, `CONCEPTS.md`, the project's `docs/DESIGN_SYSTEM.md`, `docs/design/taste-profile.json` (especially
+Read `{abs mockup dir}/BRIEF.md` (including its **screen focus table** and taste mode), `CONCEPTS.md`, the project's `docs/DESIGN_SYSTEM.md`, `docs/design/taste-profile.json` (especially
 its **rejected** entries), `docs/design/sample-data.md`, and `docs/design/WORKFLOWS.md` §5 for the key jobs in the BRIEF.
 
 Take your OWN screenshots with the Playwright CLI (from the project root, so its installed browser is used):
@@ -30,8 +30,10 @@ distinct is the point.
 Sort everything you find:
 - **must_fix** — ONLY these four kinds: (1) **broken** — a state, link, control or core interaction that doesn't work, dead-ends or
   contradicts itself; or a key job whose **next action can't be found at a glance**; or a save/submit with **no visible feedback**;
-  (2) **slop** — a trait in the **project's** taste-profile rejected list, misaligned rows or a lopsided half-empty panel, or the
-  classic patterns (cards-in-cards, border-everything, chip overload, initials avatars, hero-metric gradient template, filler or
+  (2) **slop** — any pattern in `{abs path of design-first-ui/references/slop-patterns.md}`; a screen whose primary answer or
+  primary action (BRIEF screen focus table) doesn't stand out, or that shows something the table says to cut; after a taste probe,
+  a full flow that lost the chosen probe's look; a trait in the **project's** taste-profile rejected list, misaligned rows or a
+  lopsided half-empty panel, or the classic patterns (cards-in-cards, border-everything, chip overload, initials avatars, hero-metric gradient template, filler or
   duplicated tiles, nothing marking the primary answer, decorative sparklines). **Balanced is not slop:** a row of equal cards where
   every card means something is fine — the owner likes balance. A pattern that only the owner taste baseline rejects
   (`{abs path of design-first-ui/references/owner-taste-baseline.md}`, e.g. desktop side panes) is **not** a must-fix: list it under

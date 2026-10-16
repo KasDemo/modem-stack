@@ -1,13 +1,16 @@
 # Mockup file rules (every variant, every mode)
 
+**Taste probes (design-first-ui Step 2b)** are exempt from the flow, states, wiring and reviewer-chrome rules — one screen, real
+data, design tokens or the open layers, the A/B/C switcher only (linking the sibling `probe-*.html`). Every other rule applies.
+
 > Builders read this file directly (the orchestrator passes its absolute path). Owner-requested rules are dated.
 
-- [ ] One self-contained `.html` file: **all CSS inline** in a `<style>` block, no CDNs or JS frameworks. **Exception: load the real fonts via a Google Fonts `<link>`** — otherwise every variant silently falls back to the same system font and the owner picks a typeface he never saw (critical in SYSTEM mode, where font pairing is a differentiator). Always keep a system fallback in the stack.
-- [ ] **FEATURE mode: the entire flow in one file.** Every connected page/state is its own `<section id="screen-id">`, **one visible at a time via `:target`** (the first screen shows when there is no hash); screens link to each other with working `<a href="#screen-id">` anchors. Clicking through the mockup must feel like clicking through the feature.
+- [ ] One self-contained `.html` file: **all CSS inline** in a `<style>` block, no CDNs or JS frameworks. **Exception: load the real fonts via a Google Fonts `<link>`** — otherwise every variant silently falls back to the same system font and the owner picks a typeface he never saw (critical in Change taste, where font pairing is a differentiator). Always keep a system fallback in the stack.
+- [ ] **Full builds: the entire flow in one file** (Medium: the section inside a copy of its page). Every connected page/state is its own `<section id="screen-id">`, **one visible at a time via `:target`** (the first screen shows when there is no hash); screens link to each other with working `<a href="#screen-id">` anchors. Clicking through the mockup must feel like clicking through the feature.
 - [ ] Loading, empty, and error states included as real screens, not footnotes.
 - [ ] **Realistic data in the product's language.** Thai product → Thai names, Thai dates, Thai button labels. Never `Lorem ipsum`, never `User 1`. Realistic lengths: a Thai hospital ward name, a 32-character full name, a table with 12 rows not 3.
 - [ ] Thai UI text → Thai-capable font stack (e.g. `"Noto Sans Thai", "Sarabun", "IBM Plex Sans Thai", sans-serif`) and line-height ≥ 1.6 — Thai ascenders/descenders clip at tight leading.
-- [ ] FEATURE mode: use `DESIGN_SYSTEM.md` tokens verbatim (copy the `:root` custom properties into the file). Variants differ in **layout, density, navigation pattern, and component choices** — not in palette or type.
+- [ ] Tokens by taste mode: **Keep** — `DESIGN_SYSTEM.md` tokens verbatim (copy the `:root` custom properties into the file); variants differ in **layout, density, navigation pattern, and component choices** — not in palette or type. **Refresh** — the brand colour and font tokens verbatim; component style is open. **Change taste** — your own `:root` tokens, declared at the top of the file (they become the next DESIGN_SYSTEM).
 - [ ] Mobile-first sanity: 44px minimum touch targets, readable at the PRD's mobile width (390px if none is set).
 - [ ] **Reviewer chrome (owner-requested 2026-08-14 — always include):** every variant carries fixed overlay helpers for the reviewing owner, visually neutral (dark pill, corner-fixed) so they never read as part of the design:
   1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,

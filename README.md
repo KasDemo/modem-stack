@@ -13,9 +13,9 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 /plugin marketplace add anthropics/claude-plugins-official
 /plugin install superpowers@claude-plugins-official        # กระดูกสันหลัง process (จำเป็น)
 /plugin install playwright@claude-plugins-official         # ตา+มือในเบราว์เซอร์ (จำเป็น)
-/plugin install frontend-design@claude-plugins-official    # กันหน้าตา AI-generic (แนะนำ)
+/plugin install frontend-design@claude-plugins-official    # กันหน้าตา AI-generic (จำเป็นสำหรับ design-first-ui)
 
-# 2) ui-ux-pro-max (แนะนำ — ฐานข้อมูล design ที่ design-first-ui ใช้)
+# 2) ui-ux-pro-max (จำเป็นสำหรับ design-first-ui — builder ต้องโหลดเอง)
 /plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
 /plugin install ui-ux-pro-max@ui-ux-pro-max-skill
 
@@ -77,6 +77,8 @@ Universal solo-dev workflow ของ Modem สำหรับ Claude Code — �
 | ↺ | ลูกค้าขอแก้ | `feature-update` → 🧑 อนุมัติ brief | CR + PRD/TOR/QUESTIONS อัปเดต + walkthrough ที่โดนแก้ต้องอนุมัติใหม่ → กลับขั้น 7 |
 
 รสนิยม UI ของคุณข้ามโปรเจกต์ (จาก 21 รอบจริง) อยู่ที่ `skills/design-first-ui/references/owner-taste-baseline.md` — **เป็นคำแนะนำ ไม่ใช่ด่าน** ทุกกฎติดป้ายว่าใช้กับงานแบบไหน (หลังบ้าน/หน้าบ้าน/ทุกแบบ) และหลักฐานแข็งแค่ไหน โปรเจกต์ใหม่จะถามก่อนว่าจะใช้เต็ม/เฉพาะที่ตรงประเภท/ไม่ใช้ ส่วนแอปที่เน้นมือถือยังไม่มีหลักฐาน จะถามคุณในรอบแรก
+
+**ออกแบบหน้าตาใหม่ (revamp):** design-first-ui จะถาม 3 โหมด — **คง taste เดิม** (ล็อกสี ฟอนต์ หน้าตา component · ต่างกันที่ layout) · **ปรับหน้าตา** (คงสีแบรนด์+ฟอนต์ · เปลี่ยนหน้าตา component + layout — ใช้แก้ slop) · **เปลี่ยน taste** (เปลี่ยนทั้ง UI) — แล้วทำ **หน้าตัวอย่าง (taste probe) หน้าเดียวต่อแบบ** ให้ดูก่อน (~10 นาที) แล้วค่อยสร้างครบทุก task เฉพาะแบบที่เลือก · builder ต้องโหลด ui-ux-pro-max + frontend-design เองและรายงานว่าใช้ guideline ข้อไหน · ทุกหน้ามีตาราง "จุดเด่น" · รายการ slop ต้องห้ามอยู่ที่ `references/slop-patterns.md`
 
 แอปที่สร้างไปแล้วและอยากรู้ว่าทำไมดู slop: ให้ `design-reviewer` ทำ **audit mode** ตรวจทุกหน้าหลัก แยกว่าปัญหามาจาก design system หรือรายหน้า ก่อนเริ่ม redesign
 

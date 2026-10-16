@@ -2,8 +2,9 @@
 
 > Saved as `docs/design/mockups/{YYYY-MM-DD-feature}/BRIEF.md`. Each builder gets this file **plus its own concept letter only**.
 > Builders never see the design-first-ui skill — everything they must obey is in here.
-> **SYSTEM round (first flow):** keep every section; Size = Large; add "palette and type are open — propose them".
+> **Refresh / Change taste round:** keep every section; Size = Large; the Taste mode line says which layers are open — propose them.
 
+- **Taste mode:** {Keep / Refresh / Change taste} — locked: {layers}; open: {layers}. {Probe round: build ONLY `{screen}` at {viewports}, no other states, no wiring — see design-first-ui Step 2b.} {Full build after a probe: chosen probe `{probe-x.html}` + merge notes — the visual anchor; keep its look.}
 - **Size:** {Medium / Large} (design-first-ui Step 0). Medium: redesign ONLY {area}; copy `{chosen file}` as the shell and keep everything outside {area} unchanged.
 - **Primary viewport per role:** {e.g. ward head 1366×768 · nurse 390×844} — scroll and "first view" are measured per job at its role's viewport.
 
@@ -20,6 +21,20 @@ Scored by the UX rubric (Medium: 1–2 jobs that touch {area}; Large: 2–4). Ev
 | J{n} {job} | {role} | `#{start-state}` ({entry point, e.g. the to-do}) | `#{end-state}` — {observable end} |
 
 Fewer clicks, fewer surfaces and less scrolling — with no lost clarity — is the goal.
+
+## Skills — load them yourself, first
+
+Load `ui-ux-pro-max` and `frontend-design` with the Skill tool (not a summary). Search ui-ux-pro-max for: {product type} · {screen archetypes, e.g. data table, form, dashboard, mobile bottom navigation, notifications}. {Keep: ignore its palette and font suggestions — the DESIGN_SYSTEM decides. / Refresh, Change taste: its styles, palettes and font pairings are candidates for the open layers.} Your return lists **at least 5 guidelines you applied, each with where**.
+
+## Screen focus (the contract — each screen's one primary answer and one primary action)
+
+| Screen | Primary answer (seen first) | Primary action (one) | Secondary | Cut / never here |
+|---|---|---|---|---|
+| {screen} | {…} | {…} | {…} | {…} |
+
+## Banned patterns
+
+Read `{absolute path to design-first-ui/references/slop-patterns.md}` — none of them may appear, plus this project's rejected list: {from taste-profile}.
 
 ## Model slice (by reference — read these, don't expect them copied here)
 
@@ -66,4 +81,4 @@ npx playwright screenshot --viewport-size={W},{H} --wait-for-timeout=800 "file:/
   marks, no awkward breaks, long names) · density fits the persona · empty/loading/error look designed · 390px: no sideways scroll,
   44px targets · still reads as YOUR concept, not a generic dashboard.
 
-Return: a 3-line self-assessment (strongest, weakest, what you fixed) and, per key job, your click path (`label → #state` per click).
+Return: a 3-line self-assessment (strongest, weakest, what you fixed), the applied-guidelines list (≥ 5, each with where), and, per key job, your click path (`label → #state` per click).

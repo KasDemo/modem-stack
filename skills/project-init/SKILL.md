@@ -131,6 +131,8 @@ are added to the status line as `amended YYYY-MM-DD: R-011, FR-022 (owner OK)` �
      README install step 4). CLI: `npx playwright screenshot about:blank "<abs repo path>/report/tests/cli-smoke.png"` must produce the
      file (`--version` alone succeeds with no browser; missing browser → `npx playwright install chromium`, no `@latest`). Delete both
      smoke files.
+   - Design skills: `ui-ux-pro-max` and `frontend-design` must be installed (they appear in the available skills). Missing → tell
+     the owner (README install steps 1–2) before any design round — builders are required to load them.
    - Windows: npm scripts / cross-platform runners, no bash-only scripts.
 6. **Fill CLAUDE.md** (template below): the one-paragraph description with a link to ARCHITECTURE.md for the stack, and the real commands.
 

@@ -1,25 +1,40 @@
 ---
 name: design-first-ui
-description: Use when a task adds a new screen or visibly changes existing UI — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Sizes the change first — small tweaks with existing components (e.g. swapping a button variant) skip mockups and get before/after screenshots; sections and new screens get competing HTML mockup variants, the owner's pick, and a locked visual target before any implementation code is written.
+description: Use when a task adds a new screen or visibly changes existing UI, or the owner wants to revamp the look ("design taste", "revamp UI", "เปลี่ยน theme") — the owner says "design this page" / "ออกแบบหน้า", a brainstorming spec was just approved and includes new/changed screens (run this BEFORE writing-plans), an implementation plan contains UI work that has no chosen mockup yet, or docs/DESIGN_SYSTEM.md is missing/stub. Asks keep / refresh / change taste when the look itself is in question, shows one-screen taste probes before full builds, and sizes the change first — small tweaks with existing components (e.g. swapping a button variant) skip mockups and get before/after screenshots; sections and new screens get competing HTML mockup variants, the owner's pick, and a locked visual target before any implementation code is written.
 ---
 
 # Design-First UI
 
 **The owner picks the UI from real variants BEFORE implementation.** He is tired of revamping AI-generated UI after the fact. Never implement a screen nobody chose. A plan that says "add a settings page" is not a design — it's a brief for this skill.
 
-Two modes:
+## Taste modes — which layers of the look are open
 
-| Mode | When | Output |
-|---|---|---|
-| **SYSTEM** | Once per project: `docs/DESIGN_SYSTEM.md` missing or stub — run as the **first flow's** round, after its walkthrough | 3 variants of that flow, different in style **and** structure → the winner becomes `docs/DESIGN_SYSTEM.md` **and** the flow's visual target (key jobs and UX scoring apply as in FEATURE mode) |
-| **FEATURE** | Default, per feature | 3 variants of the feature's **entire screen flow**, all obeying `DESIGN_SYSTEM.md` |
+A UI's look has three layers. **Every mode produces three different layouts and styles** — the mode decides which layers are
+locked:
 
-**Always 3 variants for Medium and Large changes — never ask how many** (owner rule 2026-10-01; Small changes get none, see Step 0). Build more or fewer only when the owner says so unprompted.
+| Layer | What it is |
+|---|---|
+| **1. Identity (tokens)** | palette, fonts and type scale, radius, shadow, spacing scale, icon set — "which product is this" |
+| **2. Component language** | how buttons, tables, inputs, menus, tabs and surfaces look: flat / outlined / floating cards, dense or airy tables |
+| **3. Structure** | navigation pattern, page composition, list + detail or not, density per screen |
 
-If `DESIGN_SYSTEM.md` is missing or a stub when FEATURE mode is requested, this round **is** the SYSTEM round. **SYSTEM round = a
-FEATURE round** (walkthrough gate, key jobs, model slice, click paths, UX score) **plus** freedom in palette and type **plus**
-extracting `DESIGN_SYSTEM.md` from the winner. Before its concepts, ask the owner **one** question — known likes and dislikes (layouts,
-patterns like modals, apps they like) — and seed `docs/design/taste-profile.json` with the answer. The design system is the contract; features interpret it, they don't renegotiate it.
+| Mode | Locked | The three variants differ in | Output | Use when |
+|---|---|---|---|---|
+| **Keep** (FEATURE) | layers 1 + 2 (the DESIGN_SYSTEM) | layer 3 and the choice of components (table vs. cards, tabs vs. segmented, density) | chosen mockup | normal feature work on a system that looks right |
+| **Refresh** (SYSTEM) | brand colours + fonts only | layers 2 + 3 | chosen mockup + DESIGN_SYSTEM v-next (components and surfaces rewritten) | colours and fonts are fine but the UI reads as slop — usually a layer-2 problem (floating cards, borders, icon rows) |
+| **Change taste** (SYSTEM) | nothing | all three layers — colours, fonts, theme, component style and layout of the whole UI | chosen mockup + new DESIGN_SYSTEM | heavy slop, or a deliberate new identity |
+
+**Never reset by any mode:** the UX model and approved walkthroughs, the owner's UX rules (form-size rule, no side sheets…), and the
+slop list ([references/slop-patterns.md](references/slop-patterns.md)).
+
+A project with no `DESIGN_SYSTEM.md` (or a stub) runs **Change taste** without asking — there is nothing to keep. The SYSTEM round
+is a FEATURE round (walkthrough gate, key jobs, model slice, click paths, UX checks) **plus** the open layers **plus** extracting
+`DESIGN_SYSTEM.md` from the winner. Before its concepts, ask the owner **one** question — likes, dislikes, apps or sites he wants it
+to feel like — and record the answer in `docs/design/taste-profile.json`. The design system is the contract; features interpret it,
+they don't renegotiate it.
+
+**Always 3 directions — never ask how many** (owner rule 2026-10-01): three concepts, then three taste probes (Step 2b) or, for
+Medium rounds, three full variants. Small changes get none (Step 0). Build more or fewer only when the owner says so unprompted.
 
 ## Step 0 — Size the change (FEATURE mode)
 
@@ -32,6 +47,22 @@ Not every visible change deserves three mockups (owner rule 2026-10-01). Size it
 | **Large** | A new screen, or a change to how a flow works | new page, new multi-step flow, navigation change | **The full process below** — 3 variants of the entire flow. |
 
 When the size is unclear, ask **one** AskUserQuestion with your recommended size first. Never size down to dodge the process: if a "small" change needs a layout decision, it is Medium. Owner comments on a Small change still go into `taste-profile.json`.
+
+## Step 0b — Taste mode (only when the look itself is in question)
+
+**Ask** — one AskUserQuestion — when the owner says "design taste", "revamp", "ออกแบบใหม่ทั้งระบบ", "เปลี่ยน theme/style", when a
+design-reviewer audit found system-level slop, or when the round would redesign most screens. **Don't ask** for normal feature work:
+that is Keep, silently.
+
+Options (recommend one, with the reason):
+- **Keep** — the current colours, fonts and component style; three different layouts within them.
+- **Refresh** — keep the brand colours and fonts, redo the component style and layout (the usual cure for slop).
+- **Change taste** — new colours, fonts, theme, component style and layout for the whole UI.
+(Other: e.g. "keep the colours, new fonts".)
+
+Refresh / Change taste → also ask, in the same message, for **references**: apps or sites he wants it to feel like, and what it must
+not look like. If an audit exists, its system-level findings become this round's bans. The old `DESIGN_SYSTEM.md` stays in force
+for unchanged screens until the new one is extracted in Step 5.
 
 ## Step 1 — Read context first (never skip)
 
@@ -57,7 +88,16 @@ Then confirm the five dimensions of context (auto-gather what you can; ask for w
 
 ## Step 2 — Concepts before mockups
 
-Before building anything, present exactly 3 text concepts — A, B, C — (3–5 lines each): layout approach, density, navigation pattern, component choices, and — in SYSTEM mode — palette + type direction. Concept first: confirm directions before spending generation effort.
+Before building anything, present exactly 3 text concepts — A, B, C — (3–5 lines each): layout approach, density, navigation pattern, component choices, and — in Refresh / Change taste — the component style (Refresh) or the palette, type and component style (Change taste) of each direction. Concept first: confirm directions before spending generation effort.
+
+**With the concepts, in the same message, present the screen focus table** for every screen in scope — the contract builders and
+critics both use, and the cure for "nothing stands out" slop:
+
+| Screen | Primary answer (seen first) | Primary action (one) | Secondary | Cut / never here |
+|---|---|---|---|---|
+| ward head home | requests waiting for you today | approve request | this week's roster | stat tiles that decide nothing |
+
+Draft it from the walkthrough and OBJECTS.md; the owner approves concepts and table in **one** answer.
 
 **The three slots are fixed roles** (owner-approved 2026-10-01):
 
@@ -80,19 +120,50 @@ says so in one line — choosing that concept means the owner re-stamps the walk
 
 Every concept (FEATURE mode and the first-flow SYSTEM round) also states **its click path for each key job** — e.g. "J1: to-do → กิจกรรมกางออก → ติ๊กบิล → ปิดยอด = 4 คลิก, 1 จุด" — and where each in-scope CTA sits. The owner sees the UX cost of each direction before any pixels exist, and a concept that puts a CTA away from its object is caught here, cheaply.
 
-Every concept states its trade in one line — **"ได้: X / เสีย: Y"** — so the owner chooses what this screen should prioritize, not which one looks nicer. Mixing ("A with B's bulk approve") is a normal answer. Challenger axes come from the persona and job-to-be-done in Step 1: speed vs. clarity vs. overview vs. guidance vs. mobile-first vs. error-prevention. SYSTEM mode uses the same slots on aesthetics: A = taste-anchored, B = opposite mood (e.g. editorial vs. utilitarian), C = wildcard from ui-ux-pro-max matched to the product type.
+Every concept states its trade in one line — **"ได้: X / เสีย: Y"** — so the owner chooses what this screen should prioritize, not which one looks nicer. Mixing ("A with B's bulk approve") is a normal answer. Challenger axes come from the persona and job-to-be-done in Step 1: speed vs. clarity vs. overview vs. guidance vs. mobile-first vs. error-prevention. Refresh / Change taste use the same slots on the open layers too: A = closest to the owner's taste and references, B = an opposite mood (e.g. editorial vs. utilitarian), C = a wildcard from ui-ux-pro-max matched to the product type.
 
 **Save the concepts** to `CONCEPTS.md` in the round's mockup folder (date, the three concepts, click paths, trades, then the owner's
 answer verbatim) and write any taste the answer reveals ("no modals", "dense tables for staff") into `taste-profile.json` right away — chat scrolls away; the folder is the record. **First project, no taste profile or codebase yet:** the Anchor is the
 most conventional pattern for this product type (ui-ux-pro-max), not a guess at taste.
 
-Confirm via **one AskUserQuestion**: build these three as-is, or swap/adjust which letter. Never ask about the count. Do not generate until the owner has approved the three concepts. This is the cheapest point to steer.
+Confirm via **one AskUserQuestion**: build (or probe) these three as-is, or swap/adjust which letter. Never ask about the count. Do not generate until the owner has approved the three concepts. This is the cheapest point to steer.
 
-For SYSTEM mode, consult the **ui-ux-pro-max** skill for palette and font-pairing candidates matched to the product type, and apply **frontend-design** anti-generic principles. Hard bans: default-AI purple gradients, Inter-as-only-font, glassmorphism-by-reflex, three-feature-cards-with-emoji-icons. If a variant could be any SaaS landing page, it is not a direction.
+For Refresh / Change taste, the orchestrator itself loads **ui-ux-pro-max** (Skill tool) for product-type style, palette and font-pairing candidates and **frontend-design** for anti-generic principles before writing the concepts. Hard bans: everything in [references/slop-patterns.md](references/slop-patterns.md). If a variant could be any SaaS landing page, it is not a direction.
+
+## Step 2b — Taste probe: one screen per direction, before any full build
+
+**When:** always in Refresh / Change taste; in Keep for **Large** rounds. Not for Medium (they reuse the system — go to Step 3).
+
+Why: a full three-flow build takes 30–45 minutes before the owner sees anything, and a wrong taste wastes all of it. A probe shows
+the look in ~10 minutes, and the owner picks the direction from what he actually sees.
+
+1. Write `BRIEF.md` now (Step 3, "The brief is a file"), then dispatch **three probe builders in parallel**, each with its
+   concept, the BRIEF and the probe instruction: build **one screen** —
+   the main screen of the most important key job, chosen so it shows the main components (list or table, primary button, a form
+   field, status, navigation) — at the primary viewport(s) (desktop, and 390 if the app is used on phones), with real records from
+   `sample-data.md`. No other states, no wiring, no reviewer chrome except the A/B/C switcher. Same skills rule as Step 3 (load
+   ui-ux-pro-max and frontend-design, report what was applied). One self-check against the slop list, then return (~10 min).
+2. The orchestrator looks at the three probes (CLI screenshots) and rejects any that hits the slop list before the owner sees it.
+3. Send `compare-probes.html` (same layout as compare.html) and the three probe links (server as in Step 4). Ask: which direction — or which mix ("A's colours, B's table") — or none
+   (back to Step 2 with what he disliked logged as rejected). Record the answer verbatim in `CONCEPTS.md` and the taste it reveals in
+   `taste-profile.json`.
+4. Step 3 then builds the **full flow for the chosen (merged) direction only** — one builder. Its probe is the visual anchor.
 
 ## Step 3 — Build variants in parallel subagents
 
-Dispatch one subagent per variant, in parallel. Each subagent receives: the approved concept (its letter only — not the siblings, so variants don't converge), the design system (FEATURE mode), a taste-profile summary, the flow spec, and the exact output path. Each writes exactly one self-contained HTML file (plus its own screenshots in `shots/`).
+**After a taste probe:** one builder, for the chosen (merged) direction, with its probe file as the visual anchor. **Medium rounds
+(no probe):** one subagent per variant, three in parallel, each with its own concept letter only — not the siblings, so variants
+don't converge. Each builder receives the approved concept, the design system (or the open layers and the chosen probe), a
+taste-profile summary, the flow spec and the exact output path, and writes exactly one self-contained HTML file (plus its own
+screenshots in `shots/`).
+
+**Builders load the design skills themselves — never a summary from the orchestrator** (NurseSystem 2026-10-16: builders that only
+got a summary drifted straight back to template slop). Every builder and probe builder, first: load `ui-ux-pro-max` and
+`frontend-design` with the Skill tool; search ui-ux-pro-max for the product type and for the archetypes on its screens (table, form,
+dashboard, mobile navigation, notifications…). In **Keep** mode ignore its palette and font suggestions (the DESIGN_SYSTEM decides);
+in Refresh / Change taste they are candidates for the open layers. The return must list **at least 5 guidelines applied, each with
+where** — the orchestrator sends back a return without that list. Every builder also reads
+[references/slop-patterns.md](references/slop-patterns.md) and the BRIEF's screen focus table.
 
 **Before dispatching, the orchestrator runs one real CLI screenshot itself** (`npx playwright screenshot about:blank "<abs dir>/shots/_smoke.png"`). If the browser is missing, run `npx playwright install chromium` once — never `playwright@latest`, which installs browsers for a different version than the project's `@playwright/test` — and never let three builders race a first-time install.
 
@@ -119,7 +190,7 @@ Then **Read the PNGs** and critique like a senior product designer before return
 
 Fix what the screenshots reveal and re-shoot: **2–3 rounds**, then return with a 3-line self-assessment (strongest point, weakest point, what was fixed).
 
-**The brief is a file:** write `BRIEF.md` into the mockup folder from [references/brief-template.md](references/brief-template.md) — size, owner feedback verbatim, key jobs with their start/end `#state`s, the model slice **by reference** (J-ids, R-ids, OBJECTS sections, state ids from SCREENS — the builder reads those files; copying them is how ids drift), hard requirements, and the exact records from `sample-data.md`. Each builder's prompt is then: the absolute output path, its concept letter and text only, the `:root` tokens + DESIGN_SYSTEM do/don't rules, a taste summary, the absolute paths of `BRIEF.md`, the project's `docs/design/` folder and [references/mockup-rules.md](references/mockup-rules.md). Builders return their click path per key job along with the self-assessment.
+**The brief is a file:** write `BRIEF.md` into the mockup folder from [references/brief-template.md](references/brief-template.md) — size, owner feedback verbatim, key jobs with their start/end `#state`s, the model slice **by reference** (J-ids, R-ids, OBJECTS sections, state ids from SCREENS — the builder reads those files; copying them is how ids drift), hard requirements, and the exact records from `sample-data.md`. Each builder's prompt is then: the absolute output path, its concept letter and text only, the taste mode, the `:root` tokens + DESIGN_SYSTEM do/don't rules (Keep) or the locked tokens and the chosen probe (Refresh / Change taste), a taste summary, the skills instruction above, and the absolute paths of `BRIEF.md`, the project's `docs/design/` folder, [references/mockup-rules.md](references/mockup-rules.md) and [references/slop-patterns.md](references/slop-patterns.md). Builders return their click path per key job, the applied-guidelines list and the self-assessment.
 
 Save under `docs/design/mockups/YYYY-MM-DD-<flow>/` (the SYSTEM round is named after its flow too — it is that flow's target):
 
@@ -128,8 +199,9 @@ docs/design/mockups/2026-08-13-shift-swap/
   variant-a.html
   variant-b.html
   variant-c.html
-  CONCEPTS.md      (written in Step 2: the three concepts + the owner's answer)
-  BRIEF.md         (written in Step 3, from references/brief-template.md)
+  CONCEPTS.md      (Step 2: the three concepts, screen focus table, the owner's answers incl. the probe pick)
+  probe-a.html …   (Step 2b: one screen per direction, when probing)
+  BRIEF.md         (written before the first build — Step 2b or 3 — from references/brief-template.md)
   compare.html
   critic-a.json …  (Step 3b, one per variant)
   review.md        (Step 3b — measured job table + suggestions, shown to the owner)
@@ -150,10 +222,11 @@ clickable end to end, and the reviewer chrome (collapsible states panel, A/B/C s
 
 **If someone could swap the headline text between two variants without noticing, they're too similar.** If two variants look like siblings — same typographic feel, overlapping color temperature, comparable layout rhythm — one of them failed. Variants should feel like they came from three different design teams, not the same team at three different coffee levels.
 
-SYSTEM mode: different font pairing, different palette, different layout skeleton per variant. FEATURE mode: palette/type are fixed by the design system, so the divergence must come from structure — e.g. variant A = table + slide-over detail, B = card grid + dedicated detail page, C = master-detail split view. Judge convergence from the screenshots in Step 3b, not from the code; if two converged, rebuild one.
+Change taste: different palette, font pairing, component style and layout skeleton per direction. Refresh: same brand colours and fonts, so the divergence comes from component style (flat with dividers vs. dense bordered tables vs. soft grouped surfaces) and structure. Keep: layers 1–2 are fixed, so it comes from structure and component choice — e.g. A = table + dedicated detail page, B = card grid + inline expand, C = grouped list with a summary header. Judge convergence from the screenshots (probes or full variants), not from the code; if two converged, rebuild one.
 
 ### compare.html
 
+Probes get the same page as `compare-probes.html`; a round that built one full variant after a probe needs no compare.html.
 A simple page, no dependencies: one column per variant with a heading ("Variant A — <concept one-liner>"), an `<iframe src="variant-a.html">` sized ~420×720 (mobile) or ~1200×800 (desktop, `transform: scale(0.5)` to fit side by side), and an "open full" link. Side-by-side beats sequential — the owner compares, not recalls.
 
 ## Step 3b — One critic pass, then the owner (no review loop)
@@ -170,11 +243,11 @@ So: **one pass before the owner, polish only the winner after.**
 2. **One fix per variant** — must_fix only, re-shoot changed states only (template at the end of critic.md). **No second critic
    round** and no score threshold.
 3. **Smoke check (orchestrator, ~1 min, sequential MCP is fine now):** open each variant over the mockup server — states panel,
-   A/B/C switcher and mobile toggle work, console clean. Put the same key screen of all three side by side and apply the
-   anti-convergence rule to the pictures.
+   A/B/C switcher and mobile toggle work, console clean. With three full variants, put the same key screen side by side and apply
+   the anti-convergence rule; with one (after a probe), compare it with its probe — the full flow must keep the chosen look.
 4. **Write `review.md`** in the mockup folder: per variant, the measured job table from `critic-<x>.json` (clicks · surfaces ·
    scroll · decisions · answer in first view · placement violations), any must_fix left unfixed, and the critic's suggestions.
-5. **Log `timeline.md`** in the mockup folder: when concepts were approved, builders dispatched/returned, critics and fixes done,
+5. **Log `timeline.md`** in the mockup folder: when concepts were approved, probes dispatched/returned and picked, builders dispatched/returned, critics and fixes done,
    link sent, owner answered. Next round's speed questions get answered from data, not guesses.
 
 Never present a variant you have not looked at.
@@ -183,7 +256,7 @@ Never present a variant you have not looked at.
 
 Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over **`docs/design/mockups`** (one root for every round, so SCREENS.md targets and old rounds resolve too) in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 docs/design/mockups`; if 8765 is already serving that folder, reuse it; if it's taken by something else pick the next free port). Paste `http://127.0.0.1:8765/<date-feature>/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Put the `review.md` table in the same message, under the links — measured job cost per variant (owner rule 2026-10-06: UX numbers next to the variants every round) plus each variant's critic suggestions, so the owner compares looks, job cost and known weak spots side by side. No 1–10 score: measured numbers compare fairly, LLM scores didn't predict the owner's pick. Ask for:
 
-- **Choice** — A, B, or C
+- **Choice** — A, B, or C (after a probe there is one full variant: ask for approval and comments instead)
 - **Free-form comments** — "B but with A's sidebar" is a normal answer, not an edge case. Merge accordingly: apply the requested elements into the chosen variant's file and re-show once.
 - If everything is rejected, treat the comments as a new brief: log every rejected trait to the taste profile, then return to Step 2 with fresh concepts. Never quietly tweak and re-present the same three.
 
@@ -243,9 +316,11 @@ Maintenance, applied whenever you touch the file: entries not reinforced in ~8 w
 
 **Update the UX model in the same change** (the `ux-model` skill): `SCREENS.md` gets the chosen target (`file#state`) and status for every screen in this round; `OBJECTS.md` and `WORKFLOWS.md` change wherever the chosen design moved a CTA, merged or split a job, or added an entry point. A pick that isn't reflected in the model gets designed against stale facts next round.
 
-### SYSTEM mode only: extract docs/DESIGN_SYSTEM.md
+### Refresh / Change taste only: extract docs/DESIGN_SYSTEM.md
 
-From the winning variant, write the project design contract:
+First move the old file to `docs/design/archive/DESIGN_SYSTEM-v{n}.md`; mark the taste-profile entries about the old look
+`"superseded": "YYYY-MM-DD"` (UX rules and slop rejections stay); add every screen built on the old system to `SCREENS.md` with
+status `re-skin needed`. Then, from the winning variant, write the project design contract:
 
 ```markdown
 # Design System — <project>
@@ -303,6 +378,10 @@ Implementation tasks must verify with Playwright MCP browser tools:
 | A critic → fix → critic loop before the owner, or a score threshold | One click-testing pass, then the owner. Loops oscillated and never passed |
 | A critic finding that undoes the trade-off the owner approved | Out of scope by rule — the owner chooses between directions |
 | Polishing all three variants before the pick | Polish the chosen one in Step 4b; the ranking didn't change with polish |
+| Three full flows built before the owner has seen the look (Large / Refresh / Change taste) | Taste probe first — ~10 min to a first look instead of 30–45 |
+| A builder that got a summary of ui-ux-pro-max instead of loading it, or returned no applied-guidelines list | That is how NurseSystem's variant C drifted to template slop. Send it back |
+| A screen with no entry in the screen focus table | Nothing defines what must stand out, so the builder falls back to the template |
+| Asking "keep or change taste?" on a normal feature | Only when the look itself is in question (Step 0b) |
 | Accessibility/ARIA fixes in throwaway mockup HTML | Build notes in chosen.md; the real implementation does them |
 | Chosen design not reflected in SCREENS/WORKFLOWS | Next round designs against fiction |
 | Skipping the taste profile update | Next session rediscovers the same rejections from scratch |
