@@ -6,7 +6,7 @@
 
 - **Taste mode:** {Keep / Refresh / Change taste} — locked: {layers}; open: {layers}. {Probe round: build ONLY `{screen}` at {viewports}, no other states, no wiring — see design-first-ui Step 2b.} {Full build after a probe: chosen probe `{probe-x.html}` + merge notes — the visual anchor; keep its look.}
 - **Size:** {Medium / Large} (design-first-ui Step 0). Medium: redesign ONLY {area}; copy `{chosen file}` as the shell and keep everything outside {area} unchanged.
-- **Primary viewport per role:** {e.g. ward head 1366×768 · nurse 390×844} — scroll and "first view" are measured per job at its role's viewport.
+- **Primary viewport per role:** {e.g. ward head 1920×1080 · nurse 390×844; desktop 1920×1080 when the PRD sets none} — scroll and "first view" are measured per job at its role's viewport.
 
 ## Owner feedback (verbatim — why this round exists)
 

@@ -57,6 +57,7 @@ docs/qa/runs/YYYY-MM-DD-<scope-slug>/
 For **each flow** in the scope, repeat this cycle:
 
 1. `browser_navigate` to the flow's entry point.
+1b. **Set the viewport before the first screenshot:** `browser_resize` to the PRD's desktop viewport (1920×1080 if none — the owner's screen). The MCP browser has no fixed size — unresized it follows its window (measured 929×861 on a 1920×1080 screen, a tablet-ish width that hits the wrong breakpoints).
 2. **Look before you snapshot.** `browser_take_screenshot` first and decide *from the picture alone* what the persona would click next, and where it is. Only then `browser_snapshot` to get that element's ref — the snapshot is how you click, never how you *find*. The accessibility tree lists every button whether or not a human can see it; an agent that navigates by snapshot passes UIs that real users get lost in (owner rule 2026-10-01: AI-built UIs keep hiding actions).
 3. **Discoverability check** on every step — if you could not locate the next action in the screenshot within one look, that is a **UX finding even if the click works**. Typical causes to name in the issue:
    - action only appears on hover (Playwright hovers before clicking, so the click "works" — a touch user never sees it)

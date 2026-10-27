@@ -50,7 +50,7 @@ The single home of every rule. WORKFLOWS, OBJECTS, code and tests cite these ids
 NFRs that a TOR clause demands as testable requirements get an FR in §4; the bullet here then just cites it (`see FR-…`).
 
 - Performance: {budget, or "performance-budget defaults"}
-- Devices / viewports: {e.g. 70% desktop 1366, 30% mobile 390}
+- Devices / viewports: {e.g. 70% desktop 1920×1080, 30% mobile 390} — design and QA use these; desktop 1920×1080 and mobile 390×844 when unknown
 - Language: {Thai UI, Buddhist-era dates?}
 - Personal data (PDPA): {what personal data, where stored, retention, who can see}
 - Availability / backup expectation: {e.g. daily backup, restore within 1 day}

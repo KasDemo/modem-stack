@@ -172,9 +172,11 @@ where** — the orchestrator sends back a return without that list. Every builde
 **Builders must SEE what they build — but never through the Playwright MCP browser.** All agents in a session share one Playwright MCP server — one browser, one "current tab" — so concurrent agents steal each other's page and the batch hangs (observed: files written, then agents hang for hours on browser calls; no completion ever fires). Instead each builder screenshots with the **Playwright CLI**, which launches its own browser process per call — safe in parallel (verified 2026-10-01):
 
 ```
-npx playwright screenshot --viewport-size=1440,900 --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-1440.png"
+npx playwright screenshot --viewport-size=1920,1080 --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-1920.png"
 npx playwright screenshot --viewport-size=390,844  --full-page --wait-for-timeout=800 "file:///D:/work/<repo>/docs/design/mockups/<date-feature>/variant-a.html?clean#<screen-id>" "<abs dir>/shots/a-<screen-id>-390.png"
 ```
+
+Desktop = the BRIEF's primary viewport; **1920×1080 when the PRD sets none** (the owner's screen, where he reviews). Mobile = the PRD's mobile width, 390×844 if none.
 
 File URLs use **forward slashes** (`file:///D:/work/...`, never `D:\work\...`). Output paths are always **absolute** into the mockup folder's `shots/` — a relative path lands in the repo root (see browser-verification's artifact table). `#screen-id` isolates one screen only because screens are `:target`-toggled (mockup file rules) — with stacked sections `--full-page` would capture the whole file every time.
 

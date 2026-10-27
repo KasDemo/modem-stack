@@ -34,8 +34,10 @@ Playwright MCP browser tools cover the whole loop:
 | Wait for async UI | browser_wait_for |
 | Read console output | browser_console_messages |
 | Inspect requests/responses | browser_network_requests |
-| Test responsive breakpoints | browser_resize |
+| Set the viewport / test breakpoints | browser_resize |
 | Read runtime state (read-only) | browser_evaluate |
+
+**Resize first:** `browser_resize` to the PRD's desktop viewport (1920×1080 if none — the owner's screen) before the first screenshot. The MCP browser has no fixed size — unresized it follows its window (measured 929×861 on a 1920×1080 screen), so the "desktop" you verify is a width nobody uses.
 
 Use browser_snapshot for the refs you click and type into, and screenshots for visual judgment: spacing, color, alignment, states — and whether a human could even find the control (the snapshot lists hidden buttons too).
 
@@ -158,7 +160,7 @@ For any visual change:
 
 Especially valuable for:
 - CSS changes (layout, spacing, colors)
-- Responsive design — browser_resize to 375, 768, 1280 wide and re-screenshot
+- Responsive design — browser_resize to the PRD's mobile width (390 if none), 768 and the desktop viewport, and re-screenshot
 - Loading, empty, and error states
 - Transitions and animations (screenshot the end state; browser_wait_for the settle)
 

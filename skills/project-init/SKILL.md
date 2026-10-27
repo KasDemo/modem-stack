@@ -33,7 +33,7 @@ paraphrase-and-lose details: verbatim notes go in `docs/notes/YYYY-MM-DD-<topic>
 5. **Where it runs:** hosting (client VM, cloud, …), who administers it, backup expectations.
 6. **Login and integrations:** where accounts come from (LDAP/SSO/local), external systems, notification channels (in-app, email, LINE…).
 7. **Personal data:** what personal data the app holds, who may see it, retention (PDPA).
-8. UI language, date format (Buddhist era?), and the device split (desktop vs. mobile — the mobile width becomes QA's mobile viewport).
+8. UI language, date format (Buddhist era?), and the device split (desktop vs. mobile, and the users' desktop screen if known — these become the design and QA viewports; desktop defaults to 1920×1080, the owner's screen).
 9. Who maintains it after delivery, and what they know (decides the stack as much as taste).
 
 Anything the owner can't answer yet goes into `docs/QUESTIONS.md` with whom to ask — not into your head.

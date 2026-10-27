@@ -66,7 +66,7 @@ Work through all seven phases in order. Use the Playwright MCP browser tools thr
 - Read the task description / diff summary you were given to understand motivation and scope, and the key jobs it touches in `docs/design/WORKFLOWS.md` — Phase 1 walks those jobs.
 - Read the contract: `docs/DESIGN_SYSTEM.md`, then `docs/design/mockups/<feature>/chosen.md` and the mockup it selects.
 - Confirm the dev server is running (typically `npm run dev`); start it via the project's npm script if not.
-- `browser_navigate` to the feature and `browser_resize` to **1440x900** (desktop baseline).
+- `browser_navigate` to the feature and `browser_resize` to the PRD's desktop viewport — **1920×1080** if none (the owner's screen; desktop baseline).
 - Take a baseline screenshot before touching anything.
 
 ### Phase 1: Interaction and User Flow
@@ -76,9 +76,9 @@ Work through all seven phases in order. Use the Playwright MCP browser tools thr
 - Assess perceived performance: does anything feel janky, delayed, or unacknowledged after a click? Use `browser_wait_for` rather than assuming instant renders.
 
 ### Phase 2: Responsiveness
-- **1440px** desktop — capture screenshot.
+- **Desktop** at the PRD viewport (1920×1080 if none) — capture screenshot; then **1366×768** to check the layout still fits a small laptop.
 - **768px** tablet — verify layout adaptation; capture screenshot.
-- **375px** mobile — verify touch-friendly targets and readable text; capture screenshot.
+- **Mobile** at the PRD width (390×844 if none) — verify touch-friendly targets and readable text; capture screenshot.
 - At every width: no horizontal page scroll, no overlapping elements, no clipped content. Wide tables/code may scroll inside their own container — the page body may not.
 
 ### Phase 3: Visual Polish
