@@ -144,7 +144,7 @@ the look in ~10 minutes, and the owner picks the direction from what he actually
    `sample-data.md`. No other states, no wiring, no reviewer chrome except the A/B/C switcher. Same skills rule as Step 3 (load
    ui-ux-pro-max and frontend-design, report what was applied). One self-check against the slop list, then return (~10 min).
 2. The orchestrator looks at the three probes (CLI screenshots) and rejects any that hits the slop list before the owner sees it.
-3. Send `compare-probes.html` (same layout as compare.html) and the three probe links (server as in Step 4). Ask: which direction — or which mix ("A's colours, B's table") — or none
+3. Send the round's review checklist (Step 4 — one row per probe, linking the probe and `compare-probes.html`; server as in Step 4). Ask: which direction — or which mix ("A's colours, B's table") — or none
    (back to Step 2 with what he disliked logged as rejected). Record the answer verbatim in `CONCEPTS.md` and the taste it reveals in
    `taste-profile.json`.
 4. Step 3 then builds the **full flow for the chosen (merged) direction only** — one builder. Its probe is the visual anchor.
@@ -256,7 +256,21 @@ Never present a variant you have not looked at.
 
 ## Step 4 — The owner chooses
 
-Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over **`docs/design/mockups`** (one root for every round, so SCREENS.md targets and old rounds resolve too) in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 docs/design/mockups`; if 8765 is already serving that folder, reuse it; if it's taken by something else pick the next free port). Paste `http://127.0.0.1:8765/<date-feature>/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Put the `review.md` table in the same message, under the links — measured job cost per variant (owner rule 2026-10-06: UX numbers next to the variants every round) plus each variant's critic suggestions, so the owner compares looks, job cost and known weak spots side by side. No 1–10 score: measured numbers compare fairly, LLM scores didn't predict the owner's pick. Ask for:
+Send the owner `compare.html` and the variant files as **clickable links, not paths** (owner rule 2026-09-24 — he reviews from the Claude Code VSCode extension and will not open files by hand): start a static server over **`docs/design/mockups`** (one root for every round, so SCREENS.md targets and old rounds resolve too) in the background (`python -m http.server 8765 --bind 127.0.0.1 --directory docs/design/mockups`; if `python` is the Windows Store stub use `py -m http.server …`, or `npx -y http-server -p 8765 -a 127.0.0.1 docs/design/mockups`; if 8765 is already serving that folder, reuse it; if it's taken by something else pick the next free port). Paste `http://127.0.0.1:8765/<date-feature>/compare.html` plus one link per variant as markdown links; add the `file:///…/compare.html` URL as a fallback. Keep the server running through Step 4's merge-and-re-show and Step 6's mockup screenshots; **stop it when the feature's implementation is verified** (or at the end of the session — never leave orphan servers). Publish an Artifact only when the link must be shared with someone else. Put the `review.md` table in the same message, under the links — measured job cost per variant (owner rule 2026-10-06: UX numbers next to the variants every round) plus each variant's critic suggestions, so the owner compares looks, job cost and known weak spots side by side. No 1–10 score: measured numbers compare fairly, LLM scores didn't predict the owner's pick.
+
+**Every round that shows the owner mockup HTML — probes, three variants, a full build, a fix round — is handed over as a review
+checklist with the comment tool on every page, never as links in chat** (owner rule 2026-11-18: "ทุกการ design first ui ต้องทำแบบนี้").
+One link to `<round>/cases.html`: every case (pick rounds: every variant's key screens) with its direct links, one thing to try,
+its test count, and a pass / fix answer per row; every mockup page carries the comment tool, so the owner clicks the control or
+the page he wants changed and types there. Only Small changes (before/after screenshots, no mockup) go without. His answers land in `<round>/review/inbox.json` — **read that file at the start of every turn
+while the round is in review**, find the same element before fixing, and mark each fixed comment done in the file. The case list
+is written before the build (it is the build's scope) and builders return their rows. Files, formats, the pre-send script checks
+and the server command (the review server replaces the static server above):
+[references/review-checklist.md](references/review-checklist.md); the page, the comment tool and the server are one kit in
+`assets/review/`, **identical in every project**: install it with `assets/review/install.py`, run its `--check` before every
+hand-over, and never edit a kit file inside a project — a project supplies data (the `cases/*.json` files) only.
+
+Ask for:
 
 - **Choice** — A, B, or C (after a probe there is one full variant: ask for approval and comments instead)
 - **Free-form comments** — "B but with A's sidebar" is a normal answer, not an edge case. Merge accordingly: apply the requested elements into the chosen variant's file and re-show once.
@@ -290,7 +304,7 @@ Feature: shift-swap flow
 - Sidebar navigation taken from variant-a
 - Confirm dialog: single primary action, per owner comment
 
-## Owner comments (verbatim)
+## Owner comments (verbatim — chat, and every note from review/inbox.json with its page and control)
 > "B ดีสุด แต่เอา sidebar ของ A มาใส่ ปุ่มยืนยันใหญ่กว่านี้หน่อย"
 
 ## Visual target
@@ -385,6 +399,11 @@ Implementation tasks must verify with Playwright MCP browser tools:
 | A screen with no entry in the screen focus table | Nothing defines what must stand out, so the builder falls back to the template |
 | Asking "keep or change taste?" on a normal feature | Only when the look itself is in question (Step 0b) |
 | Accessibility/ARIA fixes in throwaway mockup HTML | Build notes in chosen.md; the real implementation does them |
+| Any mockup round handed over as a list of links in chat | Review checklist (`cases.html`) — one link, every case, pass / fix per row |
+| A mockup page without the comment tool, or with a home-made comment box | The kit's `comment.js`; the tag is the page's last script |
+| A review page or comment tool edited, restyled or rebuilt inside a project | One kit for every project. Change it in `assets/review/`, bump `VERSION`, reinstall |
+| Asking the owner to describe in chat which control he means | The comment tool is on every page; read `review/inbox.json` |
+| Fixing from a comment without resolving its `sel` and checking the text | You may be fixing a neighbour. Reproduce first, or say you have not found it |
 | Chosen design not reflected in SCREENS/WORKFLOWS | Next round designs against fiction |
 | Skipping the taste profile update | Next session rediscovers the same rejections from scratch |
 | Implementation "close enough" after one screenshot round | The target is the mockup, not the vibe of the mockup |

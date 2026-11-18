@@ -158,6 +158,18 @@ One paragraph. **Ship** (≥90, zero Blockers/Highs) · **Ship with follow-ups**
 
 **A report not linked from the index does not exist.** The index is also your regression baseline: compare this run's health to the previous run of the same scope and call out the delta in the verdict. If a run taught you something structural about the app, capture it with the `lesson` skill.
 
+## Phase 6 — The owner's review of the built round (full mode, and whenever a round's build is done)
+
+The agent's walkthrough does not replace the owner's: after a round is built he reviews it in full — every key job as a
+workflow, then every case — on the real app, writing his comments on the controls themselves (owner rule 2026-11-18).
+Hand it over with the **review kit**, the same one design rounds use, installed into this run's folder: a checklist page with
+one group per key job (steps in order, account to use, what he should see) and the round's case list, each row linking
+straight into the running app, plus the comment bar on the app in development. Formats, the install and server commands, the
+dev-only loader for the app and how to read his answers: `design-first-ui/references/review-checklist.md`, section "After the
+build". Never edit a kit file in the project; never hand over a QA round as a report alone. His answers
+(`docs/qa/runs/<run>/review/inbox.json`) are read at the start of every turn while the review is open, copied verbatim into
+`report.md` under "Owner review", and fixed through Fix mode.
+
 ## Fix mode — explicit request only
 
 Never enter fix mode from "QA this". Only from "QA and fix", "fix what you find", or similar. Then:

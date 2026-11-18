@@ -82,3 +82,9 @@ npx playwright screenshot --viewport-size={W},{H} --wait-for-timeout=800 "file:/
   44px targets · still reads as YOUR concept, not a generic dashboard.
 
 Return: a 3-line self-assessment (strongest, weakest, what you fixed), the applied-guidelines list (≥ 5, each with where), and, per key job, your click path (`label → #state` per click).
+
+**When this brief lists cases** (a full build): also write `{abs mockup dir}/cases/{part}.json` — one row per case id you were
+given: `id`, `title` (what the owner will see, in the product language — no `#state`, file names or system terms), `links`
+(`label` + `href: "page.html#state"`, at least one per case, each opening exactly that case), `look` (one thing to try),
+`tests` (`pass` / `total` from your last run) and `testData` (any data you invented for the case). The owner checks the build from
+these rows.

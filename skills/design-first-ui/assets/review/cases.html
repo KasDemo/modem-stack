@@ -1,0 +1,213 @@
+<!doctype html>
+<!-- review-kit 1.4.0 — the same file in every project; change it in the modem-stack skill, never in a project. Per-project data: cases/manifest.json, cases/base.json, cases/<part>.json -->
+<html lang="th" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<title>รายการตรวจ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2563EB;--blue-deep:#1D4ED8;--blue-soft:#EFF6FF;--navy:#0F2E63;--ink:#1E293B;--muted:#55637C;--line:#E3EBF6;--line-strong:#D3DEEC;--amber-soft:#FEF3C7;--amber-ink:#92400E;--green-soft:#DCFCE7;--green-ink:#15803D;--err:#B91C1C;--err-soft:#FEF2F2}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:#fff;color:var(--ink);font:400 14.5px/1.6 "Noto Sans Thai","Anuphan",system-ui,sans-serif}
+button,textarea,input{font:inherit;color:inherit}
+a{color:var(--blue-deep)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 96px}
+header.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);margin:0 -24px;padding:14px 24px 12px}
+h1{font:700 22px/1.4 "Anuphan","Noto Sans Thai",sans-serif;color:var(--navy);margin:0}
+.sub{color:var(--muted);font-size:13px;margin:2px 0 10px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 1px var(--line-strong);font:600 13.5px/1.2 "Anuphan",sans-serif;color:var(--navy);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--blue-soft);box-shadow:inset 0 0 0 1px var(--blue);color:var(--blue-deep)}
+.chip b{font-variant-numeric:tabular-nums}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px var(--line-strong);font:600 14.5px/1.2 "Anuphan",sans-serif;color:var(--navy);cursor:pointer;text-decoration:none}
+.btn:hover{box-shadow:inset 0 0 0 1px var(--blue);background:var(--blue-soft)}
+.btn.pri{background:var(--blue);color:#fff;box-shadow:none}
+.btn.pri:hover{background:var(--blue-deep)}
+:focus-visible{outline:3px solid rgba(37,99,235,.45);outline-offset:2px}
+h2{font:700 17px/1.4 "Anuphan",sans-serif;color:var(--navy);margin:28px 0 4px;display:flex;align-items:baseline;gap:10px}
+h2 small{font:400 13px/1.4 "Noto Sans Thai",sans-serif;color:var(--muted)}
+table{width:100%;border-collapse:collapse}
+th{font:600 12.5px/1.4 "Anuphan",sans-serif;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.id{width:56px;font:600 14px/1.6 "Anuphan",sans-serif;color:var(--navy);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.t{min-width:220px}
+td.t .look{color:var(--muted);font-size:13px;margin-top:2px}
+td.t .td{display:inline-block;margin-top:4px;padding:0 8px;border-radius:9px;background:#F1F5F9;color:#475569;font-size:12px;line-height:20px}
+td.l{width:300px}
+td.l a{display:inline-flex;align-items:center;min-height:32px;padding:0 10px;margin:0 6px 6px 0;border-radius:8px;background:var(--blue-soft);color:var(--blue-deep);font:600 13px/1.2 "Anuphan",sans-serif;text-decoration:none}
+td.l a:hover{box-shadow:inset 0 0 0 1px var(--blue)}
+td.l .none{color:var(--muted);font-size:13px}
+td.x{width:84px;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted)}
+td.x.ok{color:var(--green-ink)} td.x.bad{color:var(--err);font-weight:600}
+td.v{width:190px}
+td.c{width:230px}
+.seg{display:inline-flex;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line-strong);overflow:hidden}
+.seg button{min-height:36px;padding:0 14px;background:#fff;border:0;font:600 13.5px/1.2 "Anuphan",sans-serif;color:var(--muted);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line-strong)}
+.seg button[aria-pressed=true].p{background:var(--green-soft);color:var(--green-ink)}
+.seg button[aria-pressed=true].f{background:var(--amber-soft);color:var(--amber-ink)}
+textarea{display:block;width:100%;min-height:60px;margin-top:8px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:10px;resize:vertical;font-size:16px;line-height:1.6}
+tr.hide,[hidden]{display:none!important}
+.cmb{display:flex;gap:8px;align-items:flex-start;width:100%;padding:8px;border:0;border-radius:10px;background:var(--blue-soft);text-align:left;cursor:pointer;font-size:13.5px;line-height:1.5;color:var(--ink)}
+.cmb:hover{box-shadow:inset 0 0 0 1px var(--blue)}
+.cmb .n,.cm .n{flex:none;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--navy);color:#fff;font:700 12px/22px "Anuphan",sans-serif;text-align:center}
+.cmb .n.done,.cm .n.done{background:var(--green-ink)}
+.cmb .tx{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+.cmb .more{flex:none;color:var(--blue-deep);font-weight:600}
+td.c .none{color:var(--muted)}
+.scrim{position:fixed;inset:0;z-index:20;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;padding:24px}
+.dlg{width:560px;max-width:100%;max-height:calc(100vh - 48px);display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 2px 6px rgba(15,23,42,.08),0 28px 60px -20px rgba(15,23,42,.45)}
+.dlg header{display:flex;align-items:flex-start;gap:12px;padding:16px 16px 12px 20px;border-bottom:1px solid var(--line)}
+.dlg header h3{flex:1;margin:0;font:700 16.5px/1.45 "Anuphan",sans-serif;color:var(--navy)}
+.dlg header h3 small{display:block;font:400 13px/1.5 "Noto Sans Thai",sans-serif;color:var(--muted)}
+.dlg .x{flex:none;width:40px;height:40px;border:0;border-radius:10px;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer}
+.dlg .x:hover{background:var(--blue-soft);color:var(--navy)}
+.dlg .body{overflow:auto;padding:4px 20px 16px}
+.cm{padding:14px 0;border-bottom:1px solid var(--line)} .cm:last-child{border-bottom:0}
+.cm .hd{display:flex;gap:10px;align-items:flex-start}
+.cm .note{flex:1;margin:0;font-size:15px;line-height:1.6;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.cm dl{display:grid;grid-template-columns:64px 1fr;gap:4px 12px;margin:10px 0 0 32px;font-size:13.5px}
+.cm dt{color:var(--muted)} .cm dd{margin:0;overflow-wrap:anywhere}
+.cm .ft{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:12px 0 0 32px}
+.pillst{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:13px;background:var(--amber-soft);color:var(--amber-ink);font:600 12.5px/1 "Anuphan",sans-serif}
+.pillst.done{background:var(--green-soft);color:var(--green-ink)}
+.cm .reply{flex:1 1 100%;margin:0;font-size:13.5px;color:var(--green-ink)}
+.send{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.send i{width:8px;height:8px;border-radius:50%;background:#94A3B8} .send.on i{background:#16A34A}
+.loose{margin-top:28px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;border:1px solid var(--line-strong);border-radius:12px;padding:10px 16px;box-shadow:0 2px 6px rgba(15,23,42,.06),0 20px 44px -16px rgba(37,99,235,.22);font:600 14px/1.4 "Anuphan",sans-serif;color:var(--navy);opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media (max-width:760px){
+  .wrap{padding:0 16px 96px} header.top{margin:0 -16px;padding:12px 16px}
+  table,tbody,tr,td{display:block;width:auto} thead{display:none}
+  tr{padding:12px 0;border-bottom:1px solid var(--line-strong)} td{border:0;padding:2px 0} td.id{width:auto} td.l,td.v,td.x,td.c{width:auto} td.c:has(.none){display:none} td.c{padding:6px 0}
+  .scrim{padding:0;align-items:flex-end} .dlg{width:100%;max-height:88vh;border-radius:14px 14px 0 0} .cm dl,.cm .ft{margin-left:0}
+  .seg button{min-height:44px} td.l a{min-height:40px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 id="ttl">รายการตรวจ</h1>
+    <p class="sub" id="sub"></p>
+    <div class="bar" id="bar"></div>
+  </header>
+  <div id="list"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../_review/comment.js" data-mode="inbox"></script>
+<script>
+(async function(){
+  const getj=async f=>{try{const r=await fetch(f,{cache:'no-store'});if(!r.ok)return null;return await r.json()}catch(e){return null}};
+  const M=Object.assign({title:'รายการตรวจ',storageKey:'review.cases',base:'base.json',parts:[],links:[]},await getj('cases/manifest.json')||{});
+  const KEY=M.storageKey, RT=window.ReviewTool||null, LB=Object.assign({p:'ผ่าน',f:'แก้'},M.labels||{});
+  document.title=M.title; document.getElementById('ttl').textContent=M.title;
+  let st={}; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){} RT&&RT.push('cases',st)};
+  const get=getj;
+  const base=await get('cases/'+M.base)||[];
+  const hs=(await Promise.all(M.parts.map(h=>get('cases/'+h)))).filter(Boolean).flat();
+  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const rows=[];
+  for(const g of base){
+    for(const c of g.cases){
+      const mine=hs.filter(h=>h.id===c.id);
+      const subs=g.no===0?hs.filter(h=>String(h.id).startsWith(c.id+'.')):[];
+      if(g.no===0&&subs.length){ for(const s of subs) rows.push({g,id:s.id,title:s.title||c.title,proves:'',e:[s]}); if(mine.length) rows.push({g,id:c.id,title:c.title,proves:c.proves,e:mine}); }
+      else rows.push({g,id:c.id,title:c.title,proves:c.proves,expect:c.expect,who:c.who,e:mine});
+    }
+  }
+  let filter='all';
+  const linksOf=r=>r.e.flatMap(x=>x.links||[]);
+  function assign(){
+    const cs=RT?RT.comments():[], by={}, loose=[];
+    cs.forEach(c=>{c._n=cs.filter(x=>x.page===c.page).indexOf(c)+1;
+      let r=c['case']&&rows.find(x=>x.id===c['case']);
+      if(!r) r=rows.find(x=>linksOf(x).some(l=>{const m=/^([^?#]+)(?:\?[^#]*)?(?:#(.*))?$/.exec(l.href)||[];return m[1]===c.page&&(m[2]||'')===(c.state||'')}));
+      if(!r&&c.app) r=rows.find(x=>linksOf(x).some(l=>pathOf(l.href)===c.page));
+      if(r)(by[r.id]=by[r.id]||[]).push(c); else loose.push(c)});
+    return {by,loose,n:cs.length};
+  }
+  const ABS=/^https?:\/\//i;
+  const withQ=(u,o)=>{const m=/^([^#]*)(#.*)?$/.exec(String(u||''))||[];let b=m[1];for(const k in o) if(o[k]) b+=(b.includes('?')?'&':'?')+k+'='+encodeURIComponent(o[k]);return b+(m[2]||'')};
+  const appHref=(u,id)=>ABS.test(u)?withQ(u,{rvround:RT?RT.round:'',rvcase:id}):u;
+  const pathOf=u=>{try{return ABS.test(u)?new URL(u).pathname:String(u).split(/[?#]/)[0]}catch(e){return ''}};
+  const withRvc0=(u,id)=>{const m=/^([^#]*)(#.*)?$/.exec(String(u||''))||[];return m[1]+(m[1].includes('?')?'&':'?')+'rvc='+encodeURIComponent(id)+(m[2]||'')};
+  const when=t=>{try{return new Date(t).toLocaleString('th-TH',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}catch(e){return ''}};
+  const cmBtn=(key,cs)=>`<button type="button" class="cmb" data-cm="${esc(key)}" aria-haspopup="dialog"><span class="n${cs.every(c=>c.status==='done')?' done':''}">${cs.length}</span><span class="tx">${esc(cs[0].note)}</span>${cs.length>1?`<span class="more">+${cs.length-1}</span>`:''}</button>`;
+  let CM={};
+  function openCm(key){
+    const o=CM[key]; if(!o) return; closeCm();
+    const w=document.createElement('div'); w.className='scrim'; w.id='cmdlg';
+    w.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="cmt"><header><h3 id="cmt">${esc(o.title)}<small>ความเห็น ${o.cs.length} เรื่อง</small></h3><button type="button" class="x" data-close aria-label="ปิด">×</button></header><div class="body">${o.cs.map(c=>`<section class="cm"><div class="hd"><span class="n${c.status==='done'?' done':''}">${c._n}</span><p class="note">${esc(c.note)}</p></div>
+      <dl><dt>ส่วนที่ชี้</dt><dd>${esc(c.what||'ทั้งหน้า')}${c.comp?' ใน '+esc(c.comp):''}</dd><dt>หน้า</dt><dd>${esc(String(c.page).replace(/\.html$/,''))}${c.state&&!c.app?' · '+esc(stateName(c)):''}</dd><dt>จอ</dt><dd>${c.vw<600?'มือถือ':'คอม'} ${esc(c.vw)}</dd>${c.who?`<dt>บัญชี</dt><dd>${esc(c.who)}</dd>`:''}<dt>เขียนเมื่อ</dt><dd>${esc(when(c.edited||c.ts))}</dd></dl>
+      <div class="ft"><span class="pillst${c.status==='done'?' done':''}">${c.status==='done'?'แก้แล้ว':'รอแก้'}</span><a class="btn" href="${esc(withRvc0(ABS.test(c.url||'')?withQ(c.url,{rvround:RT?RT.round:''}):(c.url||c.page),c.id))}" target="r2case">ไปที่จุดนี้</a>${c.reply?`<p class="reply">${esc(c.reply)}</p>`:''}</div></section>`).join('')}</div></div>`;
+    document.body.appendChild(w); openCm.back=document.activeElement; w.querySelector('[data-close]').focus();
+  }
+  function closeCm(){const w=document.getElementById('cmdlg'); if(w){w.remove(); openCm.back&&openCm.back.focus&&openCm.back.focus()}}
+  function stateName(c){for(const r of rows) for(const l of linksOf(r)){const m=/^([^?#]+)(?:\?[^#]*)?(?:#(.*))?$/.exec(l.href)||[]; if(m[1]===c.page&&(m[2]||'')===(c.state||'')) return l.label||c.state} return c.state}
+  const el=document.getElementById('list'), bar=document.getElementById('bar');
+  function verdict(id){return (st[id]&&st[id].v)||''}
+  function draw(){
+    const A=assign(); CM={};
+    const n={all:rows.length,p:0,f:0,u:0,nl:0,c:A.n};
+    rows.forEach(r=>{const v=verdict(r.id);if(v==='p')n.p++;else if(v==='f')n.f++;else n.u++; if(!r.e.some(x=>(x.links||[]).length))n.nl++});
+    bar.innerHTML=[['all','ทั้งหมด',n.all],['u','ยังไม่ได้ดู',n.u],['p',LB.p,n.p],['f',LB.f,n.f],['c','มีความเห็น',n.c]].map(([k,t,c])=>`<button class="chip" data-f="${k}" aria-pressed="${filter===k}">${t} <b>${c}</b></button>`).join('')
+      +(n.nl?`<span class="sub" style="margin:0 0 0 6px">ยังไม่มีลิงก์ ${n.nl} กรณี</span>`:'')
+      +'<span class="sp"></span>'+(RT?`<span class="send ${RT.status()==='on'?'on':''}"><i></i>${RT.status()==='on'?'ส่งถึง Claude อัตโนมัติ':'ยังส่งอัตโนมัติไม่ได้'}</span>`:'')+M.links.map(l=>`<a class="btn" href="${esc(l.href)}">${esc(l.label)}</a>`).join('')+'<button class="btn pri" id="copy">คัดลอกผล</button>';
+    let h='', last=null;
+    for(const r of rows){
+      const v=verdict(r.id);
+      const cm=A.by[r.id]||[]; if(cm.length) CM[r.id]={title:r.id+' '+String((r.e.find(x=>x.title)||{}).title||r.title).replace(/#[a-z0-9-]+\s*(→\s*)?/g,'').trim(),cs:cm};
+      const show=filter==='all'||(filter==='u'&&!v)||(filter==='c'&&cm.length)||filter===v;
+      if(last!==r.g){ if(last) h+='</tbody></table>'; h+=`<h2>${r.g.kind==='flow'?'':(r.g.no?r.g.no+'. ':'')}${esc(r.g.title)} <small>${r.g.cases.length} ${r.g.kind==='flow'?'ขั้น':(r.g.no?'กรณี':'ชิ้น')}${r.g.who?' · เข้าด้วย '+esc(r.g.who):''}</small></h2>${r.g.sub?`<p class="sub" style="margin:0 0 6px">${esc(r.g.sub)}</p>`:''}<table><thead><tr><th>${r.g.kind==='flow'?'ขั้น':'ข้อ'}</th><th>${r.g.kind==='flow'?'สิ่งที่ทำ':'กรณี'}</th><th>เปิดดู</th><th>เทส</th><th>ความเห็น</th><th>ผลตรวจของคุณ</th></tr></thead><tbody>`; last=r.g; }
+      const ttl=(r.e.find(x=>x.title)||{}).title||String(r.title).replace(/#[a-z0-9-]+\s*(→\s*)?/g,'').replace(/^[·+\s]+/,'').trim();
+      const links=r.e.flatMap(x=>x.links||[]);
+      const look=r.e.map(x=>x.look).filter(Boolean).join(' · ');
+      const ex=r.expect||r.e.map(x=>x.expect).filter(Boolean).join(' · '), who=r.who||r.e.map(x=>x.who).filter(Boolean)[0]||'';
+      const td=r.e.map(x=>x.testData).filter(Boolean).join(' · ');
+      const tp=r.e.reduce((a,x)=>a+((x.tests&&x.tests.pass)||0),0), tt=r.e.reduce((a,x)=>a+((x.tests&&x.tests.total)||0),0);
+      h+=`<tr data-id="${esc(r.id)}" class="${show?'':'hide'}"><td class="id">${esc(r.id)}</td>`
+        +`<td class="t">${esc(ttl)}${look?`<div class="look">ลองกด: ${esc(look)}</div>`:''}${ex?`<div class="look">ควรเห็น: ${esc(ex)}</div>`:''}${who?`<span class="td">เข้าด้วย ${esc(who)}</span>`:''}${td?`<span class="td">ข้อมูลทดสอบ: ${esc(td)}</span>`:''}</td>`
+        +`<td class="l">${links.length?links.map(l=>`<a href="${esc(appHref(l.href,r.id))}" target="r2case" data-case="${esc(r.id)}">${esc(l.label||'เปิด')}</a>`).join(''):'<span class="none">ยังไม่มีลิงก์</span>'}</td>`
+        +`<td class="x ${tt?(tp===tt?'ok':'bad'):''}">${tt?tp+' / '+tt:'—'}</td>`
+        +`<td class="c">${cm.length?cmBtn(r.id,cm):'<span class="none">—</span>'}</td>`
+        +`<td class="v"><div class="seg" role="group" aria-label="ผลตรวจข้อ ${esc(r.id)}"><button class="p" data-v="p" aria-pressed="${v==='p'}">${esc(LB.p)}</button><button class="f" data-v="f" aria-pressed="${v==='f'}">${esc(LB.f)}</button></div>`
+        +(v==='f'?`<textarea aria-label="แก้อะไรในข้อ ${esc(r.id)}" placeholder="แก้อะไร">${esc((st[r.id]&&st[r.id].n)||'')}</textarea>`:'')+`</td></tr>`;
+    }
+    if(last) h+='</tbody></table>';
+    if(A.loose.length&&(filter==='all'||filter==='c')) {CM['~']={title:'ความเห็นที่ไม่อยู่ในกรณีใด',cs:A.loose}; h+=`<div class="loose"><h2>ความเห็นที่ไม่อยู่ในกรณีใด <small>${A.loose.length} เรื่อง</small></h2><div style="max-width:420px">${cmBtn('~',A.loose)}</div></div>`}
+    el.innerHTML=h||'<p class="sub">ยังไม่มีรายการ</p>';
+    el.querySelectorAll('table').forEach(t=>{const none=!t.querySelector('tr[data-id]:not(.hide)');t.hidden=none;if(t.previousElementSibling&&t.previousElementSibling.tagName==='H2')t.previousElementSibling.hidden=none});
+    if(document.getElementById('cmdlg')&&openCm.key){ if(CM[openCm.key]){const k=openCm.key,bk=openCm.back; openCm(k); openCm.back=bk} else closeCm() }
+    document.getElementById('sub').textContent=M.sub||('เปิดจากลิงก์ · กด "เขียนความเห็น" แล้วกดส่วนที่อยากให้แก้ · กลับมาเลือก '+LB.p+' หรือ '+LB.f+(RT&&RT.status()==='on'?'':' · เสร็จแล้วกด "คัดลอกผล" ไปวางในแชท'));
+  }
+  function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('cmdlg')){e.preventDefault();closeCm()}});
+  document.addEventListener('click',e=>{
+    const cb=e.target.closest('[data-cm]'); if(cb){openCm.key=cb.dataset.cm;openCm(cb.dataset.cm);return}
+    if(e.target.closest('[data-close]')||e.target.id==='cmdlg'){closeCm();return}
+    const lk=e.target.closest('a[data-case]'); if(lk){RT&&RT.setLastCase(lk.dataset.case,lk.getAttribute('href'));return}
+    const f=e.target.closest('[data-f]'); if(f){filter=f.dataset.f;draw();return}
+    const b=e.target.closest('[data-v]'); if(b){const id=b.closest('tr').dataset.id;const cur=verdict(id);st[id]=st[id]||{};st[id].v=cur===b.dataset.v?'':b.dataset.v;save();draw();if(st[id].v==='f'){const ta=document.querySelector(`tr[data-id="${CSS.escape(id)}"] textarea`);ta&&ta.focus()}return}
+    if(e.target.closest('#copy')){
+      const L=['ผล'+M.title];const p=rows.filter(r=>verdict(r.id)==='p').map(r=>r.id);const f=rows.filter(r=>verdict(r.id)==='f');const u=rows.filter(r=>!verdict(r.id)).map(r=>r.id);
+      L.push(LB.p+' '+p.length+': '+(p.join(' ')||'-'));L.push(LB.f+' '+f.length+':');f.forEach(r=>L.push('- '+r.id+' '+String((r.e.find(x=>x.title)||{}).title||r.title).replace(/#[a-z0-9-]+\s*/g,'').slice(0,60)+' → '+((st[r.id]&&st[r.id].n)||'(ไม่ได้เขียน)')));L.push('ยังไม่ได้ดู '+u.length+': '+(u.join(' ')||'-'));const cs=RT?RT.comments():[];if(cs.length){L.push('ความเห็นในหน้าแบบ '+cs.length+':');cs.forEach(c=>L.push('- '+(c['case']?c['case']+' ':'')+(c.url||c.page)+(c.vw<600?' (มือถือ)':'')+' · '+(c.what||'ทั้งหน้า')+' → '+c.note))}
+      const txt=L.join('\n');
+      (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('คัดลอกผลแล้ว — วางในแชทได้เลย'),()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('คัดลอกผลแล้ว')}catch(x){toast('คัดลอกไม่ได้ — เลือกข้อความเอง')}ta.remove()});
+    }
+  });
+  document.addEventListener('input',e=>{if(e.target.tagName==='TEXTAREA'){const id=e.target.closest('tr').dataset.id;st[id]=st[id]||{v:'f'};st[id].n=e.target.value;save()}});
+  draw();
+  if(RT){RT.onChange(draw);RT.onStatus(draw);if(Object.keys(st).length)RT.push('cases',st)}
+})();
+</script>
+</body>
+</html>

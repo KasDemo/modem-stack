@@ -1,7 +1,7 @@
 # Mockup file rules (every variant, every mode)
 
 **Taste probes (design-first-ui Step 2b)** are exempt from the flow, states, wiring and reviewer-chrome rules — one screen, real
-data, design tokens or the open layers, the A/B/C switcher only (linking the sibling `probe-*.html`). Every other rule applies.
+data, design tokens or the open layers, the A/B/C switcher (linking the sibling `probe-*.html`) and the comment tool only. Every other rule applies.
 
 > Builders read this file directly (the orchestrator passes its absolute path). Owner-requested rules are dated.
 
@@ -17,5 +17,6 @@ data, design tokens or the open layers, the A/B/C switcher only (linking the sib
   1. a **collapsible "Mockup states" panel** linking to every screen/state anchor in the file — a `<details open>` the owner can fold away ("บางทีมันบังจอ"); default open on desktop, collapsed under 480px,
   2. a **variant switcher** — small A/B/C buttons linking to the sibling `variant-*.html` files, current letter highlighted,
   3. a **desktop/mobile toggle** — mobile mode opens the SAME file in a ~390px-wide `<iframe>` overlay styled as a phone; an iframe is required because media queries track iframe width (a CSS class on `body` cannot re-trigger them).
+  4. **the comment tool (owner-requested 2026-11-18; every round, probes included)** — the page's last script is `<script src="../_review/comment.js" data-cases="cases.html"></script>`. The orchestrator has put that file there; it is the one external script a mockup may load — never inline, rewrite or restyle it, and do not build your own comment box. It hides itself under `?clean` and in compare cells, and follows the parent page inside the phone preview.
   **State labels are canonical, not per-variant:** the orchestrator's brief lists the exact state names (in the product language) and every variant uses them verbatim — same flow, same words. Never let one variant number its screens while another uses prose; the owner flagged exactly this. Hide **all** reviewer chrome when the page is inside an iframe (`window.self !== window.top`) or the URL has `?clean` — so compare.html cells, the mobile overlay, and screenshots stay clean. While mobile mode is on, the states-panel links navigate the iframe (`iframe.contentWindow.location.hash`), not the parent page. Tiny vanilla JS for this chrome is allowed.
 - [ ] **Key jobs are clickable end to end.** Every step of every key job in the BRIEF is an `<a href="#next-state">` to the state after that step — or, where a step is a tick, a typed amount or a split, a `<label>` / small vanilla-JS handler that does the same. Otherwise product UI stays JS-free. The UX scorer drives jobs by clicking; an unwired step is a finding against the variant.
